@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- <script src="/javascripts/vue.js"></script> -->
+    <!-- <script src="/javascripts/vue-resource.js"></script> -->
+    <script src="/javascripts/socket.io.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.0/mapbox-gl-geocoder.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.0.0/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Bootstrap -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+    body {
+        margin: 0;
+        padding-top: 50px;
+    }
+    
+    #map {
+        position: absolute;
+        top: 50px;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <!--导航栏-->
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                </button>
+                <a class="navbar-brand" href="/">PM 2.5</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/comm">Predict</a></li>
+                    <li><a href="/data">Search</a></li>
+                    <li class="active"><a href="/map">Map</a></li>
+                    <li><a href="#">About us</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+    <div id='map'></div>
+    <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoieXVnYW8xOTk2IiwiYSI6ImNpdmtodDgwaDBjZzcyb3BvNTJmbjNtdWcifQ.WHIfvM62pR5G500VqMBfsg';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v9',
+        zoom: 15,
+        center: [121.4339081, 31.0276681]
+    });
+
+    // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+
+    var socket = io();
+
+    var pointData = [];
+    var index = 0;
+    var sensitivity = 10;
+
+    map.on('load', firstLoad);
+
+    map.on('mousemove', function(e) {
+        // console.log(e.point);
+        var features = map.queryRenderedFeatures([
+            [e.point.x - sensitivity, e.point.y + sensitivity],
+            [e.point.x + sensitivity, e.point.y - sensitivity]
+        ], {
+            layers: ['polution']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+        if (!features.length) {
+            popup.remove();
+            return;
+        }
+
+        var feature = features[0];
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat(feature.geometry.coordinates)
+            .setHTML(feature.properties.description)
+            .addTo(map);
+    });
+    // var touchStart;
+    // map.on('touchstart', function(e){
+    //     e.point
+    // })
+    map.on('touchend', function(e) {
+        // console.log(e.point);
+        var features = map.queryRenderedFeatures([
+            [e.point.x - sensitivity, e.point.y + sensitivity],
+            [e.point.x + sensitivity, e.point.y - sensitivity]
+        ], {
+            layers: ['polution']
+        });
+        // Change the cursor style as a UI indicator.
+        map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+        if (!features.length) {
+            popup.remove();
+            return;
+        }
+
+        var feature = features[0];
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat(feature.geometry.coordinates)
+            .setHTML(feature.properties.description)
+            .addTo(map);
+    });
+
+    map.addControl(new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken
+    }));
+
+    socket.on('dataArrive', function(jsonData) {
+        // console.log(jsonData);
+        try {
+            pointData = pointData.concat(JSON.parse(jsonData));
+            // console.log(JSON.stringify(pointData));
+        } catch (err) {
+            console.log(err);
+        }
+        map.getSource('polution').setData({
+            "type": "FeatureCollection",
+            "features": pointData
+        });
+        index += 1;
+        socket.emit('requireData', index);
+    })
+
+    function firstLoad() {
+        map.addSource('polution', {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": pointData
+            }
+        });
+        map.addLayer({
+            'id': 'polution',
+            'type': 'circle',
+            'source': 'polution',
+            'paint': {
+                // make circles larger as the user zooms from z12 to z22
+                'circle-radius': {
+                    property: 'size',
+                    type: 'interval',
+                    stops: [
+                        [75, 7],
+                        [150, 6],
+                        [300, 5],
+                        [1050, 4],
+                        [3000, 3],
+                        [10000, 2]
+                    ]
+                },
+                // color circles by ethnicity, using data-driven styles
+                'circle-color': {
+                    property: 'size',
+                    type: 'interval',
+                    stops: [
+                        [75, '#68cb00'],
+                        [150, '#f6e200'],
+                        [300, '#fb890f'],
+                        [1050, '#df2d00'],
+                        [3000, '#b414bb'],
+                        [10000, '#6f0474']
+                    ]
+                }
+            }
+        });
+
+        socket.emit('requireData', index);
+    }
+    </script>
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
