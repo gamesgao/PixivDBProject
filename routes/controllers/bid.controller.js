@@ -16,4 +16,12 @@ function bid(req, res, next) {
     })
 }
 
+function applyBid(req, res, next) {
+    return;
+}
+
+function transaction(req, res, next) {
+    return;
+}
+
 module.exports = router;
