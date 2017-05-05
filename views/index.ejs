@@ -19,8 +19,8 @@
     <!-- Fixed navbar -->
     <style>
         body {
-            min-height: 2000px;
-            padding-top: 70px;
+            /*min-height: 2000px;*/
+            padding-top: 50px;
         }
     </style>
 
@@ -43,22 +43,32 @@
         </div>
     </div>
 
+    <!--webpage body-->
     <div id="header">
+        <img id='bg' src='/img/main-bg.jpg' />
         <div class="container">
-            <div class="row">
+            <h1>Pixiv</h1>
+            <div class="row" id="btngroup">
+                <div class="col-lg-6"></div>
                 <div class="col-lg-6">
-                    <h1>
-                        PM2.5 cloud platform
-                    </h1>
-                    <h2>Save the earth, Our Only Home.</h2>
-                    <button type="button" class="btn btn-primary" onClick="window.location.href='http://baike.baidu.com/link?url=-FkwrKOF_Aexj9Hou0a4OAZnxK_d7BQHZRmGbnXFFpyT3p-cgxz0wJaPy42UxiczNzaPpA6sno3XuF6CC6VTK-Sw3p8S4GWsxc7LvxlAKi6Setw99AkDCFSaFbFTaLgFXE735TtW8P3Yn_Jjp_nAtC1VzntXjsB2BbvyTHBI5YrKqgsnKCQVh3pr6kHgqzh2'">
-                            Learn more »
-                    </button>
+                    <div class="btn-group btn-group-justified" role="group">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary btn-hg" onClick="window.location.href='/login'">
+                            Login
+                        </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-warning btn-hg" onClick="window.location.href='/register'">
+                            register
+                        </button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
+
+    <!--footer part-->
     <footer>
         <div class="container">
             <div class="row">

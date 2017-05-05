@@ -7,7 +7,6 @@ function index(req, res, next) {
     res.render('index', {
             title: 'pm2.5 cloud platform',
         }
-
     )
 }
 
