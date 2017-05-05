@@ -1,0 +1,41 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+#bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    z-index: 0;
+}
+
+#bg {
+    z-index: -1;
+}
+
+#header {
+    width: 100%;
+    /*height: 100%;*/
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px;
+}
+
+footer {
+    height: 40px;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+}

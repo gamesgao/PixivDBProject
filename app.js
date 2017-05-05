@@ -13,9 +13,9 @@ var app = express();
 var options = {
     host: 'localhost',
     port: 3306,
-    user: 'session_test',
-    password: 'password',
-    database: 'session_test'
+    user: 'root',
+    password: 'f1403018409',
+    database: 'test'
 };
 
 var sessionStore = new MySQLStore(options);

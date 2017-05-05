@@ -2,54 +2,51 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         <%= title %>
     </title>
+    <!--Vue-->
     <script src="/javascripts/vue.js"></script>
     <script src="/javascripts/vue-resource.js"></script>
-    <!-- this is uesd when the project is over -->
-    <!-- <script src="/javascripts/vue.min.js"></script> -->
     <!-- Bootstrap -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.css">
-    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link rel='stylesheet' href='/stylesheets/datastyle.css' />
-    <style type="text/css">
-        .m15 {
-            margin: 15px;
-        }
-        
-        .tc {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-        }
-    </style>
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <!--Flat UI-->
+    <link href="/stylesheets/flat-ui.css" rel="stylesheet">
+    <!--User-->
+    <link rel='stylesheet' href='/stylesheets/register.css' />
 </head>
 
 <body>
-    <!--导航栏-->
     <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <style>
+        body {
+            /*min-height: 2000px;*/
+            padding-top: 50px;
+        }
+    </style>
+    <div id="app">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>  
                 </button>
-                <a class="navbar-brand" href="/">PM 2.5</a>
+                    <a class="navbar-brand" href="/">Vixip</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/comm">Predict</a></li>
+                        <li><a href="/data">Search</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/comm">Predict</a></li>
-                    <li><a href="/data">Search</a></li>
-                    <li><a href="/map">Map</a></li>
-                    <li><a href="#">About us</a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
         </div>
-    </div>
-    <div class="container">
-        <%- message %>
+
+        <div class="container" id="body">
             <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
                 <fieldset>
                     <legend></legend>
@@ -63,7 +60,7 @@
                                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
                                     </span>
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
+                                    <input type="text" class="form-control" id="username" name="username" v-model="username" placeholder="请输入用户名" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -71,7 +68,7 @@
                                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
-                                    <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                                    <input type="text" class="form-control" id="password" name="password" v-model="password" placeholder="请输入密码" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -79,56 +76,81 @@
                                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
-                                    <input type="text" class="form-control" id="password1" name="password1" placeholder="请再次输入密码" required>
+                                    <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" @change="identity" placeholder="请再次输入密码" :style="{border: warning}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" id="register1">注册</button>
+                                <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register">注册</button>
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1">登录</button>
+                                <button type="button" class="btn btn-info btn-block" id="login1" @click="login">登录</button>
                             </div>
                         </div>
                     </div>
                 </fieldset>
             </form>
+        </div>
+
+        <!--footer part-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p>PM2.5 cloud platform by SJTU
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <p><a href="#">&copy; 联系我们</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <!-- 注意bind的js必须放在页面的最后 -->
     <script type="text/javascript">
-        $(function() {
-            $("#login1").click(function() {
-                location.href = 'login';
-            });
-            $("#register1").click(function() {
-                var username = $("#username").val();
-                var password = $("#password").val();
-                var password1 = $("#password1").val();
-                if (password !== password1) {
-                    $("#password").css("border", "1px solid red");
-                    $("#password1").css("border", "1px solid red");
-                } else if (password === password1) {
-                    var data = {
-                        "uname": username,
-                        "upwd": password
-                    };
-                    $.ajax({
-                        url: '/register',
-                        type: 'post',
-                        data: data,
-                        success: function(data, status) {
-                            if (status == 'success') {
-                                location.href = 'login';
+        var registerVm = new Vue({
+            el: '#app',
+            data: {
+                username: "",
+                password: "",
+                repeatPwd: "",
+                warning: ""
+            },
+            methods: {
+                login: function() {
+                    location.href = 'login';
+                },
+                identity: function() {
+                    if (this.password != this.repeatPwd) {
+                        console.log("www");
+                        this.warning = "1px solid red";
+                    } else {
+                        this.warning = "";
+                    }
+                },
+                register: function() {
+                    if (this.password == this.repeatPwd) {
+                        var data = {
+                            "uname": this.username,
+                            "upwd": this.password
+                        };
+                        console.log(data);
+                        this.$http.post('/register/register', data).then(
+                            function(response) {
+                                console.log(response.data);
+                            },
+                            function(err) {
+                                console.log(err);
                             }
-                        },
-                        error: function(data, err) {
-                            location.href = 'register';
-                        }
-                    });
+                        )
+                    }
                 }
-            });
-        });
+            }
+
+        })
     </script>
 </body>
 </head>

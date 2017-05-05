@@ -1,0 +1,27 @@
+.m15 {
+    margin: 15px;
+}
+
+.tc {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.app {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+}
+
+#body {
+    padding-bottom: 40px;
+}
+
+footer {
+    min-height: 40px;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+}
