@@ -7,6 +7,9 @@
     <title>
         <%= title %>
     </title>
+    <!--Vue-->
+    <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/vue-resource.js"></script>
     <!-- Bootstrap -->
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <!--Flat UI-->
@@ -82,9 +85,20 @@
             </div>
         </div>
     </footer>
+    <div id="test">
+        <p>{{test}}</p>
+    </div>
 
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
+    <script>
+        var testVM = new Vue({
+            el: '#test',
+            data: {
+                test: "<%= test %>"
+            }
+        });
+    </script>
 </body>
 
 </html>
