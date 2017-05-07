@@ -5,7 +5,7 @@ var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 
 router.get('/', index);
-router.get('/reg', register);
+router.post('/reg', register);
 
 // 向前台返回JSON方法的简单封装
 var jsonWrite = function (res, ret) {
@@ -27,7 +27,7 @@ function index(req, res, next) {
     if (!(req.session.userID))
     {
         res.json({
-            code: '233',
+            code: '0',
             msg: '用户未登录'
         });
         return;
@@ -49,13 +49,14 @@ function register(req, res, next) {
     // object.a = 1;
     // var a = req.body.a;
     //var user = req.body;    
-    var user = {
+    /*var user = {
         username : 'gaoyu',
         type : 'painter',
         password : '123',   
         alipay_address : 'mail'             
-    };    
+    };*/    
     //var userID = req.session.userID;
+    var user = req.body;
     pool.getConnection(function(err, connection) {
         if (err)
         {
@@ -72,7 +73,7 @@ function register(req, res, next) {
             if (result)
             {
                 result = {
-                    code: 200,
+                    code: 1,
                     msg: '用户注册成功'
                 }
             }

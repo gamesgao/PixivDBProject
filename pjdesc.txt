@@ -27,17 +27,20 @@ return页面register.ejs
 	Param userID
 	Return 页面 homepage.ejs
 		注意这个是用户的个人主页，任何登陆的人都可以访问。
-	Ejs 个人信息：pdata={项目名称：值}
-		投稿作品：illustList需要详细讨论，只要三个！
+	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管
+		投稿作品：contribute_painting1, contribute_painting2, contribute_painting3, 三个字符串，代表图片地址
 		用户名称：username
-		关注的人：bookmark 头像+名称+id，需要详细讨论。
-		关注的人数：bookmarkNum
-		粉丝？不存在的
-		朋友：friend 头像+名称+id，需要详细讨论。
-		朋友人数：friendNum
-		收藏的画：bookmarkIllust需要详细讨论，只要三个！
-		Tag：tag []
-		用户头像：header：url
+		关注的人：following_header1, following_name1, following_id1; following_header2, following_name2, ... etc, 共三个
+		关注的人数：following_num
+
+		// 粉丝？不存在的
+		// 朋友：friend 头像+名称+id，需要详细讨论。
+		// 朋友人数：friendNum
+		上面三个暂且不要
+
+		收藏的画：colloect_painting1, collectpainting2, collectpainting3
+		Tag：tag [], 字符串
+		用户头像：user_header：url
 		用户ID：userID
 
 /config@get
