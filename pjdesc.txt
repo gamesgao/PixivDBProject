@@ -1,0 +1,178 @@
+如何使用session，这是官方网站
+https://www.npmjs.com/package/express-session
+
+这里我采用的session存储方式就是mysql，session的配置在app.js中，需要按照需要修改。采用插件express-mysql-session。
+
+说明：url是累加的注意！@xxx表示请求方式。
+说明：return 页面请使用ejs渲染。
+说明：return消息请使用json传递一个{}object。
+总共x 个页面
+/register目录下
+/@get
+	Param 无
+return页面register.ejs
+		注意需要用户未登录才能访问
+	Ejs 无
+/reg@post 注：为了防止看不懂，这里的url就是/register/reg
+	Param 用户名：username
+		   密码：password
+		   邮箱：alipay_address
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+	注意：密码请加密存储。
+			用户名注意查重。
+
+/homepage目录下
+/@get?userID = 123
+	Param userID
+	Return 页面 homepage.ejs
+		注意这个是用户的个人主页，任何登陆的人都可以访问。
+	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管
+		投稿作品：contribute_painting1, contribute_painting2, contribute_painting3, 三个字符串，代表图片地址
+		用户名称：username
+		关注的人：following_header1, following_name1, following_id1; following_header2, following_name2, ... etc, 共三个
+		关注的人数：following_num
+
+		// 粉丝？不存在的
+		// 朋友：friend 头像+名称+id，需要详细讨论。
+		// 朋友人数：friendNum
+		上面三个暂且不要
+
+		收藏的画：colloect_painting1, collectpainting2, collectpainting3
+		Tag：tag [], 字符串
+		用户头像：user_header：url
+		用户ID：userID
+
+/config@get
+	Param 无
+	Return 页面 config.ejs
+		这是用户个人设置页面，按照session来显示
+	Ejs 用户名称：username
+		用户头像：header：url
+		支付宝账号：alipay：
+		个人信息：pdata={项目名称：值}
+		用户ID：userID
+/bookmark@get？userID
+	Param userID
+	Return 页面 bookmark.ejs
+		用于显示用户的关注用户
+在这里实现删除功能
+	Ejs 用户名称：username
+		用户头像：header：url
+用户ID：userID
+关注的人：bookmark 头像+名称+id，需要详细讨论。
+		关注的人数：bookmarkNum
+	
+
+/addBookmark@get?userID
+	Param userID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户添加关注，将userID添加给登陆用户
+
+/delBookmark@get?userID
+	Param userID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户删除关注，将userID删除给登陆用户
+
+朋友/收藏的画/投稿作品同理，请你补全
+
+用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全
+
+/illust页面下
+/@get？userID
+	Param userID
+	Return 页面 illust.ejs
+		用户画的展示页面
+	Ejs 用户名称：username
+		用户头像：header：url
+用户ID：userID
+		画链接：imgUrl
+		画名称：imgName
+		画tag：tag#可能需要加一个能不能删除的flag 
+		时间：time
+		分辨率：resolution
+		赞数：ratedCount
+		浏览数：viewCount
+		
+/delTag@post
+	Param tagID？不知道有没有？或者就是名字
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于删除tag
+
+/addTag@post
+	param tag
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于添加tag
+
+/bid页面下
+/@get
+	Param 无 # 利用这里的参数可以用来做排序和搜索
+	Return页面 bid.ejs
+		招标系统的主页面
+	Ejs 
+用户名称：username
+		用户头像：header：url
+用户ID：userID
+是否可以招标：bidflag
+		招标项目：需要详细讨论
+
+/initBid@get
+	Param
+	Return页面 initBid.ejs
+		用于发起招标
+Ejs 用户名称：username
+		用户头像：header：url
+用户ID：userID
+
+/initBid@post
+	Param 简介：abstract
+			价格：price
+			Tag：tag
+			Ddl：deadline
+			
+/getBid@get？bidID
+	Param bidID
+	Return 页面 getBid.ejs
+		用于显示一个招标的详细信息和用于接受（画师）
+		这个页面对于买家同时用于接受候选人
+这个页面可能还要同时做取消？
+	Ejs 简介：abstract
+			价格：price
+			Tag：tag
+			Ddl：deadline
+		ID：bidID
+		创建时间：time
+		状态：status
+		招标候选人：需要详细讨论
+
+/search页面下
+/user@get
+	Param 无
+	Return 页面 searchUser.ejs
+		用于搜索用户
+	Ejs 无？
+
+/user@post
+	Param tag
+			Name等？
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+			结果：result
+	
+画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
+
+/upload页面下
+/@get
+	Param无
+	Return 页面upload.ejs
+		用于上传画作
+
+/@post
+	Param 各种画作的信息
+
+注意：上传文件需要单独拿出来搞可能？建议参看formidable这个包
+
