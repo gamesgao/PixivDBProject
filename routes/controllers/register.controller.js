@@ -3,21 +3,10 @@ var router = express.Router();
 var mysql = require('mysql');
 var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
+var jsonWrite = require('../../dbconf/jsonWrite.js');
 
 router.get('/', index);
 router.post('/reg', register);
-
-// 向前台返回JSON方法的简单封装
-var jsonWrite = function (res, ret) {
-    if(typeof ret === 'undefined') {
-        res.json({
-            code:'1',
-            msg: '操作失败'
-        });
-    } else {
-        res.json(ret);
-    }
-};
 
 function index(req, res, next) {
 
