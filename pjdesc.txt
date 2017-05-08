@@ -27,10 +27,16 @@ return页面register.ejs
 	Param userID
 	Return 页面 homepage.ejs
 		注意这个是用户的个人主页，任何登陆的人都可以访问。
-	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管
-		投稿作品：contribute_painting1, contribute_painting2, contribute_painting3, 三个字符串，代表图片地址
+	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管 //这里打算直接用p站那样一个列表www
+		投稿作品：contribute_painting[{
+			url: //图片地址
+			illustID: // 图片ID
+		},...] //这里虽然传几个都可以，但是只传三个就好。
 		用户名称：username
-		关注的人：following_header1, following_name1, following_id1; following_header2, following_name2, ... etc, 共三个
+		关注的人：following[{
+			header: // 头像地址
+			userID: //用户ID
+		},...] // 只传三个
 		关注的人数：following_num
 
 		// 粉丝？不存在的
@@ -38,7 +44,10 @@ return页面register.ejs
 		// 朋友人数：friendNum
 		上面三个暂且不要
 
-		收藏的画：colloect_painting1, collectpainting2, collectpainting3
+		收藏的画：colloect_painting[{
+			url: //图片地址
+			illustID: // 图片ID
+		},...]// 只传三个
 		Tag：tag [], 字符串
 		用户头像：user_header：url
 		用户ID：userID
