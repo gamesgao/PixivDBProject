@@ -5,19 +5,19 @@ var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 var jsonWrite = require('../../dbconf/jsonWrite.js');
 var multer  = require('multer');
-
+var fs = require('fs');
 router.get('/', data);
 router.get('/config', config);
 router.get('/following', following);
 router.get('/addfollowing', addFollowing);
 router.get('/delfollowing', delFollowing);
-router.get('/addcollect', addCollect);
-router.get('/delcollect', delCollect);
+router.get('/addcollect', addCollecting);
+router.get('/delcollect', delCollecting);
 router.post('/contributeupload', contributeUpload);
-router.post('/upload', upload.single('logo'), function(req, res, next){
+/*router.post('/upload', upload.single('logo'), function(req, res, next){
     var file = req.file;
     res.send({ret_code: '0'});
-});
+});*/
 
 function data(req, res, next) {
 	var data = req.query;
