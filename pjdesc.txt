@@ -131,35 +131,35 @@ return页面register.ejs
 			错误信息：err
 		用于添加tag
 
-/bid页面下
+/trade页面下
 /@get
 	Param 无 # 利用这里的参数可以用来做排序和搜索
-	Return页面 bid.ejs
+	Return页面 trade.ejs
 		招标系统的主页面
 	Ejs 
 用户名称：username
 		用户头像：user_header：url
 用户ID：userID
-是否可以招标：bidflag
+是否可以招标：tradeflag
 		招标项目：需要详细讨论
 
-/initBid@get
+/initTrade@get
 	Param
-	Return页面 initBid.ejs
+	Return页面 initTrade.ejs
 		用于发起招标
 Ejs 用户名称：username
-		用户头像：header：url
+		用户头像：user_header：url
 用户ID：userID
 
-/initBid@post
+/initTrade@post
 	Param 简介：abstract
 			价格：price
 			Tag：tag
 			Ddl：deadline
 			
-/getBid@get？bidID
-	Param bidID
-	Return 页面 getBid.ejs
+/getTrade@get？tradeID
+	Param tradeID
+	Return 页面 getTrade.ejs
 		用于显示一个招标的详细信息和用于接受（画师）
 		这个页面对于买家同时用于接受候选人
 这个页面可能还要同时做取消？
@@ -167,7 +167,7 @@ Ejs 用户名称：username
 			价格：price
 			Tag：tag
 			Ddl：deadline
-		ID：bidID
+		ID：tradeID
 		创建时间：time
 		状态：status
 		招标候选人：需要详细讨论
