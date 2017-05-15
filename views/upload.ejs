@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <!--Vue-->
+    <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/vue-resource.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <!--Flat UI-->
+    <link href="/stylesheets/flat-ui.css" rel="stylesheet">
+    <!--User-->
+    <link rel='stylesheet' href='/stylesheets/upload.css' />
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <style>
+        body {
+            /*min-height: 2000px;*/
+            padding-top: 50px;
+        }
+    </style>
+    <!--<img id='bg' src='/img/main-bg.jpg' />-->
+    <!--this is for Vue-->
+    <div id="app">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>  
+                </button>
+                    <a class="navbar-brand" href="/">Vixip</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/comm">Predict</a></li>
+                        <li><a href="/data">Search</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--webpage body-->
+        <div id="header">
+            <div class="container">
+                <div class="row">
+                    <!--left-->
+                    <div class="col-md-3">
+                        <div class="user">
+                            <div class="user-header">
+                                <img alt="..." class="img-circle" src="/img/header/11.png" />
+                            </div>
+                            <div class="intro last">
+                                <h4>guyao</h4>
+                            </div>
+                        </div>
+                        <div class="user">
+                            <div class="user-bookmark">
+                                <h3>bookmark<span class="badge">42</span></h3>
+                            </div>
+                            <ul class="intro last list-inline">
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="bookmark-icon">
+                                        <img alt="..." class="img-circle" src="/img/header/11.png" width="30" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--the others are the same-->
+                    </div>
+
+                    <!--right-->
+                    <div class="col-md-9">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">upload</div>
+
+                            <div class="panel-body">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="InputFile" class="col-lg-2 control-label">File input</label>
+                                        <div class="upfilebox col-lg-10">
+                                            <input type="file" id="InputFile">
+                                            <button class="btn btn-primary btn-block">Browse</button>
+                                        </div>
+                                        <!--<p class="help-block">Example block-level help text here.</p>-->
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword1" class="col-lg-2 control-label">Password</label>
+                                        <div class="col-lg-10">
+                                            <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <button type="submit" class="btn btn-default">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--footer part-->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p>PM2.5 cloud platform by SJTU
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <p><a href="#">&copy; 联系我们</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <!-- 注意bind的js必须放在页面的最后 -->
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+
+</html>
