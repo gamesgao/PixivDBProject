@@ -58,7 +58,6 @@ return页面register.ejs
 		}
 		// 朋友人数：friendNum
 		
-
 /config@get
 	Param 无
 	Return 页面 config.ejs
@@ -68,10 +67,12 @@ return页面register.ejs
 		支付宝账号：alipay：
 		个人信息：user_info={项目名称：值}
 		用户ID：userID
-/bookmark@get？userID
+
+/following@get？userID
 	Param userID
-	Return 页面 bookmark.ejs
+	Return 页面 following.ejs
 		用于显示用户的关注用户
+
 在这里实现删除功能
 	Ejs 用户名称：username
 		用户头像：user_header：url
@@ -80,30 +81,29 @@ return页面register.ejs
 		关注的人数：following_num
 	
 
-/addFollowing@get?userID
+/addfollowing@get?userID 注：这边的userID是被关注的人的ID
 	Param userID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 		用于为登陆用户添加关注，将userID添加给登陆用户
 
-/delFollowing@get?userID
+/delfollowing@get?userID
 	Param userID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 		用于为登陆用户删除关注，将userID删除给登陆用户
 
-/addCollect@get?userID
+/addcollect@get?paintingID
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
-		用于为登陆用户增加收藏的画，将paintingID添加给用户
+		用于为登陆用户增加收藏的画，将paintingID添加给用户		
 
-/delCollect@get?paintingID
+/delcollect@get?paintingID
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
-		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户
-
+		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户		
 
 
 朋友/收藏的画/投稿作品同理，请你补全

@@ -7,6 +7,10 @@ var user = {
     getColletedPainting : '',
     getMostTag : '',
     getUserHeader : '',
+    getUserAlipay : '',
+    addFollowing : '',
+	delFollowing : '',
+    addCollecting : '',
 
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',

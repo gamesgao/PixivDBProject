@@ -51,7 +51,7 @@ function register(req, res, next) {
         if (err)
         {
             // handle error  
-        }                        
+        }
         connection.query(
         sql.insert, [user.username, user.type, user.password, user.alipay_address]
         , function(err, result) 
