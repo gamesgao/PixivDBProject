@@ -12,34 +12,37 @@ function data(req, res, next) {
 	var data = req.query;
 	var userID = data.userID;
 	var username;
+	var contribute_painting;
+	var collect_painting;
 
+	//try multiple queries
 	pool.getConnection(function(err, connection) {
         if (err)
         {
             // handle error  
         }                        
         connection.query(
-        sql.insert, [user.username, user.type, user.password, user.alipay_address]
+        sql.getUserContributePainting +
+        sql.getUserName +
+        sql.getFollowing +
+        sql.getFollowingNum +
+        sql.getColletedPainting +
+        sql.getMostTag +
+        sql.getUserHeader
+            , [userID, userID]
         , function(err, result) 
-        {
+        {        	
             if (err)
             {
     	        // handle error  
             }
             if (result)
             {
-                result = {
-                    code: 1,
-                    msg: '用户注册成功'
-                }
+                res.render('homepage', { title: 'pm2.5 cloud platform' });
             }
-            jsonWrite(res,result);
-            connection.release();
-            return;
-        }                
+        }
         );
     });
-    res.render('data', { title: 'pm2.5 cloud platform' });
 }
 
 function config(req, res, next) {

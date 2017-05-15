@@ -38,11 +38,7 @@ return页面register.ejs
 			userID: //用户ID
 		},...] // 只传三个
 		关注的人数：following_num
-
-		// 粉丝？不存在的
-		// 朋友：friend 头像+名称+id，需要详细讨论。
-		// 朋友人数：friendNum
-		上面三个暂且不要
+		
 
 		收藏的画：colloect_painting[{
 			url: //图片地址
@@ -51,6 +47,17 @@ return页面register.ejs
 		Tag：tag [], 字符串
 		用户头像：user_header：url
 		用户ID：userID
+		共 7 项
+
+		下面三个暂且不要
+		// 粉丝？不存在的
+		// 朋友：friend{
+			header: //头像地址
+			name: //好友名字
+			id: //好友id
+		}
+		// 朋友人数：friendNum
+		
 
 /config@get
 	Param 无

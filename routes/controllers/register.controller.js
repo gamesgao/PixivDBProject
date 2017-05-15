@@ -46,6 +46,7 @@ function register(req, res, next) {
     };*/    
     //var userID = req.session.userID;
     var user = req.body;
+
     pool.getConnection(function(err, connection) {
         if (err)
         {
