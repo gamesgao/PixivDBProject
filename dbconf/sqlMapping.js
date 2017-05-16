@@ -6,6 +6,7 @@
 
 var user = {
 	insert:'INSERT INTO user(username,type,password,alipay_address) VALUES (?,?,?,?);',
+
 	getUserName : 'SELECT username FROM user WHERE id = ?;',
 	getUserContributePainting : '',
     getFollowing : '',
@@ -33,11 +34,17 @@ var user = {
     getViewCount : '',
     delPaintingTag : '',
     addPaintingTag : '',
-    painting_name : '',
     getBuyerFlag :'',
     getBriefTrade :'',
     addTrade :'', //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,变量名为tradeID
-    addTradeTags :'',
+    addTradeTags : '',
+    getFullTrade : '',
+    getApplier : '',
+    addResponderForTrade :'',
+    addApplierForTrade : '',
+    getRelatedTrades : '',
+    addPainting :'', //注意:appPainting的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID
+
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',
 	queryById: 'select * from user where id=?',

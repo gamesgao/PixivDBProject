@@ -114,7 +114,17 @@ return页面register.ejs
 			错误信息：err
 		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户		
 
-	
+/addcontribute@get?paintingID
+	Param paintingID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户增加收藏的画，将paintingID添加给用户		
+
+/addcollect@get?paintingID
+	Param paintingID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户增加收藏的画，将paintingID添加给用户		
 
 朋友/收藏的画/投稿作品同理，请你补全
 
@@ -194,19 +204,32 @@ return页面register.ejs
 /getTrade@get？tradeID
 	Param tradeID
 	Return 页面 getTrade.ejs
+		trade : {
+			id:
+			description:
+			price:
+			create_time:
+			finish_time:
+			deadline:
+			status:
+			buyer:
+			responder: 选中人
+		}
+		applier : 所有候选人
+
 		1.用于显示一个招标的详细信息和用于接受（画师）
 		2.这个页面对于买家同时用于接受候选人
 		3.画师也可以在这个页面取消接单
-		
+
 /getTrade/selectpainter@get 
 	Param: painterID, tradeID
 	Return 是否成功，同之前
 
 /getTrade/applyfortrade@get
-	Param: painterID, tradeID
+	Param: tradeID
 	Return 是否成功，同之前
 
-/homepage@get
+/tradehomepage@get
 	Param: userID,即这个主页是关于谁的
 	Return 
 		tradeHomepage.ejs
@@ -248,6 +271,9 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 
-/addcontribute/@post
-	Param 用户作品
+/painting/@post
+	Param 用户作品	
 	需要对权限有所判断
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+

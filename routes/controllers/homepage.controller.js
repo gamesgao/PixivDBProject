@@ -289,52 +289,6 @@ function delCollecting(req, res, next) {
     }
 }
 
-var createFolder = function(folder){
-    try{
-        fs.accessSync(folder);
-    }catch(e){
-        fs.mkdirSync(folder);
-    }
-};
-
-function contributeUpload(req, res, next) {
-    var userID = req.session.userID;
-    var paintingID = req.query.painting;
-    if (userID)
-    {
-        pool.getConnection(function(err, connection) {
-            if (err) {
-                // handle error
-            }
-            connection.query(
-                sql.addContribute,
-                [userID, paintingID],
-                function (err, result) {
-                    var state = 0;
-                    var message = '';
-                    if (err) {
-                        //handle error
-                        state = 0;
-                        message = '用户添加画失败';
-                    }
-                    if (result) {
-                        //res.render('following', {})
-                        state = 1;
-                        message = '用户添加画成功';
-                    }
-                    fs.rename(req.file.filename, '/upload/' + result[0]);
-                    res.json({
-                        code: state.toString(),
-                        msg: message
-                    });
-                });
-        });
-    }
-    else{
-        //handle error
-    }
-}
-
 function delContribute(req, res, next) {
     var userID = req.session.userID;
     if (userID)
@@ -368,5 +322,6 @@ function delContribute(req, res, next) {
         });
     }
 }
+
 
 module.exports = router;
