@@ -115,7 +115,7 @@ return页面register.ejs
 
 朋友/收藏的画/投稿作品同理，请你补全
 
-用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全
+用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全 ： 见config 和 configupload
 用户设置上传，访问
 
 /illust页面下
@@ -125,7 +125,7 @@ return页面register.ejs
 		用户画的展示页面
 	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID
+		用户ID：userID
 		画链接：url
 		画名称：painting_name
 		画tag：tag#可能需要加一个能不能删除的flag 
@@ -135,13 +135,13 @@ return页面register.ejs
 		浏览数：viewCount
 		
 /delTag@post
-	Param tag
+	Param paintingID, tag
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 		用于删除tag
 
 /addTag@post
-	param tag
+	param paintingID, tag
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 		用于添加tag
@@ -149,22 +149,32 @@ return页面register.ejs
 /trade页面下
 /@get
 	Param 无 # 利用这里的参数可以用来做排序和搜索
+
 	Return页面 trade.ejs
 		招标系统的主页面
+
 	Ejs 
-用户名称：username
+		用户名称：username
 		用户头像：user_header：url
-用户ID：userID
-是否可以招标：tradeflag
-		招标项目：需要详细讨论
+		用户ID：userID
+		是否可以招标：tradeflag
+		招标项目：
+		{
+			buyer:发起人,
+			price:价格,
+			ddl:deadline,
+			state:状态
+		}
 
 /initTrade@get
 	Param
+
 	Return页面 initTrade.ejs
 		用于发起招标
-Ejs 用户名称：username
+
+	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID
+		用户ID：userID
 
 /initTrade@post
 	Param 简介：abstract
@@ -177,6 +187,7 @@ Ejs 用户名称：username
 	Return 页面 getTrade.ejs
 		用于显示一个招标的详细信息和用于接受（画师）
 		这个页面对于买家同时用于接受候选人
+
 这个页面可能还要同时做取消？
 	Ejs 简介：abstract
 			价格：price
