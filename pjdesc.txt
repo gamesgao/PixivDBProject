@@ -68,6 +68,12 @@ return页面register.ejs
 		个人信息：user_info={项目名称：值}
 		用户ID：userID
 
+/config/upload@post
+	Param newname(新的用户名), new_alipay, 以后还要加用户的详细信息
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户添加关注，将userID添加给登陆用户	
+
 /following@get？userID
 	Param userID
 	Return 页面 following.ejs
@@ -105,10 +111,12 @@ return页面register.ejs
 			错误信息：err
 		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户		
 
+	
 
 朋友/收藏的画/投稿作品同理，请你补全
 
 用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全
+用户设置上传，访问
 
 /illust页面下
 /@get？userID
@@ -206,3 +214,16 @@ Ejs 用户名称：username
 
 注意：上传文件需要单独拿出来搞可能？建议参看formidable这个包
 
+/addcontribute 页面下
+/@get?paintingID
+	Param paintingID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户增加收藏的画，将paintingID添加给用户		
+
+/addcollect 页面下
+/@get?paintingID
+	Param paintingID
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+		用于为登陆用户增加收藏的画，将paintingID添加给用户	
