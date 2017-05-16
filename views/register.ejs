@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <%= title %>
+        Vixip
     </title>
     <!--Vue-->
     <script src="/javascripts/vue.js"></script>
@@ -66,6 +66,15 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                                    </span>
+                                    <input type="text" class="form-control" id="alipay-address" name="alipay-address" v-model="alipay_address" placeholder="请输入邮箱地址" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
                                     <input type="text" class="form-control" id="password" name="password" v-model="password" placeholder="请输入密码" required>
@@ -76,11 +85,11 @@
                                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
-                                    <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" @change="identity" placeholder="请再次输入密码" :style="{border: warning}" required>
+                                    <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" placeholder="请再次输入密码" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register">注册</button>
+                                <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register" :disabled="iserror">注册</button>
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-info btn-block" id="login1" @click="login">登录</button>
@@ -89,6 +98,21 @@
                     </div>
                 </fieldset>
             </form>
+
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{message}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!--footer part-->
@@ -111,36 +135,53 @@
     <script src="/javascripts/bootstrap.js"></script>
     <!-- 注意bind的js必须放在页面的最后 -->
     <script type="text/javascript">
-        var registerVm = new Vue({
+        var app = new Vue({
             el: '#app',
             data: {
                 username: "",
+                alipay_address: "",
                 password: "",
                 repeatPwd: "",
-                warning: ""
+                status: "",
+                message: ""
+            },
+            computed: {
+                iserror: function() {
+                    if (this.username !== "" && this.alipay_address !== "" && this.password === this.repeatPwd && this.password !== "" && this.repeatPwd !== "") {
+                        if (testEmail(this.alipay_address)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
             },
             methods: {
                 login: function() {
                     location.href = 'login';
                 },
-                identity: function() {
-                    if (this.password != this.repeatPwd) {
-                        console.log("www");
-                        this.warning = "1px solid red";
-                    } else {
-                        this.warning = "";
-                    }
-                },
                 register: function() {
-                    if (this.password == this.repeatPwd) {
+                    if (this.iserror == false) {
                         var data = {
-                            "uname": this.username,
-                            "upwd": this.password
+                            "username": this.username,
+                            "password": this.password,
+                            "alipay_address": this.alipay_address
                         };
-                        console.log(data);
-                        this.$http.post('/register/register', data).then(
+                        // console.log(data);
+                        this.$http.post('/register/reg', data).then(
                             function(response) {
-                                console.log(response.data);
+                                // console.log(response.data);
+                                if (response.data.status == 1) {
+                                    app.status = "Success!";
+                                    app.message = "You have registered successfully!";
+                                    setTimeout(function() {
+                                        locatoin.href = '/homepage';
+                                    }, 2000);
+                                    $('#warning').modal({});
+                                } else if (response.data.status == 0) {
+                                    app.status = "Error!";
+                                    app.message = `Something wrong while register ERR:${response.data.err}`;
+                                    $('#warning').modal({});
+                                }
                             },
                             function(err) {
                                 console.log(err);
@@ -151,6 +192,15 @@
             }
 
         })
+
+        function testEmail(str) {
+            var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            if (reg.test(str)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     </script>
 </body>
 </head>

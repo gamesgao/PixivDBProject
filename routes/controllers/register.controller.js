@@ -13,8 +13,7 @@ function index(req, res, next) {
     // ?a = 1
     // a = req.query.a;
     var data = req.query;
-    if (!(req.session.userID))
-    {
+    if (!(req.session.userID)) {
         res.json({
             code: '0',
             msg: '用户未登录'
@@ -23,9 +22,8 @@ function index(req, res, next) {
     }
 
     res.render('Wrong', {
-            title: 'pm2.5 cloud platform',
-        }
-    );
+        title: 'pm2.5 cloud platform',
+    });
     return;
 }
 
@@ -43,46 +41,42 @@ function register(req, res, next) {
         type : 'painter',
         password : '123',   
         alipay_address : 'mail'             
-    };*/    
+    };*/
     //var userID = req.session.userID;
     var user = req.body;
 
     pool.getConnection(function(err, connection) {
-        if (err)
-        {
+        if (err) {
             // handle error  
         }
         connection.query(
-        sql.insert, [user.username, user.type, user.password, user.alipay_address]
-        , function(err, result) 
-        {
-            if (err)
-            {
-            // handle error  
-            }
-            if (result)
-            {
-                result = {
-                    code: 1,
-                    msg: '用户注册成功'
+            sql.insert, [user.username, user.type, user.password, user.alipay_address],
+            function(err, result) {
+                if (err) {
+                    // handle error  
                 }
+                if (result) {
+                    result = {
+                        code: 1,
+                        msg: '用户注册成功'
+                    }
+                }
+                jsonWrite(res, result);
+                connection.release();
+                return;
             }
-            jsonWrite(res,result);
-            connection.release();
-            return;
-        }                
         );
     });
 }
-    //session
-    // userID = req.session.userID;
-    
-
-    // res.send
-    // res.render
-    // res.json
+//session
+// userID = req.session.userID;
 
 
-    
+// res.send
+// res.render
+// res.json
+
+
+
 
 module.exports = router;
