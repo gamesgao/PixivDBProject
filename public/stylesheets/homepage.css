@@ -89,7 +89,7 @@ ul.intro li {
     /*cursor: pointer;*/
     /*font-size: 14px;*/
     /*line-height: 1.214;*/
-    margin-top: 2px;
+    padding-top: 10px;
     /*padding: 18px 42px 21px 25px;*/
     position: relative;
 }
