@@ -39,7 +39,6 @@ function comm(req, res, next) {
                 }
             );
         });
-        res.render('comm', {title: 'pm2.5 cloud platform'})
     }
     else
     {

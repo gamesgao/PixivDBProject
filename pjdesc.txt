@@ -6,6 +6,9 @@ https://www.npmjs.com/package/express-session
 说明：url是累加的注意！@xxx表示请求方式。
 说明：return 页面请使用ejs渲染。
 说明：return消息请使用json传递一个{}object。
+注意：
+	不管哪个路由，没有登陆都直接转到一个错误页面
+	所有页面都要登陆才能访问，除了登陆和注册
 总共x 个页面
 /register目录下
 /@get
@@ -177,16 +180,32 @@ return页面register.ejs
 		用户ID：userID
 
 /initTrade@post
-	Param 简介：abstract
+	Param 
+			发起人 : buyer
+			发起时间 : start_time
+			简介：abstract
 			价格：price
-			Tag：tag
+			Tag：tags
 			Ddl：deadline
-			
+	Return页面 {status : 1成功0失败}
+	
 /getTrade@get？tradeID
 	Param tradeID
 	Return 页面 getTrade.ejs
 		用于显示一个招标的详细信息和用于接受（画师）
 		这个页面对于买家同时用于接受候选人
+/getTrade/selectpainter@get 
+	Param: painterID, tradeID
+	Return 是否成功，同之前
+
+/getTrade/applyfortrade@get
+	Param: painterID, tradeID
+	Return 是否成功，同之前
+
+/homepage@
+	Param: userID,即这个主页是关于谁的
+	
+
 
 这个页面可能还要同时做取消？
 	Ejs 简介：abstract
