@@ -55,7 +55,7 @@ footer {
     text-align: center
 }
 
-.user-bookmark {
+.user-following {
     position: relative;
     background: #1abc9c;
     background-size: 16px 16px;
@@ -65,7 +65,7 @@ footer {
     text-align: center
 }
 
-.user-bookmark h3 {
+.user-following h3 {
     margin: 0;
 }
 
@@ -103,7 +103,7 @@ ul.intro li {
     margin: 0;
 }
 
-.intro.bookmark-icon {
+.intro.following-icon {
     float: left;
     font-size: 24px;
     padding: 11px 22px 0 0;

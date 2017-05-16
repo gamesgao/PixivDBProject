@@ -119,8 +119,8 @@ return页面register.ejs
 用户设置上传，访问
 
 /illust页面下
-/@get？userID
-	Param userID
+/@get？illustID
+	Param illustID
 	Return 页面 illust.ejs
 		用户画的展示页面
 	Ejs 用户名称：username
