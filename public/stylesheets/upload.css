@@ -117,9 +117,6 @@ ul.intro li {
     position: relative;
     z-index: 9;
     opacity: 0;
-    vertical-align: middle;
-    margin: 0;
-    padding: 0
 }
 
 .upfilebox button {
