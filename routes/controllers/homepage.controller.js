@@ -9,6 +9,7 @@ var fs = require('fs');
 var upload = multer({ dest: 'uploads/' });
 router.get('/', data);
 router.get('/config', config);
+router.get('/config/upload', configUpload);
 router.get('/following', following);
 router.get('/addfollowing', addFollowing);
 router.get('/delfollowing', delFollowing);
@@ -87,6 +88,7 @@ function config(req, res, next) {
 function configUpload(req, res, next) {
     var userID = req.session.userID;
     var newName = req.body.newname;
+    var new_alipay = req.body.newAlipay;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -95,8 +97,8 @@ function configUpload(req, res, next) {
                 // handle error
             }
             connection.query(
-                sql.modifyUserName,
-                [userID, userID, userID],
+                sql.modifyUserInfo,
+                [userID, newName],
                 function (err, result) {
                     if (err)
                     {
