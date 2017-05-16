@@ -187,13 +187,17 @@ return页面register.ejs
 			价格：price
 			Tag：tags
 			Ddl：deadline
+			状态：state
+			**以上这些简称brief trade**
 	Return页面 {status : 1成功0失败}
 	
 /getTrade@get？tradeID
 	Param tradeID
 	Return 页面 getTrade.ejs
-		用于显示一个招标的详细信息和用于接受（画师）
-		这个页面对于买家同时用于接受候选人
+		1.用于显示一个招标的详细信息和用于接受（画师）
+		2.这个页面对于买家同时用于接受候选人
+		3.画师也可以在这个页面取消接单
+		
 /getTrade/selectpainter@get 
 	Param: painterID, tradeID
 	Return 是否成功，同之前
@@ -202,9 +206,13 @@ return页面register.ejs
 	Param: painterID, tradeID
 	Return 是否成功，同之前
 
-/homepage@
+/homepage@get
 	Param: userID,即这个主页是关于谁的
-	
+	Return 
+		tradeHomepage.ejs
+		交易:trades
+			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
+			如果是买家，则返回他所发出的trade，同上
 
 
 这个页面可能还要同时做取消？
