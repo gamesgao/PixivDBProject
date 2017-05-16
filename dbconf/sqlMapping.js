@@ -11,7 +11,10 @@ var user = {
     addFollowing : '',
 	delFollowing : '',
     addCollecting : '',
-
+    delCollecting : '',
+    addContribute : '',
+    delContribute : '',
+    modifyUserName : '',
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',
 	queryById: 'select * from user where id=?',
