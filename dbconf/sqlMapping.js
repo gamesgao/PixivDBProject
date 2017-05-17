@@ -12,7 +12,7 @@ var user = {
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?',
     getFollowing : 'SELECT follower AS userID, icon AS header ,username FROM follow, user WHERE follower = id and followee = ?;',
     getFollowingNum : 'SELECT count(*) AS following_num FROM follow WHERE followee = ?;',
-    getCollectedPainting : 'SELECT p.url AS url, c.painting AS paintingID ,p.topic AS name FROM painting p, collection c WHERE c.user = 4 and c.painting = p.id;',
+    getCollectedPainting : 'SELECT p.url AS url, c.painting AS paintingID ,p.topic AS name FROM painting p, collection c WHERE c.user = ? and c.painting = p.id;',
     getCollectedNum : 'SELECT count(*) AS collect_num FROM collection WHERE user = ?',
     getMostTag :'SELECT count(c.painting) as count, pt.tag as tag FROM contribute c,painting p, painting_tag pt WHERE c.user = 5 and c.painting = p.id and p.id = pt.painting GROUP BY tag ORDER BY count DESC;',
     getUserHeader : 'SELECT icon AS user_header FROM user WHERE id = ?;',
