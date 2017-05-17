@@ -1,3 +1,3 @@
 module.exports = [
-    { 'url': '/login', 'cpath': 'login.controller.js' },
+    { 'url': '/login', 'cpath': 'login.controller.js' }
 ]

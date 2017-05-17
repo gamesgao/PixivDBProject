@@ -1,3 +1,3 @@
 module.exports = [
-    { 'url': '/upload', 'cpath': 'upload.controller.js' },
+    { 'url': '/upload', 'cpath': 'upload.controller.js' }
 ]

@@ -1,3 +1,3 @@
 module.exports = [
-    { 'url': '/homepage', 'cpath': 'homepage.controller.js' },
+    { 'url': '/homepage', 'cpath': 'homepage.controller.js' }
 ]

@@ -3,12 +3,15 @@ var path = require('path');
 
 module.exports = function(app) {
     fs.readdirSync(path.join(__dirname, './routers' )).forEach(function(name) {
-        var routeArr = require('./routers/' + name);
-        routeArr.forEach(function(obj) {
-            var url = obj.url;
-            var cpath = obj.cpath;
-            var handle = require('./controllers/' + cpath);
-            app.use(url, handle);
-        });
+        if (name != '.DS_Store') {
+            var routeArr = require('./routers/' + name);
+            routeArr.forEach(function (obj) {
+                var url = obj.url;
+                var cpath = obj.cpath;
+                var handle = require('./controllers/' + cpath);
+                app.use(url, handle);
+            });
+            //console.log(name);
+        }
     });
 };
