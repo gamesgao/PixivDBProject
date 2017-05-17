@@ -16,7 +16,6 @@ router.get('/delfollowing', delFollowing);
 router.get('/collect', collect);
 router.get('/addcollect', addCollecting);
 router.get('/delcollect', delCollecting);
-router.post('/contributeupload', upload.single('painting'), contributeUpload);
 router.get('/addcontribute', addContribute);
 router.get('/delcontribute', delContribute);
 
@@ -191,7 +190,7 @@ function following(req, res, next) {
                             userID : homepageID,
                             following : result[2],
                             following_num : result[3].following_num,
-                            isSelf : (userID == homepageID)
+                            isSelf : (userID = homepageID)
                         })
                     }
                 });
@@ -218,7 +217,6 @@ function addFollowing(req, res, next) {
                 sql.addFollowing,
                 [userID, followingID],
                 function (err, result) {
-                    var status = 0;
                     if (err) {
                         //handle error
                         status = 0;
@@ -230,7 +228,7 @@ function addFollowing(req, res, next) {
                         message = '添加关注人成功';
                     }
                     res.json({
-                        code: status,
+                        status : status,
                         msg: message
                     });
                     connection.release();
@@ -247,6 +245,8 @@ function addFollowing(req, res, next) {
 function delFollowing(req, res, next) {
     var userID = req.session.userID;
     var followingID = req.query.userID;
+    var status;
+    var message;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -257,8 +257,6 @@ function delFollowing(req, res, next) {
                 sql.delFollowing,
                 [userID, followingID],
                 function (err, result) {
-                    var status;
-                    var message;
                     if (err) {
                         //handle error
                         status = 0;
@@ -270,7 +268,7 @@ function delFollowing(req, res, next) {
                         message = '删除关注人成功';
                     }
                     res.json({
-                        code:status,
+                        status:status,
                         msg: message
                     });
                     connection.release();
@@ -312,7 +310,7 @@ function collect(req, res, next) {
                             userID : homepageID,
                             collect : result[2],
                             collect_num : result[3].collect_num,
-                            isSelf : (userID == homepageID)
+                            isSelf : (userID = homepageID)
                         })
                     }
                 });
@@ -432,7 +430,7 @@ function contribute(req, res, next) {
                             userID : homepageID,
                             contribute : result[2],
                             contribute_num : result[3].contribute_num,
-                            isSelf : (userID == homepageID)
+                            isSelf : (userID = homepageID)
                         })
                     }
                 });
@@ -459,6 +457,8 @@ function addContribute(req, res, next) {
 
 function delContribute(req, res, next) {
     var userID = req.session.userID;
+    var status = 0;
+    var message = '';
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -469,21 +469,19 @@ function delContribute(req, res, next) {
                 sql.delContribute,
                 [userID, paintingID],
                 function (err, result) {
-                    var state = 0;
-                    var message = '';
                     if (err) {
                         //handle error
-                        state = 0;
+                        status = 0;
                         message = '用户删除画失败';
                     }
                     if (result) {
                         //res.render('following', {})
-                        state = 1;
+                        fs.unlinkSync('/upload/img/header/' + result[0].paintingurl);
+                        status = 1;
                         message = '用户删除画成功';
                     }
-                    fs.unlinkSync('/upload/img/header/' + result[0]);
                     res.json({
-                        code: state,
+                        status: status,
                         msg: message
                     });
                 });

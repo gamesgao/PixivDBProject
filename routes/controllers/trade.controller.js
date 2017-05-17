@@ -13,6 +13,7 @@ router.post('/initTrade',initialTradePost);
 router.get('/getTrade',getTrade);
 router.get('/getTrade/selectpainter',selectPainter);
 router.get('/getTrade/applyfortrade',applyForTrade);
+router.get('/cancelTrade',cancelTrade);
 
 router.get('/tradehomepage', tradeHomepage);
 
@@ -30,13 +31,20 @@ function trade(req, res, next) {
                 sql.getBuyerFlag +
                 sql.getBriefTrade
                 ,
-                [userID]
+                [userID, userID, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
+                        res.render('error');
                     }
                     if (result) {
-                        res.render('illust', {title: 'pm2.5 cloud platform'});
+                        res.render('trade', {
+                            username : result[0].username,
+                            user_header : result[1].user_header,
+                            userID : userID,
+                            buyerflag : result[2].buyerflag,
+                            trade : result[3]
+                        });
                     }
                     connection.release();
                 }
@@ -46,6 +54,7 @@ function trade(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
@@ -68,7 +77,12 @@ function initialTradeGet(req, res, next) {
                         // handle error
                     }
                     if (result) {
-                        res.render('illust', {title: 'pm2.5 cloud platform'});
+                        res.render('trade', {
+                            username : result[0].username,
+                            user_header : result[1].user_header,
+                            buyerflag : result[2].buyerflag,
+                            userID : userID
+                        });
                     }
                     connection.release();
                 }
@@ -78,6 +92,7 @@ function initialTradeGet(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
@@ -85,6 +100,7 @@ function initialTradePost(req, res, next) {
     var userID = req.session.userID;
     var status = 1;
     var message = '';
+    var trade = req.body;
     if (userID)
     {
         pool.getConnection(function (err, connection) {
@@ -93,13 +109,13 @@ function initialTradePost(req, res, next) {
             }
             connection.query(
                 sql.addTrade,
-                [userID, userID, userID]
+                [trade, userID, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
                         status = 0;
                         message = '加入Trade失败';
-                        res.json({status:status, msg:message});
+                        connection.release();
                         return;
                     }
                     if (result) {
@@ -119,14 +135,17 @@ function initialTradePost(req, res, next) {
                                     status = 0;
                                     message = '加入Tags给Trade失败';
                                     res.json({status:status, msg:message});
+                                    connection.release();
+                                    return;
                                 }
                                 if (result)
                                 {
                                     status = 1;
-                                    message = '加入Tags成功';
+                                    message = '加入Tags给Trade成功';
                                     res.json({status:status, msg:message});
+                                    connection.release();
+                                    return;
                                 }
-                                connection.release();
                             }
                         );
                     }
@@ -137,13 +156,12 @@ function initialTradePost(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
 function getTrade(req, res, next) {
     var userID = req.session.userID;
-    var status = 1;
-    var message = '';
     var tradeID = req.query.tradeID;
     if (userID) {
         pool.getConnection(function (err, connection) {
@@ -157,11 +175,13 @@ function getTrade(req, res, next) {
                 , function (err, result) {
                     if (err) {
                         // handle error
-                        status = 0;
-                        message = '获取Trade失败';
+                        res.render('error');
                     }
                     if (result) {
-                        res.render('');
+                        res.render('getTrade',{
+                            trade : result[0],
+                            applier : result[1]
+                        });
                     }
                     connection.release();
                 });
@@ -170,6 +190,7 @@ function getTrade(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
@@ -194,15 +215,22 @@ function selectPainter(req, res, next) {
                         message = '选择画家失败';
                     }
                     if (result) {
-                        res.render('');
+                        status = 1;
+                        message = '选择画家成功';
                     }
+                    res.json({
+                        status : status,
+                        msg : message
+                    })
                     connection.release();
+                    return;
                 });
         });
     }
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
@@ -226,15 +254,22 @@ function applyForTrade(req, res, next) {
                         message = '应聘交易失败';
                     }
                     if (result) {
-                        res.render('');
+                        status = 1;
+                        message = '应聘交易成功';
                     }
+                    res.json({
+                        status : status,
+                        msg : message
+                    });
                     connection.release();
+                    return;
                 });
         });
     }
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
@@ -257,18 +292,63 @@ function tradeHomepage(req, res, next) {
                         message = '获取用户相关交易失败';
                     }
                     if (result) {
-                        res.render('');
+                        status = 1;
+                        message = '获取用户相关交易成功';
                     }
+                    res.json({
+                        status : status,
+                        msg : message
+                    });
                     connection.release();
+                    return;
                 });
         });
     }
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
+function cancelTrade(req, res, next) {
+    var userID = req.session.userID;
+    var status = 1;
+    var message = '';
+    var tradeID = req.query.tradeID;
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+            }
+            connection.query(
+                sql.cancelTrade,
+                [userID, tradeID]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        status = 0;
+                        message = '取消交易失败';
+                    }
+                    if (result) {
+                        status = 1;
+                        message = '取消交易成功';
+                    }
+                    res.json({
+                        status : status,
+                        msg : message
+                    });
+                    connection.release();
+                    return;
+                });
+        });
+    }
+    else
+    {
+        //handle error
+        res.redirect('/login');
+    }
+}
 
 
 function applyTrade(req, res, next) {

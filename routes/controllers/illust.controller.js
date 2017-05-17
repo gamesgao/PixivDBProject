@@ -20,7 +20,7 @@ function comm(req, res, next) {
                 sql.getUserHeaderByPaintingID +
                 sql.getUserIDByPaintingID +
                 sql.getUrl +
-                sql.painting_name +
+                sql.getPaintingName +
                 sql.getTagByPaintingID +
                 sql.getCreatedTime +
                 sql.getResolution +
@@ -31,9 +31,21 @@ function comm(req, res, next) {
                 , function (err, result) {
                     if (err) {
                         // handle error
+                        res.render('error');
                     }
                     if (result) {
-                        res.render('illust', {title: 'pm2.5 cloud platform'});
+                        res.render('illust', {
+                            username : result[0].username,
+                            user_header : result[1].user_header,
+                            userID : result[2].userID,
+                            url : result[3].url,
+                            painting_name : result[4].painting_name,
+                            tag : result[5],
+                            time : result[6].time,
+                            resolution : result[7].resolution,
+                            ratedCount : result[8].ratedCount,
+                            viewCount : result[9].viewCount
+                            });
                     }
                     connection.release();
                 }
@@ -43,13 +55,16 @@ function comm(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 
 function delTag(req, res, next) {
     var userID = req.session.userID;
     var tag = req.body.tag;
-    var paintingID = req.body.paintingID;
+    var paintingID = req.require.paintingID;
+    var status = 0;
+    var message = '';
     if (userID && paintingID)
     {
         pool.getConnection(function (err, connection) {
@@ -62,11 +77,19 @@ function delTag(req, res, next) {
                 , function (err, result) {
                     if (err) {
                         // handle error
+                        status = 0;
+                        message = '删除画tag失败';
                     }
                     if (result) {
-                        res.render('illust', {title: 'pm2.5 cloud platform'});
+                        status = 1;
+                        message = '删除画tag成功';
                     }
+                    res.json({
+                        status:status,
+                        msg:message
+                    });
                     connection.release();
+                    return;
                 }
             );
         });
@@ -74,12 +97,15 @@ function delTag(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login')
     }
 }
 
 function addTag(req, res, next) {
     var tag = req.body.tag;
-    var paintingID = req.body.paintingID;
+    var paintingID = req.require.paintingID;
+    var status = 0;
+    var message = '';
     if (userID && paintingID)
     {
         pool.getConnection(function (err, connection) {
@@ -91,11 +117,18 @@ function addTag(req, res, next) {
                 [tag, paintingID]
                 , function (err, result) {
                     if (err) {
+                        status = 0;
+                        message = '添加画tag失败';
                         // handle error
                     }
                     if (result) {
-                        res.render('illust', {title: 'pm2.5 cloud platform'});
+                        status = 1;
+                        message = '添加画tag成功';
                     }
+                    res.json({
+                        status:status,
+                        msg:message
+                    });
                     connection.release();
                 }
             );
@@ -104,6 +137,7 @@ function addTag(req, res, next) {
     else
     {
         //handle error
+        res.redirect('/login');
     }
 }
 

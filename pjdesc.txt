@@ -231,15 +231,15 @@ return页面register.ejs
 		用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
-		是否可以招标：tradeflag
-		招标项目：
+		是否可以招标：buyerflag
+		招标项目： trade
 		{
 			buyer:发起人,
 			price:价格,
 			ddl:deadline,
 			state:状态
-		}
-
+		}		
+		**以上这些简称brief trade**
 /initTrade@get
 	Param
 
@@ -256,10 +256,11 @@ return页面register.ejs
 			发起时间 : start_time
 			简介：abstract
 			价格：price
-			Tag：tags
+			Tag：tag
 			Ddl：deadline
 			状态：state
-			**以上这些简称brief trade**
+			
+
 	Return页面 {status : 1成功0失败}
 	
 /getTrade@get？tradeID
@@ -298,6 +299,8 @@ return页面register.ejs
 			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
 			如果是买家，则返回他所发出的trade，同上
 
+		这个页面，如果是买家，则可以取消交易
+				如果是画师，则可以取消应聘 //注意：分画师是应聘还是被选中分情况讨论
 
 这个页面可能还要同时做取消？
 	Ejs 简介：abstract
@@ -338,8 +341,10 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 
-//TODO
-点赞&图片访问量 
-
 头像上传路径：/upload/img/header
 画上传路径: /upload/img/painting
+
+//TODO
+点赞&图片访问量 
+充值
+可能trade要把简介分成简介和详细信息
