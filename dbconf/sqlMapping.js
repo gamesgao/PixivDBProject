@@ -48,6 +48,7 @@ var user = {
     getRelatedTrades : '',
     addPainting :'', //注意:appPainting的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
+    searchUserByName :'',
 
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',

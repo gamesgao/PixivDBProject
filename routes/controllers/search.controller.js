@@ -10,31 +10,28 @@ router.get('/user', searchUser);
 
 function search(req, res, next) {
     res.render('search', { title: 'pm2.5 cloud platform' })
-};
+}
 
 function searchUser(req,res,next) {
     var userID = req.session.userID;
+    var namesnippet = req.query.namesnippet;
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
             }
             connection.query(
-                sql.getUserName +
-                sql.getUserHeader +
-                sql.getBuyerFlag
+                sql.searchUserByName
                 ,
-                [userID, userID, userID]
+                [namesnippet]
                 , function (err, result) {
                     if (err) {
                         // handle error
+                        res.render('error');
                     }
                     if (result) {
-                        res.render('trade', {
-                            username: result[0].username,
-                            user_header: result[1].user_header,
-                            buyerflag: result[2].buyerflag,
-                            userID: userID
+                        res.render('user', {
+                            user : result[0]
                         });
                     }
                     connection.release();

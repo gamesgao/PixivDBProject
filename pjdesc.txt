@@ -316,7 +316,7 @@ return页面register.ejs
 /user@get
 	Param 无
 	Return 页面 searchUser.ejs
-		用于搜索用户
+		用于搜索用户，暂且只支持通过名字搜索
 	Ejs 无？
 
 /user@post
