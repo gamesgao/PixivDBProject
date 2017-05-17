@@ -5,13 +5,15 @@
  */
 
 var user = {
-	insert:'INSERT INTO user(username,type,password,alipay_address) VALUES (?,?,?,?);',
-
+    addUser : '',
+    checkUserPassword : '', //返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID
     getUserName : 'SELECT username FROM user WHERE id = ?;',
-    getUserContributePainting : 'SELECT p.url AS url, c.painting AS illustID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',
+    getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',
+    getContributeNum : '',
     getFollowing : 'SELECT follower AS userID, icon AS header FROM follow, user WHERE follower = id and followee = ?;',
     getFollowingNum : 'SELECT count(*) AS following_num FROM follow WHERE followee = ?;',
-    getColletedPainting : 'SELECT p.url AS url, c.painting AS illustID FROM painting p, collection c WHERE c.user = ? and c.painting = p.id;',
+    getCollectedPainting : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, collection c WHERE c.user = ? and c.painting = p.id;',
+    getCollectedNum : '',
     getMostTag :'SELECT count(c.painting) as count, pt.tag as tag FROM contribute c,painting p, painting_tag pt WHERE c.user = 5 and c.painting = p.id and p.id = pt.painting GROUP BY tag ORDER BY count DESC;',
     getUserHeader : 'SELECT icon AS user_header FROM user WHERE id = ?;',
     getUserAlipay : 'SELECT alipay_address AS alipay FROM user WHERE id = ?;',
@@ -36,14 +38,14 @@ var user = {
     addPaintingTag : '',
     getBuyerFlag :'',
     getBriefTrade :'',
-    addTrade :'', //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,变量名为tradeID
+    addTrade :'', //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,返回值名为tradeID
     addTradeTags : '',
     getFullTrade : '',
     getApplier : '',
     addResponderForTrade :'',
     addApplierForTrade : '',
     getRelatedTrades : '',
-    addPainting :'', //注意:appPainting的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID
+    addPainting :'', //注意:appPainting的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
 
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',

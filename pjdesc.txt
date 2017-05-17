@@ -51,6 +51,7 @@ return页面register.ejs
 		关注的人：following[{
 			header: // 头像地址
 			userID: //用户ID
+			username
 		},...] // 只传三个
 		关注的人数：following_num
 		
@@ -77,7 +78,8 @@ return页面register.ejs
 	Param 无
 	Return 页面 config.ejs
 		这是用户个人设置页面，按照session来显示
-	Ejs 用户名称：username
+	Ejs config
+		用户名称：username
 		用户头像：user_header：url
 		支付宝账号：alipay：
 		个人信息：user_info={项目名称：值}
@@ -91,14 +93,15 @@ return页面register.ejs
 
 /following@get？userID
 	Param userID
-	Return 页面 following.ejs
-		用于显示用户的关注用户
+	Return 页面 following.ejs			
 
-在这里实现删除功能
+		用于显示用户的关注用户
+		在这里实现删除功能
+
 	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID // 注意这里的userID就是get的参数那个ID
-关注的人：following 头像+名称+id，需要详细讨论。
+		用户ID：userID // 注意这里的userID就是get的参数那个ID
+		关注的人：following 头像+名称+id，需要详细讨论。
 		following=[{
 			header: url 头像图片地址
 			username: 用户名称
@@ -127,11 +130,11 @@ return页面register.ejs
 	Return 页面 collect.ejs
 		用于显示用户的关注用户
 
-在这里实现删除功能
+	在这里实现删除功能
 	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID
-收藏图片：collect 头像+名称+id，需要详细讨论。
+		用户ID：userID
+		收藏图片：collect 头像+名称+id，需要详细讨论。
 		collect=[{
 			url: url 图片地址
 			name: 图片名称
@@ -156,29 +159,27 @@ return页面register.ejs
 
 /contribute@get？userID
 	Param userID
-	Return 页面 contribute.ejs
-		用于显示用户的关注用户
+	Return 页面 contribute.ejs		
 
-在这里实现删除功能
+	在这里实现删除功能
 	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID
-关注的人：contribute 头像+名称+id，需要详细讨论。
+		用户ID：userID
+		提交的画:contribute
 		contribute=[{
 			url: url 图片地址
 			name: 图片名称
 			paintingID: 图片ID
 		},...]
-		关注的人数：contribute_num
+		提交的画数：contribute_num
 		是否是session对应的用户(即session中的userID和该页面的userID是否相同): isSelf: boolean
 		true: 是自己
 		false： 不是自己
 
 /addcontribute@get?paintingID
-	Param paintingID
-	Return 状态：status： 1：成功/0：失败
-			错误信息：err
-		用于为登陆用户增加收藏的画，将paintingID添加给用户		
+	Param no
+	Return addcontribute.ejs
+	显示上传页面	
 
 /delcontribute@get?paintingID
 	Param paintingID
@@ -337,3 +338,5 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 
+//TODO
+点赞&图片访问量 

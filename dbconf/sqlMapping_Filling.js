@@ -7,7 +7,7 @@
 var user = {
 	insert:'INSERT INTO user(username,type,password,alipay_address) VALUES (?,?,?,?);',
 	getUserName : 'SELECT username FROM user WHERE id = ?;',
-	getUserContributePainting : 'SELECT p.url AS url, c.painting AS illustID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',
+	getContribute : 'SELECT p.url AS url, c.painting AS illustID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',
     getFollowing : 'SELECT follower AS userID, icon AS header FROM follow, user WHERE follower = id and followee = ?;',
     getFollowingNum : 'SELECT count(*) AS following_num FROM follow WHERE followee = ?;',
     getColletedPainting : 'SELECT p.url AS url, c.painting AS illustID FROM painting p, collection c WHERE c.user = ? and c.painting = p.id;',
