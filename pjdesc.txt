@@ -20,6 +20,7 @@ return页面register.ejs
 	Param 用户名：username
 		   密码：password
 		   邮箱：alipay_address
+		   类型: 三种：ordinary, buyer, painter
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
 	注意：密码请加密存储。
