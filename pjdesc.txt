@@ -87,7 +87,15 @@ return页面register.ejs
 		用户头像：user_header：url
 用户ID：userID
 关注的人：following 头像+名称+id，需要详细讨论。
+		following=[{
+			header: url 头像图片地址
+			username: 用户名称
+			userID: 用户ID
+		},...]
 		关注的人数：following_num
+		是否是session对应的用户(即session中的userID和该页面的userID是否相同): isSelf: boolean
+		true: 是自己
+		false： 不是自己
 	
 
 /addfollowing@get?userID 注：这边的userID是被关注的人的ID
