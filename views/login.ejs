@@ -144,7 +144,7 @@
                                 app.status = "Success!";
                                 app.message = "You have logged in successfully!";
                                 setTimeout(function() {
-                                    location.href = '/homepage';
+                                    location.href = `/homepage?userID=${response.data.msg}`;
                                 }, 2000);
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
