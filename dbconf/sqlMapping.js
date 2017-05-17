@@ -22,7 +22,7 @@ var user = {
     addCollecting : 'INSERT INTO collection(user, painting) VALUES(?,?);',
     delCollecting : '',
     addContribute : '',
-    delContribute : '', //注意：delContribute返回值为删除画的ID，变量名为paintingID
+    delContribute : '', //注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : '',
     modifyUserInfo : '',
     getUserNameByPaintingID : '',

@@ -481,7 +481,7 @@ function delContribute(req, res, next) {
                         state = 1;
                         message = '用户删除画成功';
                     }
-                    fs.rename('/upload/' + result[0]);
+                    fs.unlinkSync('/upload/img/header/' + result[0]);
                     res.json({
                         code: state,
                         msg: message

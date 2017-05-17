@@ -340,3 +340,6 @@ return页面register.ejs
 
 //TODO
 点赞&图片访问量 
+
+头像上传路径：/upload/img/header
+画上传路径: /upload/img/painting
