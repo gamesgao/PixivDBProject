@@ -40,6 +40,7 @@ function userlogin(req, res, next) {
                         req.session.userID = result[0].userID;
                         status = 1;
                         message = '用户注册成功';
+                        
                     }
                 }
                 req.json({status:status, msg:message});

@@ -5,7 +5,7 @@
  */
 
 var user = {
-    addUser : '',
+    addUser : 'INSERT INTO user(username,type,password,alipay_address) VALUES (?,?,?,?);',
     checkUserPassword : '', //返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
     getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
