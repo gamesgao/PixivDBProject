@@ -149,7 +149,7 @@
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
-                                app.message = `Something wrong while logging ERR:${response.data.err}`;
+                                app.message = `Something wrong while logging ERR:${response.data.msg}`;
                                 $('#warning').modal({});
                             }
                         },
