@@ -16,6 +16,7 @@ router.get('/delfollowing', delFollowing);
 router.get('/addcollect', addCollecting);
 router.get('/delcollect', delCollecting);
 router.post('/contributeupload', upload.single('painting'), contributeUpload);
+router.get('/addcontribute', addContribute);
 router.get('/delcontribute', delContribute);
 
 function data(req, res, next) {
@@ -288,6 +289,16 @@ function delCollecting(req, res, next) {
         //handle error
     }
 }
+
+
+function addContribute(req, res, next) {
+    var userID = req.session.userID;
+    if (userID)
+    {
+        render('');
+    }
+}
+
 
 function delContribute(req, res, next) {
     var userID = req.session.userID;

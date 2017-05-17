@@ -33,7 +33,7 @@ return页面register.ejs
 	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管 //这里打算直接用p站那样一个列表www
 		投稿作品：contribute_painting[{
 			url: //图片地址
-			illustID: // 图片ID
+			paintingID: // 图片ID
 		},...] //这里虽然传几个都可以，但是只传三个就好。
 		用户名称：username
 		关注的人：following[{
@@ -45,7 +45,7 @@ return页面register.ejs
 
 		收藏的画：colloect_painting[{
 			url: //图片地址
-			illustID: // 图片ID
+			paintingID: // 图片ID
 		},...]// 只传三个
 		Tag：tag [], 字符串
 		用户头像：user_header：url
@@ -140,9 +140,9 @@ return页面register.ejs
 用户设置上传，访问
 
 /illust页面下
-/@get？illustID
-	Param illustID
-	Return 页面 illust.ejs
+/@get？paintingID
+	Param paintingID
+	Return 页面 painting.ejs
 		用户画的展示页面
 	Ejs 用户名称：username
 		用户头像：user_header：url
