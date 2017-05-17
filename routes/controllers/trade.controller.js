@@ -221,7 +221,7 @@ function selectPainter(req, res, next) {
                     res.json({
                         status : status,
                         msg : message
-                    })
+                    });
                     connection.release();
                     return;
                 });
