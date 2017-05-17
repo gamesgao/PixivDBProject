@@ -8,60 +8,52 @@ var jsonWrite = require('../../dbconf/jsonWrite.js');
 router.get('/', index);
 router.post('/reg', register);
 
+//get
 function index(req, res, next) {
 
-    // ?a = 1
-    // a = req.query.a;
-    var data = req.query;
-    if (!(req.session.userID)) {
-        res.json({
-            code: '0',
-            msg: '用户未登录'
-        });
+    var userID = req.session.userID;
+    if (!(userID)) { //user not login
+        res.render('register');
         return;
     }
-
-    res.render('Wrong', {
-        title: 'pm2.5 cloud platform',
-    });
-    return;
+    else
+    {
+        res.redirect('/error?'); //which website?
+    }
 }
+
 
 // assume the front-end sends the following when the user registers:
 // username,type,password,alipay_address
 // alipay_address can be null
 // the attribute in the req.body should be the same as the on in database
 
+//Post
 function register(req, res, next) {
-    // object.a = 1;
-    // var a = req.body.a;
-    //var user = req.body;    
-    /*var user = {
-        username : 'gaoyu',
-        type : 'painter',
-        password : '123',   
-        alipay_address : 'mail'             
-    };*/
-    //var userID = req.session.userID;
     var user = req.body;
-
+    var status = 0;
+    var message = '';
     pool.getConnection(function(err, connection) {
         if (err) {
-            // handle error  
+            // handle error
+            status = 0;
+            message = 'connection failed';
+            req.json({status:status, msg:message});
+            return;
         }
         connection.query(
-            sql.insert, [user.username, user.type, user.password, user.alipay_address],
+            sql.addUser, [user.username, user.type, user.password, user.alipay_address],
             function(err, result) {
                 if (err) {
-                    // handle error  
+                    // handle error
+                    status = 0;
+                    message = '用户注册失败';
                 }
                 if (result) {
-                    result = {
-                        code: 1,
-                        msg: '用户注册成功'
-                    }
+                    status = 1;
+                    message = '用户注册成功';
                 }
-                jsonWrite(res, result);
+                req.json({status:status, msg:message});
                 connection.release();
                 return;
             }
