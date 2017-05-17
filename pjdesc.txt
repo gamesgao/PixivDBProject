@@ -185,7 +185,7 @@ return页面register.ejs
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
-		用于为登陆用户增加收藏的画，将paintingID添加给用户		
+		用于为登陆用户删除收藏的画，注意权限判断
 
 朋友/收藏的画/投稿作品同理，请你补全
 

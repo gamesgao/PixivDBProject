@@ -452,7 +452,7 @@ function addContribute(req, res, next) {
     }
     else
     {
-        redirect('/login');
+        res.redirect('/login');
     }
 }
 
@@ -481,13 +481,17 @@ function delContribute(req, res, next) {
                         state = 1;
                         message = '用户删除画成功';
                     }
-                    fs.rename(req.file.filename, '/upload/' + result[0]);
+                    fs.rename('/upload/' + result[0]);
                     res.json({
                         code: state,
                         msg: message
                     });
                 });
         });
+    }
+    else
+    {
+        res.redirect('/login');
     }
 }
 
