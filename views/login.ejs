@@ -138,7 +138,7 @@
                         "username": this.username,
                         "password": this.password
                     };
-                    this.$http.post('/login/login', data).then(
+                    this.$http.post('/login', data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
