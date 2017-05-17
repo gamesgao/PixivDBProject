@@ -171,7 +171,7 @@
                                     app.status = "Success!";
                                     app.message = "You have registered successfully!";
                                     setTimeout(function() {
-                                        locatoin.href = '/login';
+                                        location.href = '/login';
                                     }, 2000);
                                     $('#warning').modal({});
                                 } else if (response.data.status == 0) {
