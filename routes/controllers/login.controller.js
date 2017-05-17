@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var pool = require('../../dbconf/pool.js');
+var sql = require('../../dbconf/sqlMapping.js');
 
 router.get('/', index);
 router.post('/', userlogin);
@@ -19,7 +21,7 @@ function userlogin(req, res, next) {
             // handle error
             status = 0;
             message = 'connection failed';
-            req.json({status:status, msg:message});
+            res.json({status:status, msg:message});
             return;
         }
         connection.query(
@@ -34,16 +36,15 @@ function userlogin(req, res, next) {
                     if (result[0].userID < 0)
                     {
                         status = 0;
-                        message = '用户登录失败';
+                        message = '用户登录成功';
                     }
                     else {
                         req.session.userID = result[0].userID;
                         status = 1;
-                        message = '用户注册成功';
-                        
+                        message = req.session.userID;
                     }
                 }
-                req.json({status:status, msg:message});
+                res.json({status:status, msg:message});
                 connection.release();
                 return;
             }

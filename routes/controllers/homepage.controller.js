@@ -22,15 +22,16 @@ router.get('/delcontribute', delContribute);
 function data(req, res, next) {
 	var data = req.query;
 	var userID = data.userID;
+	var sessionUserID = req.session.userID;
 	//try multiple queries
-    if (userID) {
+    if (sessionUserID) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
                 res.render('error');
             }
             connection.query(
-                sql.getUserContributePainting +
+                sql.getContribute +
                 sql.getUserName +
                 sql.getFollowing +
                 sql.getFollowingNum +
