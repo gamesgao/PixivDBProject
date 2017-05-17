@@ -1,3 +1,3 @@
 module.exports = [
-    { 'url': '/trade', 'cpath': 'trade.controller.js' },
+    { 'url': '/trade', 'cpath': 'trade.controller.js' }
 ]

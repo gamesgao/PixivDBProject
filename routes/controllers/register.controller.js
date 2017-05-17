@@ -18,7 +18,7 @@ function index(req, res, next) {
     }
     else
     {
-        res.redirect('/error?'); //which website?
+        res.redirect('/homepage'); //which website?
     }
 }
 

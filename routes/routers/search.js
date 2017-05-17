@@ -1,3 +1,3 @@
 module.exports = [
-    { 'url': '/search', 'cpath': 'search.controller.js' },
+    { 'url': '/search', 'cpath': 'search.controller.js' }
 ]
