@@ -11,7 +11,7 @@ router.post('/reg', register);
 //get
 function index(req, res, next) {
 
-    var userID = res.session.userID;
+    var userID = req.session.userID;
     if (!(userID)) { //user not login
         res.render('register');
         return;
@@ -42,7 +42,7 @@ function register(req, res, next) {
             return;
         }
         connection.query(
-            sql.addUser, [user.username, user.type, user.password, user.alipay_address],
+            sql.addUser, [user.username, 'o', user.password, undefined],
             function(err, result) {
                 if (err) {
                     // handle error
