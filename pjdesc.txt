@@ -33,7 +33,7 @@ return页面register.ejs
 	Ejs 个人信息：pdata={项目名称：值} //项太多了先不管 //这里打算直接用p站那样一个列表www
 		投稿作品：contribute_painting[{
 			url: //图片地址
-			illustID: // 图片ID
+			paintingID: // 图片ID
 		},...] //这里虽然传几个都可以，但是只传三个就好。
 		用户名称：username
 		关注的人：following[{
@@ -45,7 +45,7 @@ return页面register.ejs
 
 		收藏的画：colloect_painting[{
 			url: //图片地址
-			illustID: // 图片ID
+			paintingID: // 图片ID
 		},...]// 只传三个
 		Tag：tag [], 字符串
 		用户头像：user_header：url
@@ -85,7 +85,7 @@ return页面register.ejs
 在这里实现删除功能
 	Ejs 用户名称：username
 		用户头像：user_header：url
-用户ID：userID
+用户ID：userID // 注意这里的userID就是get的参数那个ID
 关注的人：following 头像+名称+id，需要详细讨论。
 		following=[{
 			header: url 头像图片地址
@@ -110,6 +110,26 @@ return页面register.ejs
 			错误信息：err
 		用于为登陆用户删除关注，将userID删除给登陆用户
 
+/collect@get？userID
+	Param userID
+	Return 页面 collect.ejs
+		用于显示用户的关注用户
+
+在这里实现删除功能
+	Ejs 用户名称：username
+		用户头像：user_header：url
+用户ID：userID
+收藏图片：collect 头像+名称+id，需要详细讨论。
+		collect=[{
+			url: url 图片地址
+			name: 图片名称
+			paintingID: 图片ID
+		},...]
+		收藏图片数量：collect_num
+		是否是session对应的用户(即session中的userID和该页面的userID是否相同): isSelf: boolean
+		true: 是自己
+		false： 不是自己
+
 /addcollect@get?paintingID
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
@@ -120,7 +140,27 @@ return页面register.ejs
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：err
-		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户		
+		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户	
+
+/contribute@get？userID
+	Param userID
+	Return 页面 contribute.ejs
+		用于显示用户的关注用户
+
+在这里实现删除功能
+	Ejs 用户名称：username
+		用户头像：user_header：url
+用户ID：userID
+关注的人：contribute 头像+名称+id，需要详细讨论。
+		contribute=[{
+			url: url 图片地址
+			name: 图片名称
+			paintingID: 图片ID
+		},...]
+		关注的人数：contribute_num
+		是否是session对应的用户(即session中的userID和该页面的userID是否相同): isSelf: boolean
+		true: 是自己
+		false： 不是自己
 
 /addcontribute@get?paintingID
 	Param paintingID
@@ -140,8 +180,8 @@ return页面register.ejs
 用户设置上传，访问
 
 /illust页面下
-/@get？illustID
-	Param illustID
+/@get？paintingID
+	Param paintingID
 	Return 页面 illust.ejs
 		用户画的展示页面
 	Ejs 用户名称：username
