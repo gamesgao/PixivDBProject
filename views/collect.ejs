@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Vixip
+    </title>
+    <!--Vue-->
+    <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/vue-resource.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <!--Flat UI-->
+    <link href="/stylesheets/flat-ui.css" rel="stylesheet">
+    <!--User-->
+    <link rel='stylesheet' href='/stylesheets/collect.css' />
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <style>
+        body {
+            /*min-height: 2000px;*/
+            padding-top: 70px;
+        }
+    </style>
+    <!--<img id='bg' src='/img/main-bg.jpg' />-->
+    <!--this is for Vue-->
+    <div id="app">
+
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>  
+                    </button>
+                    <a class="navbar-brand" href="/">Vixip</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right" action="#" role="search">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                                <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/comm">Predict</a></li>
+                        <li><a href="/data">Search</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <!--webpage body-->
+        <div id="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="user">
+                            <div class="user-header">
+                                <img alt="..." class="img-circle" src=<%=user_header %> />
+                            </div>
+                            <div class="intro last">
+                                <h4>
+                                    <%=username %>
+                                </h4>
+                                <br/>
+                                <button class="btn btn-primary btn-hg" @click="follow">Follow</button>
+
+                            </div>
+                        </div>
+                        <!--<div class="user">
+                            <div class="user-following">
+                                <h3>Following<span class="badge"><%=following_num %></span></h3>
+                            </div>
+                            <ul class="intro last list-inline">
+                                <% for(var i=0; i<following.length; i++) { %>
+                                    <li>
+                                        <a href=<%='/homepage?userID=' +following[i].userID %> class="following-icon ">
+                                            <img alt="... " class="img-circle " src=<%=following[i].header %> width="30 " />
+                                        </a>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <div class="user">
+                            <div class="user-following">
+                                <h3>Tag</h3>
+                            </div>
+                            <ul class="intro last list-inline">
+                                <% for(var i=0; i<tag.length; i++) { %>
+                                    <li>
+                                        <p>
+                                            <%- tag[i] %>
+                                        </p>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>-->
+                        <!--the others are the same-->
+                    </div>
+
+
+                    <div class="col-md-9 ">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading "><a href="#">Bookmarks</a><span class="badge"><%=collect_num %></span></div>
+                            <div class="panel-body">
+                                <% for(var i=0; i<collect.length; i++) { %>
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="tile">
+                                            <img src=<%=collect[i].url %> alt="Infinity-Loop" class="tile-image">
+                                            <h3 class="tile-title ">
+                                                <%=collect[i].name %>
+                                            </h3>
+                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + collect[i].paintingID %> >More</a>
+
+                                            <!--条件显示-->
+                                            <% if (isSelf) { %>
+                                                <button class="btn btn-danger btn-large btn-block" @click="delCollect(<%=collect[i].paintingID %>)">Delete</button>
+                                                <% } %>
+
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{message}}</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--footer part-->
+        <footer>
+            <div class="container ">
+                <div class="row ">
+                    <div class="col-md-10 ">
+                        <p>PM2.5 cloud platform by SJTU
+                        </p>
+                    </div>
+                    <div class="col-md-2 ">
+                        <p><a href="# ">&copy; 联系我们</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="/javascripts/jquery.js "></script>
+    <script src="/javascripts/flat-ui.js "></script>
+    <script src="/javascripts/application.js"></script>
+    <!-- 注意bind的js必须放在页面的最后 -->
+    <script type="text/javascript ">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                userID: '<%=userID %>',
+                status: "",
+                message: ""
+            },
+            methods: {
+                follow: function() {
+                    this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Follow successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.err}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                delCollect: function(paintingID) {
+                    this.$http.get(`/homepage/delcollect?paintingID=${paintingID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "UnBookmark successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while unbookmark ERR:${response.data.err}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
