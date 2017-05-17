@@ -35,7 +35,7 @@ function data(req, res, next) {
                 sql.getUserName +
                 sql.getFollowing +
                 sql.getFollowingNum +
-                sql.getColletedPainting +
+                sql.getCollectedPainting +
                 sql.getMostTag +
                 sql.getUserHeader,
                 [userID, userID, userID, userID, userID, userID, userID]
