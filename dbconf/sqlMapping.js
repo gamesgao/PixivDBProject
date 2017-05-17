@@ -6,7 +6,7 @@
 
 var user = {
     addUser : 'INSERT INTO user(username,type,password,alipay_address,icon) VALUES(?,?,?,?,?);',
-    checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户id第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID
+    checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户id,第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
     getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?',
@@ -25,9 +25,9 @@ var user = {
     delContribute : '', //注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
     modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? WHERE id = ?;',//TO BE MODIFIED
-    getUserNameByPaintingID : '',
-    getUserHeaderByPaintingID : '',
-    getUserIDByPaintingID : '',
+    getUserNameByPaintingID : 'SELECT username FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
+    getUserHeaderByPaintingID : 'SELECT icon AS user_header FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
+    getUserIDByPaintingID : 'SELECT id AS userID FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUrl : '',
     getTagByPaintingID : '',
     getCreatedTime : '',
