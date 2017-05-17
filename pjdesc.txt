@@ -25,6 +25,18 @@ return页面register.ejs
 	注意：密码请加密存储。
 			用户名注意查重。
 
+/login目录下
+/@get
+	Param 无
+	return 页面 login.ejs
+	Ejs 无
+
+/login@post
+	param 用户名：username
+			密码：password
+	Return 状态：status： 1：成功/0：失败
+			错误信息：err
+
 /homepage目录下
 /@get?userID = 123
 	Param userID
