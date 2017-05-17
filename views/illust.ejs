@@ -15,7 +15,7 @@
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
     <!--User-->
-    <link rel='stylesheet' href='/stylesheets/collect.css' />
+    <link rel='stylesheet' href='/stylesheets/illust.css' />
 </head>
 
 <body>
@@ -75,7 +75,6 @@
                                 </h4>
                                 <br/>
                                 <button class="btn btn-primary btn-hg" @click="follow">Follow</button>
-
                             </div>
                         </div>
                         <!--the others are the same-->
@@ -84,26 +83,48 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Bookmarks</a><span class="badge"><%=collect_num %></span></div>
+                            <div class="panel-heading ">
+                                <a href="#">
+                                    <%=painting_name %>
+                                </a>
+                            </div>
+
                             <div class="panel-body">
-                                <% for(var i=0; i<collect.length; i++) { %>
-                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
-                                        <div class="tile">
-                                            <img src=<%=collect[i].url %> alt="Infinity-Loop" class="tile-image">
-                                            <h3 class="tile-title ">
-                                                <%=collect[i].name %>
-                                            </h3>
-                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + collect[i].paintingID %> >More</a>
-
-                                            <!--条件显示-->
-                                            <% if (isSelf) { %>
-                                                <button class="btn btn-danger btn-large btn-block" @click="delCollect(<%=collect[i].paintingID %>)">Delete</button>
-                                                <% } %>
-
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p title=<%=time %> data-placement="top" data-toggle="tooltip" class="text-center"> Time
+                                        </p>
                                     </div>
-                                    <% } %>
+                                    <div class="col-md-3">
+                                        <p title=<%=resolution %> data-placement="top" data-toggle="tooltip" class="text-center"> Resolution
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <a :title="starCount" data-placement="top" data-toggle="tooltip">
+                                        Star
+                                    </a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p title=<%=viewCount %> data-placement="top" data-toggle="tooltip" class="text-center"> ViewCount
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img src=<%=url %> alt="Infinity-Loop" class="img-rounded img-responsive" />
+                                        <!--<h3 class="tile-title ">Easy to Customize</h3>-->
+                                        <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2 col-md-offset-10">
+
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <button class="btn btn-default btn-block">Bookmark</button>
                             </div>
                         </div>
                     </div>
@@ -154,7 +175,8 @@
             data: {
                 userID: '<%=userID %>',
                 status: "",
-                message: ""
+                message: "",
+                starCount: '<%=ratedCount %>'
             },
             methods: {
                 follow: function() {
@@ -174,26 +196,11 @@
                             console.log(err);
                         }
                     )
-                },
-                delCollect: function(paintingID) {
-                    this.$http.get(`/homepage/delcollect?paintingID=${paintingID}`).then(
-                        function(response) {
-                            if (response.data.status == 1) {
-                                app.status = "Success!";
-                                app.message = "UnBookmark successfully!";
-                                $('#warning').modal({});
-                            } else if (response.data.status == 0) {
-                                app.status = "Error!";
-                                app.message = `Something wrong while unbookmark ERR:${response.data.err}`;
-                                $('#warning').modal({});
-                            }
-                        },
-                        function(err) {
-                            console.log(err);
-                        }
-                    )
                 }
             }
+        });
+        $(function() {
+            $('[data-toggle=tooltip]').tooltip('hide');
         });
     </script>
 </body>
