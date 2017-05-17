@@ -11,7 +11,7 @@ router.post('/reg', register);
 //get
 function index(req, res, next) {
 
-    var userID = req.session.userID;
+    var userID = res.session.userID;
     if (!(userID)) { //user not login
         res.render('register');
         return;
@@ -38,7 +38,7 @@ function register(req, res, next) {
             // handle error
             status = 0;
             message = 'connection failed';
-            req.json({status:status, msg:message});
+            res.json({status:status, msg:message});
             return;
         }
         connection.query(
@@ -53,7 +53,7 @@ function register(req, res, next) {
                     status = 1;
                     message = '用户注册成功';
                 }
-                req.json({status:status, msg:message});
+                res.json({status:status, msg:message});
                 connection.release();
                 return;
             }
