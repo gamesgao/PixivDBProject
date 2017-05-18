@@ -9,7 +9,7 @@ router.get('/addTag', addTag);
 router.get('/delTag', delTag);
 
 function comm(req, res, next) {
-    var illustID = req.require.illustId;
+    var illustID = req.query.illustId;
     if (illustID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -61,8 +61,8 @@ function comm(req, res, next) {
 
 function delTag(req, res, next) {
     var userID = req.session.userID;
-    var tag = req.body.tag;
-    var paintingID = req.require.paintingID;
+    var tag = req.query.tag;
+    var paintingID = req.query.paintingID;
     var status = 0;
     var message = '';
     if (userID && paintingID)
@@ -73,7 +73,7 @@ function delTag(req, res, next) {
             }
             connection.query(
                 sql.delPaintingTag,
-                [userID, tag, paintingID]
+                [paintingID, tag, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -102,8 +102,8 @@ function delTag(req, res, next) {
 }
 
 function addTag(req, res, next) {
-    var tag = req.body.tag;
-    var paintingID = req.require.paintingID;
+    var tag = req.query.tag;
+    var paintingID = req.query.paintingID;
     var status = 0;
     var message = '';
     if (userID && paintingID)
@@ -114,7 +114,7 @@ function addTag(req, res, next) {
             }
             connection.query(
                 sql.addPaintingTag,
-                [tag, paintingID]
+                [paintingID,tag]
                 , function (err, result) {
                     if (err) {
                         status = 0;

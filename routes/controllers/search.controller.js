@@ -44,4 +44,44 @@ function searchUser(req,res,next) {
         res.redirect('/login');
     }
 }
+
+function searchPainting(req,res,next) {
+    var userID = req.session.userID;
+    var userRequire = req.query;
+    var statement = 'select * from painting where ';
+    if (userRequire.byID)
+    {
+        statement += '';
+    }
+    var namesnippet = req.query.namesnippet;
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+            }
+            connection.query(
+                sql.searchUserByName
+                ,
+                [namesnippet]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        res.render('error');
+                    }
+                    if (result) {
+                        res.render('user', {
+                            user : result[0]
+                        });
+                    }
+                    connection.release();
+                }
+            );
+        });
+    }
+    else {
+        //handle error
+        res.redirect('/login');
+    }
+}
+
 module.exports = router;

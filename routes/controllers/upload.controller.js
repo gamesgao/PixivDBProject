@@ -44,7 +44,7 @@ function paintingUpload(req, res, next) {
                 // handle error
             }
             connection.query(
-                sql.addPainting,
+                sql.addContribute,
                 [userID, paintingID],
                 function (err, result) {
                     var state = 0;

@@ -165,7 +165,7 @@ function configUpload(req, res, next) {
 
 function following(req, res, next) {
     var userID = req.session.userID;
-    var homepageID = req.require.userID;
+    var homepageID = req.query.userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -285,7 +285,7 @@ function delFollowing(req, res, next) {
 
 function collect(req, res, next) {
     var userID = req.session.userID;
-    var homepageID = req.require.userID;
+    var homepageID = req.query.userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -405,7 +405,7 @@ function delCollecting(req, res, next) {
 
 function contribute(req, res, next) {
     var userID = req.session.userID;
-    var homepageID = req.require.userID;
+    var homepageID = req.query.userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -458,6 +458,7 @@ function addContribute(req, res, next) {
 
 function delContribute(req, res, next) {
     var userID = req.session.userID;
+    var paintingID = req.query.paintingID;
     var status = 0;
     var message = '';
     if (userID)

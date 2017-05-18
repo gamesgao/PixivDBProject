@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 var jsonWrite = require('../../dbconf/jsonWrite.js');
+const fs = require('fs-extra');
 
 router.get('/', index);
 router.post('/reg', register);
@@ -42,7 +43,7 @@ function register(req, res, next) {
             return;
         }
         connection.query(
-            sql.addUser, [user.username, 'o', user.password, undefined],
+            sql.addUser, [user.username, user.usertype, user.password, undefined],
             function(err, result) {
                 if (err) {
                     // handle error
@@ -52,6 +53,14 @@ function register(req, res, next) {
                 if (result) {
                     status = 1;
                     message = '用户注册成功';
+                    try {
+                        fs.copySync('/upload/default/temp.png', '/upload/img/header/'+result.insertId+'.png');
+                        console.log('success!');
+                    } catch (err) {
+                        console.error(err);
+                        status = 0;
+                        message = '用户头像上传失败';
+                    }
                 }
                 res.json({status:status, msg:message});
                 connection.release();
