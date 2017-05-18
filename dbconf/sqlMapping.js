@@ -21,19 +21,19 @@ var user = {
     delFollowing : 'DELETE FROM follow WHERE follower = ? and followee = ?;',
     addCollecting : 'INSERT INTO collection(user, painting) VALUES(?,?);',
     delCollecting : 'DELETE FROM collection WHERE user = ? and painting = ?;',
-    addContribute : '',
-    delContribute : '', //注意：delContribute返回值为删除画的url，变量名为paintingurl
+    addContribute : '',//这个函数的功能是不是和下面addPainting重合了？@陈旭旸
+    delContribute : 'SELECT delContribute(?,?) AS paintingurl', //第一个参数是paintingID,第二个参数是userID。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
     modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? WHERE id = ?;',//TO BE MODIFIED
     getUserNameByPaintingID : 'SELECT username FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserHeaderByPaintingID : 'SELECT icon AS user_header FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserIDByPaintingID : 'SELECT id AS userID FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
-    getUrl : '',
-    getTagByPaintingID : '',
-    getCreatedTime : '',
-    getResolution : '',
-    getRatedCount : '',
-    getViewCount : '',
+    getUrl : 'SELECT url FROM painting WHERE id = ?;',//输入是paintingID,输出是painting的URL
+    getTagByPaintingID : 'SELECT tag FROM painting_tag WHERE painting = ?;',
+    getCreatedTime : 'SELECT upload_time AS time FROM painting WHERE id = ?;',
+    getResolution : 'SELECT width*length AS resolution FROM painting WHERE id = ?;',
+    getRatedCount : 'SELECT upvote AS ratedCount FROM painting WHERE id = ?;',
+    getViewCount : 'SELECT page_view AS viewCount FROM painting WHERE id = ?;',
     delPaintingTag : '',
     addPaintingTag : '',
     getBuyerFlag :'',
