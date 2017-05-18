@@ -14,8 +14,8 @@ var options = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
-    database: 'dbproject'
+    password: 'f1403018409',
+    database: 'test'
 };
 
 var sessionStore = new MySQLStore(options);
