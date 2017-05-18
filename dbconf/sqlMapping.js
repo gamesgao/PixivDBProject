@@ -22,7 +22,7 @@ var user = {
     addCollecting : 'INSERT INTO collection(user, painting) VALUES(?,?);',
     delCollecting : 'DELETE FROM collection WHERE user = ? and painting = ?;',
     addContribute : '',//这个函数的功能是不是和下面addPainting重合了？@陈旭旸
-    delContribute : 'SELECT delContribute(?,?) AS paintingurl', //第一个参数是paintingID,第二个参数是userID。注意：delContribute返回值为删除画的url，变量名为paintingurl
+    delContribute : 'SELECT delContribute(?,?) AS paintingurl', //第一个参数是paintingID,第二个参数是userID,该函数会级联删除所有与当前画作有关的信息。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
     modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? WHERE id = ?;',//TO BE MODIFIED
     getUserNameByPaintingID : 'SELECT username FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
@@ -34,8 +34,8 @@ var user = {
     getResolution : 'SELECT width*length AS resolution FROM painting WHERE id = ?;',
     getRatedCount : 'SELECT upvote AS ratedCount FROM painting WHERE id = ?;',
     getViewCount : 'SELECT page_view AS viewCount FROM painting WHERE id = ?;',
-    delPaintingTag : '',
-    addPaintingTag : '',
+    delPaintingTag : 'SELECT delPaintingTag(?,?,?) AS status;',//这个函数的第一个参数是paintingID,第二个参数是paintingTag,第三个参数是操作用户的id，只有画师可以删Tag @陈旭旸
+    addPaintingTag : 'INSERT INTO painting_tag WHERE painting = ? AND tag = ?;',
     getBuyerFlag :'',
     getBriefTrade :'',
     addTrade :'', //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,返回值名为tradeID
@@ -52,7 +52,7 @@ var user = {
 	queryById: 'select * from user where id=?',
 	queryAll: 'select * from user'
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
-    searchUserByName :'',
+    searchUserByName :'select * from user where username = ?',
 };
 
 module.exports = user;
