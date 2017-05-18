@@ -108,3 +108,12 @@ ul.intro li {
     font-size: 24px;
     padding: 11px 22px 0 0;
 }
+
+hr {
+    margin: 0;
+}
+
+.intro .form-group {
+    margin: 0;
+    padding-right: 10px;
+}
