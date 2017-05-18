@@ -82,31 +82,31 @@
                                 <h3>Tag</h3>
                             </div>
                             <ul class="intro">
-                                <% for(var i=0; i<tag.length; i++) { %>
+                                <template v-for="tag in tags">
                                     <li>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <label for="delete" class="col-lg-2 col-lg-offset-1 col-sm-2 control-label text-center"><%- tag[i] %></label>
+                                                <label for="delete" class="col-lg-2 col-lg-offset-1 col-sm-2 control-label text-center">{{tag}}</label>
                                                 <div class="pull-right">
-                                                    <button class="btn btn-primary btn-xs" id="delete">Delete</button>
+                                                    <button class="btn btn-primary btn-xs" id="delete" @click="delTag(tag)">Delete</button>
                                                 </div>
                                             </div>
                                         </form>
                                         <hr>
                                     </li>
-                                    <% } %>
+                                </template>
                             </ul>
                             <form class="form-inline intro last" role="form">
                                 <div class="form-group">
                                     <label for="newTag" class="sr-only">New</label>
                                     <div>
-                                        <input type="text" class="form-control input-sm" id="newTag" placeholder="Tag">
+                                        <input type="text" class="form-control input-sm" id="newTag" v-model="newTag" placeholder="Tag">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="submitTag" class="sr-only">New</label>
                                     <div>
-                                        <button class="btn btn-primary btn-xs" id="submitTag">Submit</button>
+                                        <button class="btn btn-primary btn-xs" id="submitTag" @click="addTag">Submit</button>
                                     </div>
                                 </div>
                             </form>
@@ -134,9 +134,9 @@
                                         </p>
                                     </div>
                                     <div class="col-md-3 text-center">
-                                        <a :title="starCount" data-placement="top" data-toggle="tooltip">
+                                        <a :title="starCount" data-placement="top" data-toggle="tooltip" @click="rated">
                                         Star
-                                    </a>
+                                        </a>
                                     </div>
                                     <div class="col-md-3">
                                         <p title=<%=viewCount %> data-placement="top" data-toggle="tooltip" class="text-center"> ViewCount
@@ -150,15 +150,9 @@
                                         <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
                                     </div>
                                 </div>
-
-
-                                <div class="col-md-2 col-md-offset-10">
-
-                                </div>
-
                             </div>
                             <div class="panel-footer">
-                                <button class="btn btn-primary btn-block">Bookmark</button>
+                                <button class="btn btn-primary btn-block" @click="bookmark">Bookmark</button>
                             </div>
                         </div>
                     </div>
@@ -208,10 +202,12 @@
             el: '#app',
             data: {
                 userID: '<%=userID %>',
+                paintingID: '<%=paintingID%>',
                 status: "",
                 message: "",
                 starCount: '<%=ratedCount %>',
-                test: JSON.parse('<%-tag %>')
+                tags: JSON.parse('<%-tag %>')，
+                newTag: ""
             },
             methods: {
                 follow: function() {
@@ -231,7 +227,97 @@
                             console.log(err);
                         }
                     )
+                },
+                bookmark: function() {
+                    this.$http.get(`/homepage/addcollect?paintingID=${this.paintingID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Bookmark successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while bookmarking ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                delTag: function(tag) {
+                    var data = {};
+                    data.paintingID = this.paintingID;
+                    data.tag = tag;
+                    this.$http.post('/illust/delTag', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Delete tag successfully!";
+                                console.log(data);
+                                for (var i = 0; i < app.tags.length; i++) {
+                                    var temp = app.tags.shift();
+                                    if (temp != data.tag) {
+                                        app.tags.push(temp);
+                                    }
+                                }
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while deleting ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                addTag: function() {
+                    var data = {};
+                    data.paintingID = this.paintingID;
+                    data.tag = this.newTag;
+                    this.$http.post('/illust/addTag', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Bookmark successfully!";
+                                app.tags.push(this.newTag);
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while bookmarking ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                rated: function() {
+                    var data = {};
+                    data.paintingID = this.paintingID;
+                    this.$http.post('/illlust/rated', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Bookmark successfully!";
+                                app.starCount = Number(app.starCount) + 1;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while bookmarking ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
                 }
+
             }
         });
         $(function() {
