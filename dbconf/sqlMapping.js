@@ -46,14 +46,14 @@ var user = {
     //我网上看到JDBC有一个函数可以取得当前table的自增值，而且线程内部也安全，可以看看JS有没有这样的函数 @陈旭旸
     //不过这个写在函数里面应该没有其他insert可以影响，所以先这样
     //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,返回值名为tradeID
-    addTradeTags : '',
-    getFullTrade : '',
-    getApplier : '',
+    addTradeTags : 'INSERT INTO trade_tag VALUES(?,?);',//第一个值是tradeID,第二个值是tag
+    getFullTrade : 'SELECT * FROM trade WHERE id = tradeID;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
+    getApplier : 'SELECT painter AS applier FROM trade WHERE id = tradeID;',
     addResponderForTrade :'',
     addApplierForTrade : '',
     getRelatedTrades : '',
     addPainting :'', //注意:appPainting的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
-
+    //addParinting的返回值同样存在和addTrade一样的问题
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',
 	queryById: 'select * from user where id=?',
