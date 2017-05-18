@@ -20,11 +20,8 @@ return页面register.ejs
 	Param 用户名：username
 		   密码：password
 		   邮箱：alipay_address
-<<<<<<< Updated upstream
-		   类型: type 三种：o, p, b
-=======
 		   类型: 三种：o, p, b,叫 usertype
->>>>>>> Stashed changes
+
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 	注意：密码请加密存储。
@@ -336,8 +333,6 @@ return页面register.ejs
 
 			byID
 			byTopic
-			byWidth
-			byLength
 			byUpvote
 			byPageView
 			OrderByID
@@ -347,6 +342,7 @@ return页面register.ejs
 		painting[{
 			url: //图片地址
 			paintingID: // 图片ID
+			upvote: 
 		}
 	
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行

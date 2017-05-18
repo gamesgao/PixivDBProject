@@ -5,7 +5,8 @@ var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 
 router.get('/', search);
-router.get('/user', searchUser);
+router.post('/user', searchUser);
+router.post('/painting',searchPainting);
 
 
 function search(req, res, next) {
@@ -45,12 +46,12 @@ function searchUser(req,res,next) {
     }
 }
 
+//post
 function searchPainting(req,res,next) {
     var userID = req.session.userID;
-    var userRequire = req.query;
+    var userRequire = req.body;
     var statement = 'select * from painting where ';
-    if (userRequire.byID)
-    {
+    if (userRequire.byID) {
         statement += '';
     }
     var namesnippet = req.query.namesnippet;
