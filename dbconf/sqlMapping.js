@@ -36,9 +36,16 @@ var user = {
     getViewCount : 'SELECT page_view AS viewCount FROM painting WHERE id = ?;',
     delPaintingTag : 'SELECT delPaintingTag(?,?,?) AS status;',//这个函数的第一个参数是paintingID,第二个参数是paintingTag,第三个参数是操作用户的id，只有画师可以删Tag @陈旭旸
     addPaintingTag : 'INSERT INTO painting_tag WHERE painting = ? AND tag = ?;',
-    getBuyerFlag :'',
-    getBriefTrade :'',
-    addTrade :'', //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,返回值名为tradeID
+    getBuyerFlag :'SELECT getBuyerFlag(?) AS buyerflag;',//返回0代表不是买家，返回1代表是买家
+    getBriefTrade :'SELECT buyer, price, deadline AS ddl, status AS state FROM trade WHERE id = ?;',
+    addTrade :'SELECT addTrade(?,?,?,?,?,?,?) AS tradeID;', 
+    //addTrade参数如下：描述，价格，结束时间（这个创建的时候可能还不知道，就随便给一个），DDL，状态（数字字母都行），买家，卖家
+    //示例：SELECT addTrade('no description',50,'2027:05:09 23:59:59','2027:05:09 23:59:59',4,1,5);
+    //创建时间由插入数据库的时间自动产生
+    //返回值是当前trade的ID，这个值是线程安全的，但是线程内部如果调用其他insert的话就会得到新insert的id，结果没法测试，先按这个来
+    //我网上看到JDBC有一个函数可以取得当前table的自增值，而且线程内部也安全，可以看看JS有没有这样的函数 @陈旭旸
+    //不过这个写在函数里面应该没有其他insert可以影响，所以先这样
+    //注意：这边的addTrade是一个procedure，返回值为新加入trade的id,返回值名为tradeID
     addTradeTags : '',
     getFullTrade : '',
     getApplier : '',
@@ -50,7 +57,7 @@ var user = {
 	update:'update user set name=?, age=? where id=?',
 	delete: 'delete from user where id=?',
 	queryById: 'select * from user where id=?',
-	queryAll: 'select * from user'
+	queryAll: 'select * from user',
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
     searchUserByName :'select * from user where username = ?',
 };
