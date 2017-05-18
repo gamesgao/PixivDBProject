@@ -51,6 +51,8 @@ var user = {
 	delete: 'delete from user where id=?',
 	queryById: 'select * from user where id=?',
 	queryAll: 'select * from user'
+    cancelTrade :'', //这个比较麻烦，有时间讨论一下
+    searchUserByName :'',
 };
 
 module.exports = user;
