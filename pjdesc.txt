@@ -333,7 +333,7 @@ return页面register.ejs
 
 /painting@post
 	Param tag
-<<<<<<< HEAD
+
 			byID
 			byTopic
 			byWidth
@@ -348,12 +348,6 @@ return页面register.ejs
 			url: //图片地址
 			paintingID: // 图片ID
 		}
-=======
-			Name等？
-	Return 状态：status： 1：成功/0：失败
-			错误信息：msg
-			结果：result
->>>>>>> origin/master
 	
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
 
