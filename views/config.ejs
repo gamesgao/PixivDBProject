@@ -234,7 +234,7 @@
                     } else {
                         data.newAlipay = this.oldAlipay;
                     }
-                    this.$http.post('/homepage/config/upload', data).then(
+                    this.$http.post('/homepage/configUpload', data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
