@@ -9,7 +9,7 @@ var fs = require('fs');
 var upload = multer({ dest: 'uploads/' });
 router.get('/', data);
 router.get('/config', config);
-router.get('/config/upload', configUpload);
+router.post('/configUpload', configUpload);
 router.get('/following', following);
 router.get('/addfollowing', addFollowing);
 router.get('/delfollowing', delFollowing);
@@ -108,6 +108,7 @@ function config(req, res, next) {
     }
 }
 
+//post
 function configUpload(req, res, next) {
     var userID = req.session.userID;
     var newName = req.body.newname;
