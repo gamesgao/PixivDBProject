@@ -80,7 +80,6 @@
                         <!--the others are the same-->
                     </div>
 
-
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
                             <div class="panel-heading "><a href="#">User Config</a></div>
@@ -108,6 +107,40 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel panel-default ">
+                            <div class="panel-heading "><a href="#">User Header</a></div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="inputUsername" class="col-lg-2 control-label">Upload Header Image File</label>
+                                            <div class="col-lg-8">
+                                                <p class="form-control-static" id="inputUsername">{{ newFilename }}</p>
+                                            </div>
+                                            <div class="col-lg-2 upfilebox">
+                                                <input type="file" id="InputFile" @change="getFiles">
+                                                <button class="btn btn-primary btn-block">Browse</button>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="!isImage">
+                                            <div class="form-group">
+                                                <label for="newImage" class="col-lg-2 control-label">Image Header</label>
+                                                <div class="col-lg-2">
+                                                    <img :src="newImagePath" class="img-thumbnail" id="newImage" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <button type="button" class="btn btn-primary" :disabled="isImage" @click="updateHeader">Update</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="panel panel-default ">
                             <div class="panel-heading "><a href="#">Password</a></div>
                             <div class="panel-body ">
@@ -199,6 +232,11 @@
                 message: "",
                 newUsername: "",
                 newAlipay: "",
+                files: [],
+                newFilename: "Please select file",
+                newImage: null,
+                newImagePath: "",
+                isImage: true,
                 oldPassword: "",
                 newPassword: "",
                 repNewPassword: ""
@@ -261,6 +299,48 @@
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                getFiles: function(event) {
+                    var files = event.target.files;
+                    // console.log(files[0]);
+                    if (!files.length) {
+                        this.newFilename = "Please select file";
+                        this.isImage = true;
+                        return;
+                    }
+                    this.newFilename = files[0].name;
+                    var imgReg = /^(.)+\.((jpg)|(png))$/;
+                    if (imgReg.test(files[0].name)) {
+                        var image = new Image();
+                        var reader = new FileReader();
+                        reader.onload = (e) => {
+                            app.newImagePath = e.target.result;
+                        };
+                        reader.readAsDataURL(files[0]);
+                        this.newImage = files[0];
+                        this.isImage = false;
+                    } else {
+                        this.isImage = true;
+                    }
+                },
+                updateHeader: function() {
+                    var fileFormData = new FormData();
+                    fileFormData.append("files", this.newImage);
+                    this.$http.post('/upload/header', fileFormData).then(function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Upload successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while uploading ERR:${response.data.msg}`;
                                 $('#warning').modal({});
                             }
                         },

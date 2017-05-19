@@ -108,3 +108,20 @@ ul.intro li {
     font-size: 24px;
     padding: 11px 22px 0 0;
 }
+
+.upfilebox {
+    position: relative;
+}
+
+.upfilebox input {
+    position: relative;
+    z-index: 9;
+    opacity: 0;
+}
+
+.upfilebox button {
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    left: 0px;
+}
