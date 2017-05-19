@@ -131,13 +131,13 @@
                             <div class="panel-heading "><a href="#">Bookmarks</a></div>
 
                             <div class="panel-body ">
-                                <% for(var i=0; i<colloect_painting.length; i++) { %>
+                                <% for(var i=0; i<collect_painting.length; i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
-                                            <img src=<%=colloect_painting[i].url %> alt="Infinity-Loop" class="tile-image">
+                                            <img src=<%=collect_painting[i].url %> alt="Infinity-Loop" class="tile-image">
                                             <!--<h3 class="tile-title ">Easy to Customize</h3>-->
                                             <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + colloect_painting[i].paintingID %> >More</a>
+                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + collect_painting[i].paintingID %> >More</a>
                                         </div>
                                     </div>
                                     <% } %>

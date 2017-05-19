@@ -58,7 +58,7 @@ return页面register.ejs
 		关注的人数：following_num
 		
 
-		收藏的画：colloect_painting[{
+		收藏的画：collect_painting[{
 			url: //图片地址
 			paintingID: // 图片ID
 		},...]// 只传三个

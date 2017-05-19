@@ -25,7 +25,7 @@ function userlogin(req, res, next) {
             return;
         }
         connection.query(
-            sql.checkUserPassword, [user.name, user.password],
+            sql.checkUserPassword, [user.username, user.password],
             function(err, result) {
                 if (err) {
                     // handle error
@@ -36,7 +36,7 @@ function userlogin(req, res, next) {
                     if (result[0].userID < 0)
                     {
                         status = 0;
-                        message = '用户登录成功';
+                        message = '用户登录失败';
                     }
                     else {
                         req.session.userID = result[0].userID;

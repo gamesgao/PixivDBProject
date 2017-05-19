@@ -21,7 +21,7 @@ router.get('/delcontribute', delContribute);
 
 function data(req, res, next) {
 	var data = req.query;
-	var userID = data.userID;
+	var userID = Number(data.userID);
 	var sessionUserID = req.session.userID;
 	//try multiple queries
     if (sessionUserID) {
@@ -48,12 +48,12 @@ function data(req, res, next) {
                         res.render('homepage',
                             {
                                 contribute_painting: result[0],
-                                username: result[1].username,
+                                username: result[1][0].username,
                                 following: result[2],
-                                following_num: result[3].following_num,
+                                following_num: result[3][0].following_num,
                                 collect_painting: result[4],
                                 tag: result[5],
-                                user_header: result[6].user_header,
+                                user_header: result[6][0].user_header,
                                 userID: req.query.userID
                             });
                     }
@@ -92,9 +92,9 @@ function config(req, res, next) {
                     if (result)
                     {
                         res.render('config', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
-                            alipay : result[2].alipay,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
+                            alipay : result[2][0].alipay,
                             userID : req.session.userID
                         });
                     }
