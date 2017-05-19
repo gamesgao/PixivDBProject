@@ -1,25 +1,20 @@
 /*
-    本次修改的语句：
-    getContributeNum
-    getCollectedNum
-    update
-    delete
-    queryById
-    queryAll
-    searchUserByName
-    以上语句末尾添加 ‘;’ 所有提交语句后都有‘;’了
-    modifyUserInfo
-    添加修改用户密码的功能，已经在数据库中测试通过
-*/
+ 本次修改的语句：
+ [添加]
+ getPaintingName
+ [修改]
+ addUser 删除icon输入，改为自动输入默认的icon
+ */
 /*
-    本次对数据库的修改：
-    user表中的ID添加constraint UNIQUE 不允许将用户ID修改为已在表中的其他用户ID
-*/
+ 本次对数据库的修改：
+ 添加addUser function 使得默认的icon变为/img/header/id.png [TEST PASS]
+ */
 
 var user = {
-    addUser : 'INSERT INTO user(username,type,password,alipay_address,icon) VALUES(?,?,?,?,?);',//Trigger已添加，画师和买家必须提供alipay_address
+    addUser : 'SELECT addUser(?,?,?,?) as userID;',//return userID
     checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户名,第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID [已修改]
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
+    getPaintingName : 'SELECT topic FROM painting WHERE id = ?;',
     getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?;',
     getFollowing : 'SELECT followee AS userID, icon AS header ,username FROM follow, user WHERE followee = id and follower = ?;',//已修改，返回当前用户关注的人
@@ -57,10 +52,10 @@ var user = {
     addResponderForTrade :'',
     addApplierForTrade : '',
     getRelatedTrades : '',
-	update:'update user set name=?, age=? where id=?;',
-	delete: 'delete from user where id=?;',
-	queryById: 'select * from user where id=?;',
-	queryAll: 'select * from user;',
+    update:'update user set name=?, age=? where id=?;',
+    delete: 'delete from user where id=?;',
+    queryById: 'select * from user where id=?;',
+    queryAll: 'select * from user;',
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
     searchUserByName :'select * from user where username = ?;',
 };
