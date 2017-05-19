@@ -362,10 +362,11 @@ return页面register.ejs
 			错误信息：msg
 
 头像默认图片 /public/img/default_header.png
-头像上传路径：/public/img/header
+头像上传路径： /public/img/header
 画上传路径: /public/img/painting
 
 //TODO
+删除图片
 点赞&图片访问量 
 充值
 可能trade要把简介分成简介和详细信息

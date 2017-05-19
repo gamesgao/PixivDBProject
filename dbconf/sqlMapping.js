@@ -17,10 +17,10 @@
  */
 
 var user = {
-    addUser : 'INSERT INTO user(username,type,password,alipay_address,icon) VALUES(?,?,?,?,?);',//Trigger已添加，画师和买家必须提供alipay_address
+    addUser : 'SELECT addUser(?,?,?,?) as userID;',//return userID
     checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户名,第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID [已修改]
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
-    getPaintingName : '',
+    getPaintingName : 'SELECT topic FROM painting WHERE id = ?;',
     getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?;',
     getFollowing : 'SELECT followee AS userID, icon AS header ,username FROM follow, user WHERE followee = id and follower = ?;',//已修改，返回当前用户关注的人

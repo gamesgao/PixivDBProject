@@ -60,18 +60,19 @@ function paintingUpload(req, res, next) {
                         state = 0;
                         message = '用户添加画失败';
                     }
+                    var paintingID = 0;
                     if (result) {
-                        var paintingID = result[0].paintingID;
+                        paintingID = result[0].paintingID;
                         //res.render('following', {})
                         state = 1;
                         message = '用户添加画成功';
+                        fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/header/' + paintingID.toString() + path.extname(file.originalname), function (err) {
+                            if (err) {
+                                throw err;
+                            }
+                            console.log('painting transfer done!');
+                        });
                     }
-                    fs.rename('uploads/' + req.file.filename, 'uploads/img/painting/'+userID.toString()+path.extname(file.originalname),function(err){
-                        if(err){
-                            throw err;
-                        }
-                        console.log('painting transfer done!');
-                    });
                     res.json({
                         code: state.toString(),
                         msg: message
