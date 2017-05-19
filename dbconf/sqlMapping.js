@@ -1,13 +1,26 @@
 /*
- To 刘韵：
- 基本思路是，带get的语句一般不需要写成过程
- 但是add和del很多还是需要写成过程的，我这边有些语句从名字上看不出是是那个用户要进行删除添加，你有看不懂的赶紧问我
+ 本次修改的语句：
+ getContributeNum
+ getCollectedNum
+ update
+ delete
+ queryById
+ queryAll
+ searchUserByName
+ 以上语句末尾添加 ‘;’ 所有提交语句后都有‘;’了
+ modifyUserInfo
+ 添加修改用户密码的功能，已经在数据库中测试通过
+ */
+/*
+ 本次对数据库的修改：
+ user表中的ID添加constraint UNIQUE 不允许将用户ID修改为已在表中的其他用户ID
  */
 
 var user = {
     addUser : 'INSERT INTO user(username,type,password,alipay_address,icon) VALUES(?,?,?,?,?);',//Trigger已添加，画师和买家必须提供alipay_address
     checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户名,第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID [已修改]
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
+    getPaintingName : '',
     getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?;',
     getFollowing : 'SELECT followee AS userID, icon AS header ,username FROM follow, user WHERE followee = id and follower = ?;',//已修改，返回当前用户关注的人
@@ -24,7 +37,7 @@ var user = {
     addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是url，第五个参数是画师ID。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
     delContribute : 'SELECT delContribute(?,?) AS paintingurl;', //第一个参数是paintingID,第二个参数是userID,该函数会级联删除所有与当前画作有关的信息。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
-    modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? WHERE id = ?;',//TO BE MODIFIED
+    modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? ,password = ? WHERE id = ?;',
     getUserNameByPaintingID : 'SELECT username FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserHeaderByPaintingID : 'SELECT icon AS user_header FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserIDByPaintingID : 'SELECT id AS userID FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',

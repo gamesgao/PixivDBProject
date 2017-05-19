@@ -361,8 +361,9 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 
-头像上传路径：/upload/img/header
-画上传路径: /upload/img/painting
+头像默认图片 /public/img/default_header.png
+头像上传路径：/public/img/header
+画上传路径: /public/img/painting
 
 //TODO
 点赞&图片访问量 

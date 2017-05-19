@@ -8,11 +8,11 @@ var fs = require('fs');
 var path = require('path');
 var multer = require('multer');
 
-var upload = multer({ dest: 'uploads/' });
+var upload = multer({ dest: 'public/img/' });
 
 router.get('/', uploads);
 router.post('/header', upload.single('user_header'), headerUpload);
-router.post('/addcontribute', upload.single('painting'), paintingUpload);
+router.post('/painting', upload.single('painting'), paintingUpload);
 
 function uploads(req, res, next) {
     res.render('upload', { title: 'pm2.5 cloud platform' })
@@ -21,17 +21,23 @@ function uploads(req, res, next) {
 
 function headerUpload(req, res, next) {
     var userID = req.session.userID;
+    var status = 0;
+    var message = '';
     if (userID)
     {
-        fs.rename('uploads/' + req.file.filename,'uploads/img/header'+userID.toString()+'.png',function(err){
+        fs.rename('public/img/' + req.file.filename,'uploads/img/header'+userID.toString()+'.png',function(err){
             if(err){
-                throw err;
+                status = 0;
+                message = '上传头像失败';
             }
+            status = 1;
+            message = '上传头像成功';
             console.log('header transfer done!');
         });
     }
     else{
         //handle error
+        res.redirect('/login');
     }
 }
 
