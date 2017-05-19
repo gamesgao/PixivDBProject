@@ -101,7 +101,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-offset-2 col-lg-10">
-                                                <button type="submit" class="btn btn-default" :disabled="update1" @click="updateUser">Update</button>
+                                                <button type="button" class="btn btn-primary" :disabled="update1" @click="updateUser">Update</button>
                                             </div>
                                         </div>
                                     </form>
@@ -133,7 +133,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-offset-2 col-lg-10">
-                                                <button type="submit" class="btn btn-default" :disabled="update2" @click="updatePwd">Update</button>
+                                                <button type="button" class="btn btn-primary" :disabled="update2" @click="updatePwd">Update</button>
                                             </div>
                                         </div>
                                     </form>
@@ -194,7 +194,7 @@
             data: {
                 userID: '<%=userID %>',
                 oldUsername: '<%=username %>',
-                oldAlipay: '<%=alipay %>'
+                oldAlipay: '<%=alipay %>',
                 status: "",
                 message: "",
                 newUsername: "",
@@ -222,6 +222,24 @@
                 }
             },
             methods: {
+                follow: function() {
+                    this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Follow successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
                 updateUser: function() {
                     let data = {};
                     if (this.newUsername !== "") {
