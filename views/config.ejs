@@ -316,7 +316,7 @@
                         return;
                     }
                     this.newFilename = files[0].name;
-                    var imgReg = /^(.)+\.((jpg)|(png))$/;
+                    var imgReg = /^(.)+\.((png))$/;
                     if (imgReg.test(files[0].name)) {
                         var image = new Image();
                         var reader = new FileReader();
@@ -332,7 +332,7 @@
                 },
                 updateHeader: function() {
                     var fileFormData = new FormData();
-                    fileFormData.append("files", this.newImage);
+                    fileFormData.append("user_header", this.newImage);
                     this.$http.post('/upload/header', fileFormData).then(function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
