@@ -25,7 +25,7 @@ function headerUpload(req, res, next) {
     var message = '';
     if (userID)
     {
-        fs.rename('public/img/' + req.file.filename,'uploads/img/header'+userID.toString()+'.png',function(err){
+        fs.rename(__dirname + '/../../public/img/' + req.file.filename,__dirname + '/../../public/img/header/'+userID.toString()+'.png',function(err){
             if(err){
                 status = 0;
                 message = '上传头像失败';

@@ -23,6 +23,7 @@ function data(req, res, next) {
 	var data = req.query;
 	var userID = Number(data.userID);
 	var sessionUserID = req.session.userID;
+    if (!(userID)) userID = sessionUserID;
 	//try multiple queries
     if (sessionUserID) {
         pool.getConnection(function (err, connection) {
