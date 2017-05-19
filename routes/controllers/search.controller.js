@@ -50,9 +50,11 @@ function searchUser(req,res,next) {
 function searchPainting(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'select * from painting where ';
+    var statement = 'SELECT * FROM painting WHERE ';
+    var num = 0;
     if (userRequire.byID) {
-        statement += '';
+        if (num > 0) statement += 'and ';
+        statement += 'id = ';
     }
     var namesnippet = req.query.namesnippet;
     if (userID) {

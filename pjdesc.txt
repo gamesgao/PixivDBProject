@@ -335,6 +335,7 @@ return页面register.ejs
 			byTopic
 			byUpvote
 			byPageView
+			以上四个如果有那么值就是用户输入，没有就是undefined
 			OrderByID
 			OrderByUpvote
 			OrderByPageView
