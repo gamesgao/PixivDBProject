@@ -43,7 +43,7 @@ function register(req, res, next) {
             return;
         }
         connection.query(
-            sql.addUser, [user.username, user.usertype, user.password, undefined],
+            sql.addUser, [user.username, user.usertype, user.password],
             function(err, result) {
                 if (err) {
                     // handle error
@@ -53,14 +53,16 @@ function register(req, res, next) {
                 if (result) {
                     status = 1;
                     message = '用户注册成功';
-                    try {
-                        fs.copySync('/upload/default/temp.png', '/upload/img/header/'+result.insertId+'.png');
-                        console.log('success!');
-                    } catch (err) {
-                        console.error(err);
-                        status = 0;
-                        message = '用户头像上传失败';
-                    }
+                    fs.copy('/public/img/default_header.png', '/public/img/header/' + (result[0].insertId).toString() + '.png',
+                        function(err) {
+                            if (err)
+                            {
+                                status = 0;
+                                message = '头像重命名失败';
+                            }
+                            status = 1;
+                            message = '用户注册成功';
+                        });
                 }
                 res.json({status:status, msg:message});
                 connection.release();
