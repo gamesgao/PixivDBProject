@@ -1,0 +1,110 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+#bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    z-index: 0;
+}
+
+#bg {
+    z-index: -1;
+}
+
+#header {
+    width: 100%;
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px;
+}
+
+footer {
+    height: 40px;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+}
+
+.user {
+    color: #798795;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+.user-header {
+    position: relative;
+    background: #1abc9c;
+    background-size: 16px 16px;
+    border-radius: 6px 6px 0 0;
+    color: #34495e;
+    padding: 19px 25px 20px;
+    text-align: center
+}
+
+.user-following {
+    position: relative;
+    background: #1abc9c;
+    background-size: 16px 16px;
+    border-radius: 6px 6px 0 0;
+    color: #34495e;
+    padding: 19px 25px 20px;
+    text-align: center
+}
+
+.user-following h3 {
+    margin: 0;
+}
+
+.intro {
+    background-color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    margin-top: 0;
+    /*padding-bottom: 20px;*/
+    padding-bottom: 21px;
+    text-align: center;
+}
+
+ul.intro {
+    list-style-type: none;
+    text-align: left;
+}
+
+ul.intro li {
+    background-size: 20px 20px;
+    /*cursor: pointer;*/
+    /*font-size: 14px;*/
+    /*line-height: 1.214;*/
+    padding-top: 10px;
+    /*padding: 18px 42px 21px 25px;*/
+    position: relative;
+}
+
+.intro.last {
+    /*padding-bottom: 21px;*/
+    border-radius: 0 0 6px 6px;
+}
+
+.intro h4 {
+    margin: 0;
+}
+
+.intro.following-icon {
+    float: left;
+    font-size: 24px;
+    padding: 11px 22px 0 0;
+}
