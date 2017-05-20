@@ -9,7 +9,7 @@ router.get('/addTag', addTag);
 router.get('/delTag', delTag);
 
 function comm(req, res, next) {
-    var illustID = req.query.illustId;
+    var illustID = req.query.paintingID;
     if (illustID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -44,7 +44,8 @@ function comm(req, res, next) {
                             time : result[6].time,
                             resolution : result[7].resolution,
                             ratedCount : result[8].ratedCount,
-                            viewCount : result[9].viewCount
+                            viewCount : result[9].viewCount,
+                            paintingID : illustID
                             });
                     }
                     connection.release();
