@@ -182,6 +182,10 @@ return页面register.ejs
 	Param no
 	Return addcontribute.ejs
 	显示上传页面	
+	ejs 用户名称：username
+		用户头像：user_header：url
+		用户ID：userID
+
 
 /delcontribute@get?paintingID
 	Param paintingID
