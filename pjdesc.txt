@@ -266,13 +266,13 @@ return页面register.ejs
 
 /initTrade@post
 	Param 
-			发起人 : buyer
-			发起时间 : start_time
+			发起人 : buyer //不提供，由sessionID确定
+			发起时间 : start_time //不提供，系统生成
 			简介：abstract
 			价格：price
 			Tag：tag
 			Ddl：deadline
-			状态：state
+			状态：state //不提供，系统生成
 			
 
 	Return页面 {status : 1成功0失败}
