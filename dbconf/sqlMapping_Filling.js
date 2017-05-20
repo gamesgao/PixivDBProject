@@ -1,13 +1,14 @@
 /*
  本次修改的语句：
  [添加]
- getPaintingName
  [修改]
- addUser 删除icon输入，改为自动输入默认的icon
+ addContribute
+ 使用示例
+ SELECT addContribute('kkk',150,115,15,'png') as paintingID;
  */
 /*
  本次对数据库的修改：
- 添加addUser function 使得默认的icon变为/img/header/id.png [TEST PASS]
+ 修改addContribute function 使得默认的路径变为/img/painting/id.[format] [TEST PASS]
  */
 
 var user = {
@@ -28,7 +29,7 @@ var user = {
     delFollowing : 'DELETE FROM follow WHERE follower = ? and followee = ?;',
     addCollecting : 'INSERT INTO collection(user, painting) VALUES(?,?);',
     delCollecting : 'DELETE FROM collection WHERE user = ? and painting = ?;',
-    addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是url，第五个参数是画师ID。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
+    addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是画师ID，第五个参数是format。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
     delContribute : 'SELECT delContribute(?,?) AS paintingurl;', //第一个参数是paintingID,第二个参数是userID,该函数会级联删除所有与当前画作有关的信息。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
     modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? ,password = ? WHERE id = ?;',
