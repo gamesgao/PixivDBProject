@@ -250,7 +250,8 @@ return页面register.ejs
 			buyer:发起人,
 			price:价格,
 			ddl:deadline,
-			state:状态
+			state:状态,
+			tradeID: ID
 		}		
 		**以上这些简称brief trade**
 /initTrade@get
