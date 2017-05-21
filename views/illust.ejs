@@ -86,9 +86,9 @@
                                     <li>
                                         <form class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <label for="delete" class="col-lg-2 col-lg-offset-1 col-sm-2 control-label text-center">{{tag}}</label>
+                                                <label for="delete" class="col-lg-2 col-lg-offset-1 col-sm-2 control-label text-center">{{tag.tag}}</label>
                                                 <div class="pull-right">
-                                                    <button class="btn btn-primary btn-xs" id="delete" @click="delTag(tag)">Delete</button>
+                                                    <button class="btn btn-primary btn-xs" id="delete" @click="delTag(tag.tag)">Delete</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -206,7 +206,7 @@
                 status: "",
                 message: "",
                 starCount: '<%=ratedCount %>',
-                tags: JSON.parse('<%-tag %>')，
+                tags: JSON.parse('<%-tag %>'),
                 newTag: ""
             },
             methods: {
