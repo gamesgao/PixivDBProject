@@ -87,7 +87,7 @@ return页面register.ejs
 		个人信息：user_info={项目名称：值}
 		用户ID：userID
 
-/config/upload@post
+/configUpload@post
 	Param newname(新的用户名), newAlipay, 以后还要加用户的详细信息
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
