@@ -350,6 +350,24 @@
                 },
                 updatePwd: function() {
                     let data = {};
+                    data.oldPassword = this.oldPassword;
+                    data.newPassword = this.newPassword;
+                    this.$http.post('/homepage/passwordUpload', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = "Update successfully!";
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while updateing ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
                 }
             }
         });
