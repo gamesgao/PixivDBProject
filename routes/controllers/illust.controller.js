@@ -9,7 +9,7 @@ router.get('/addTag', addTag);
 router.get('/delTag', delTag);
 
 function comm(req, res, next) {
-    var illustID = req.query.paintingID;
+    var illustID = Number(req.query.paintingID);
     if (illustID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -35,16 +35,16 @@ function comm(req, res, next) {
                     }
                     if (result) {
                         res.render('illust', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
-                            userID : result[2].userID,
-                            url : result[3].url,
-                            painting_name : result[4].painting_name,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
+                            userID : result[2][0].userID,
+                            url : result[3][0].url,
+                            painting_name : result[4][0].painting_name,
                             tag : result[5],
-                            time : result[6].time,
-                            resolution : result[7].resolution,
-                            ratedCount : result[8].ratedCount,
-                            viewCount : result[9].viewCount,
+                            time : result[6][0].time,
+                            resolution : result[7][0].resolution,
+                            ratedCount : result[8][0].ratedCount,
+                            viewCount : result[9][0].viewCount,
                             paintingID : illustID
                             });
                     }

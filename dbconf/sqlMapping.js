@@ -1,19 +1,18 @@
 /*
  本次修改的语句：
- getContributeNum
- getCollectedNum
- update
- delete
- queryById
- queryAll
- searchUserByName
- 以上语句末尾添加 ‘;’ 所有提交语句后都有‘;’了
- modifyUserInfo
- 添加修改用户密码的功能，已经在数据库中测试通过
+ [添加]
+ addResponderForTrade
+ addApplierForTrade
+ [修改]
+ getApplier
+ addTrade //目前的使用范例为 SELECT addTrade('liuliuliuyun',20,'2017-05-21 16:44:44','start',1) as tradeID;
  */
 /*
  本次对数据库的修改：
- user表中的ID添加constraint UNIQUE 不允许将用户ID修改为已在表中的其他用户ID
+ 修改trade 项中的responder允许为空值
+ 修改addTrade 函数，不再要求提供responder的初始值，默认为NULL，由buyer_decide_painter过程更新responder 的值
+ 不再要求提供finish time的初始值，由系统初始化为2099-12-31 23:59:59
+ 修改status可以为20个字符的字符串
  */
 
 var user = {
@@ -34,7 +33,7 @@ var user = {
     delFollowing : 'DELETE FROM follow WHERE follower = ? and followee = ?;',
     addCollecting : 'INSERT INTO collection(user, painting) VALUES(?,?);',
     delCollecting : 'DELETE FROM collection WHERE user = ? and painting = ?;',
-    addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是url，第五个参数是画师ID。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
+    addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是画师ID，第五个参数是format。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
     delContribute : 'SELECT delContribute(?,?) AS paintingurl;', //第一个参数是paintingID,第二个参数是userID,该函数会级联删除所有与当前画作有关的信息。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
     modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? ,password = ? WHERE id = ?;',
@@ -51,12 +50,12 @@ var user = {
     addPaintingTag : 'INSERT INTO painting_tag WHERE painting = ? AND tag = ?;',
     getBuyerFlag :'SELECT getBuyerFlag(?) AS buyerflag;',//返回0代表不是买家，返回1代表是买家
     getBriefTrade :'SELECT buyer, price, deadline AS ddl, status AS state FROM trade WHERE id = ?;',
-    addTrade :'SELECT addTrade(?,?,?,?,?,?,?) AS tradeID;',
+    addTrade :'SELECT addTrade(?,?,?,?,?) AS tradeID;',//目前的使用范例为 SELECT addTrade('liuliuliuyun',20,'2017-05-21 16:44:44','start',1) as tradeID;
     addTradeTags : 'INSERT INTO trade_tag VALUES(?,?);',//第一个值是tradeID,第二个值是tag
     getFullTrade : 'SELECT * FROM trade WHERE id = tradeID;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
-    getApplier : 'SELECT painter AS applier FROM trade WHERE id = tradeID;',
-    addResponderForTrade :'',
-    addApplierForTrade : '',
+    getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
+    addResponderForTrade :'CALL buyer_decide_painter(3,5);',//第一个参数是tradeID，第二个参数是painterID
+    addApplierForTrade : 'INSERT INTO painter_apply_for_trade VALUES (?,?);',//INSERT INTO painter_apply_for_trade VALUES (6,3);第一个参数是painterID,第二个参数是tradeID
     getRelatedTrades : '',
     update:'update user set name=?, age=? where id=?;',
     delete: 'delete from user where id=?;',
