@@ -40,7 +40,7 @@ function comm(req, res, next) {
                             userID : result[2][0].userID,
                             url : result[3][0].url,
                             painting_name : result[4][0].painting_name,
-                            tag : result[5],
+                            tag : JSON.stringify(result[5]),
                             time : result[6][0].time,
                             resolution : result[7][0].resolution,
                             ratedCount : result[8][0].ratedCount,
