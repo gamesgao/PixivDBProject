@@ -169,8 +169,7 @@ function configUpload(req, res, next) {
 //post
 function passwordUpload(req, res, next) {
     var userID = req.session.userID;
-    var newName = req.body.password;
-    var new_alipay = req.body.newAlipay;
+    var newPassword = req.body.password;
     var status = 0;
     var message = '';
     if (userID)
@@ -180,7 +179,7 @@ function passwordUpload(req, res, next) {
             {
                 // handle error
                 status = 0;
-                message = '上传设置失败';
+                message = '上传密码失败';
                 res.json(
                     {
                         status : status,
@@ -188,14 +187,14 @@ function passwordUpload(req, res, next) {
                     });
             }
             connection.query(
-                sql.modifyUserInfo,
-                [userID, newName, new_alipay],
+                sql.modifyUserPassword,
+                [userID, oldPassword, new_alipay],
                 function (err, result) {
                     if (err)
                     {
                         //error handler
                         status = 0;
-                        message = '上传设置失败';
+                        message = '上传密码失败';
                         res.json(
                             {
                                 status : status,
@@ -205,7 +204,7 @@ function passwordUpload(req, res, next) {
                     if (result)
                     {
                         status = 1;
-                        message = '上传设置成功';
+                        message = '上传密码成功';
                         res.json(
                             {
                                 status : status,

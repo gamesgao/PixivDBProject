@@ -94,7 +94,7 @@ return页面register.ejs
 		用于为登陆用户添加关注，将userID添加给登陆用户	
 
 /passwordUpload@post
-	Param password 密码
+	Param oldPassword 旧密码，newPassword 新密码
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 		用于为登陆用户添加密码
