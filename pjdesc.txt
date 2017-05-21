@@ -93,6 +93,12 @@ return页面register.ejs
 			错误信息：msg
 		用于为登陆用户添加关注，将userID添加给登陆用户	
 
+/passwordUpload@post
+	Param password 密码
+	Return 状态：status： 1：成功/0：失败
+			错误信息：msg
+		用于为登陆用户添加密码
+
 /following@get？userID
 	Param userID
 	Return 页面 following.ejs			

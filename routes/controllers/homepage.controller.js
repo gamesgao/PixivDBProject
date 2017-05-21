@@ -10,6 +10,7 @@ var upload = multer({ dest: 'uploads/' });
 router.get('/', data);
 router.get('/config', config);
 router.post('/configUpload', configUpload);
+router.post('/passwordUpload', passwordUpload);
 router.get('/following', following);
 router.get('/addfollowing', addFollowing);
 router.get('/delfollowing', delFollowing);
@@ -164,6 +165,63 @@ function configUpload(req, res, next) {
         res.redirect('/login');
     }
 }
+
+//post
+function passwordUpload(req, res, next) {
+    var userID = req.session.userID;
+    var newName = req.body.password;
+    var new_alipay = req.body.newAlipay;
+    var status = 0;
+    var message = '';
+    if (userID)
+    {
+        pool.getConnection(function(err, connection) {
+            if (err)
+            {
+                // handle error
+                status = 0;
+                message = '上传设置失败';
+                res.json(
+                    {
+                        status : status,
+                        msg : message
+                    });
+            }
+            connection.query(
+                sql.modifyUserInfo,
+                [userID, newName, new_alipay],
+                function (err, result) {
+                    if (err)
+                    {
+                        //error handler
+                        status = 0;
+                        message = '上传设置失败';
+                        res.json(
+                            {
+                                status : status,
+                                msg : message
+                            });
+                    }
+                    if (result)
+                    {
+                        status = 1;
+                        message = '上传设置成功';
+                        res.json(
+                            {
+                                status : status,
+                                msg : message
+                            });
+                    }
+                });
+
+        });
+    }
+    else{
+        //handle error
+        res.redirect('/login');
+    }
+}
+
 
 function following(req, res, next) {
     var userID = req.session.userID;
