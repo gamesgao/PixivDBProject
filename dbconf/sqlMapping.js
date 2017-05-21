@@ -63,7 +63,8 @@ var user = {
     queryAll: 'select * from user;',
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
     searchUserByName :'select * from user where username = ?;',
-    modifyUserPassword :''
+    modifyUserPassword :'',
+    modifyUserBasicInfo :''
 };
 
 module.exports = user;

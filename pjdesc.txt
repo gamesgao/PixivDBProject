@@ -127,6 +127,8 @@ return页面register.ejs
 			错误信息：msg
 		用于为登陆用户添加关注，将userID添加给登陆用户
 
+---checked 5.21
+
 /delfollowing@get?userID
 	Param userID
 	Return 状态：status： 1：成功/0：失败

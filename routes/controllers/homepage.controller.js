@@ -132,7 +132,7 @@ function configUpload(req, res, next) {
                     });
             }
             connection.query(
-                sql.modifyUserInfo,
+                sql.modifyUserBasicInfo,
                 [userID, newName, new_alipay],
                 function (err, result) {
                     if (err)
@@ -169,7 +169,8 @@ function configUpload(req, res, next) {
 //post
 function passwordUpload(req, res, next) {
     var userID = req.session.userID;
-    var newPassword = req.body.password;
+    var oldPassword = req.body.oldPassword;
+    var newPassword = req.body.newPassword;
     var status = 0;
     var message = '';
     if (userID)
@@ -188,7 +189,7 @@ function passwordUpload(req, res, next) {
             }
             connection.query(
                 sql.modifyUserPassword,
-                [userID, oldPassword, new_alipay],
+                [userID, oldPassword, newPassword],
                 function (err, result) {
                     if (err)
                     {
@@ -245,11 +246,11 @@ function following(req, res, next) {
                     }
                     if (result) {
                         res.render('following', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
                             userID : homepageID,
                             following : result[2],
-                            following_num : result[3].following_num,
+                            following_num : result[3][0].following_num,
                             isSelf : (userID = homepageID)
                         })
                     }
