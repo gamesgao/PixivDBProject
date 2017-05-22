@@ -165,8 +165,6 @@
             el: '#app',
             data: {
                 userID: '<%=userID %>',
-                oldUsername: '<%=username %>',
-                oldAlipay: '<%=alipay %>',
                 status: "",
                 message: "",
                 files: [],
@@ -230,9 +228,10 @@
                     }
                 },
                 uploadPainting: function() {
+                    // 不知道怎么上传title这些附加信息
                     var fileFormData = new FormData();
-                    fileFormData.append("user_header", this.newImage);
-                    this.$http.post('/upload/header', fileFormData).then(function(response) {
+                    fileFormData.append("painting", this.newImage);
+                    this.$http.post('/upload/painting', fileFormData).then(function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
                                 app.message = "Upload successfully!";
