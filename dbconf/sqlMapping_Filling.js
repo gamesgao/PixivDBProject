@@ -1,18 +1,17 @@
 /*
  本次修改的语句：
  [添加]
- addResponderForTrade
- addApplierForTrade
+ modifyUserPassword 使用示例SELECT modifyUserPassword('19960430','200240',1);
+ modifyUserBasicInfo
+ [删除]
+ modifyUserInfo
  [修改]
- getApplier
- addTrade //目前的使用范例为 SELECT addTrade('liuliuliuyun',20,'2017-05-21 16:44:44','start',1) as tradeID;
+ addResponderForTrade 添加?符号
+ getResolution 分辨率还是分两列给出，一列length 一列width
  */
 /*
  本次对数据库的修改：
- 修改trade 项中的responder允许为空值
- 修改addTrade 函数，不再要求提供responder的初始值，默认为NULL，由buyer_decide_painter过程更新responder 的值 
-                   不再要求提供finish time的初始值，由系统初始化为2099-12-31 23:59:59 
-                   修改status可以为20个字符的字符串
+ 添加function modifyUserPassword 正确执行返回1 错误执行数据库发生ERROR
  */
 
 var user = {
@@ -36,14 +35,13 @@ var user = {
     addContribute : 'SELECT addContribute(?,?,?,?,?) AS paintingID;',//第一个参数是主题，第二个参数是宽，第三个参数是长，第四个参数是画师ID，第五个参数是format。注意:appContribute的时候 要把(userID, paintingID)加到 contribute表中，并返回新加入的paintingID，返回值名为paintingID
     delContribute : 'SELECT delContribute(?,?) AS paintingurl;', //第一个参数是paintingID,第二个参数是userID,该函数会级联删除所有与当前画作有关的信息。注意：delContribute返回值为删除画的url，变量名为paintingurl
     modifyUserName : 'UPDATE user SET username = ? WHERE id = ?;',
-    modifyUserInfo : 'UPDATE user SET id = ?, username = ?, alipay_address = ? ,password = ? WHERE id = ?;',
     getUserNameByPaintingID : 'SELECT username FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserHeaderByPaintingID : 'SELECT icon AS user_header FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUserIDByPaintingID : 'SELECT id AS userID FROM user u,contribute c WHERE u.id = c.user and c.painting = ?;',
     getUrl : 'SELECT url FROM painting WHERE id = ?;',//输入是paintingID,输出是painting的URL
     getTagByPaintingID : 'SELECT tag FROM painting_tag WHERE painting = ?;',
     getCreatedTime : 'SELECT upload_time AS time FROM painting WHERE id = ?;',
-    getResolution : 'SELECT width*length AS resolution FROM painting WHERE id = ?;',
+    getResolution : 'SELECT length, width FROM painting WHERE id = ?;',
     getRatedCount : 'SELECT upvote AS ratedCount FROM painting WHERE id = ?;',
     getViewCount : 'SELECT page_view AS viewCount FROM painting WHERE id = ?;',
     delPaintingTag : 'SELECT delPaintingTag(?,?,?) AS status;',//这个函数的第一个参数是paintingID,第二个参数是paintingTag,第三个参数是操作用户的id，只有画师可以删Tag @陈旭旸
@@ -54,7 +52,7 @@ var user = {
     addTradeTags : 'INSERT INTO trade_tag VALUES(?,?);',//第一个值是tradeID,第二个值是tag
     getFullTrade : 'SELECT * FROM trade WHERE id = tradeID;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
-    addResponderForTrade :'CALL buyer_decide_painter(3,5);',//第一个参数是tradeID，第二个参数是painterID
+    addResponderForTrade :'CALL buyer_decide_painter(?,?);',//第一个参数是tradeID，第二个参数是painterID
     addApplierForTrade : 'INSERT INTO painter_apply_for_trade VALUES (?,?);',//INSERT INTO painter_apply_for_trade VALUES (6,3);第一个参数是painterID,第二个参数是tradeID
     getRelatedTrades : '',
     update:'update user set name=?, age=? where id=?;',
@@ -63,6 +61,8 @@ var user = {
     queryAll: 'select * from user;',
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
     searchUserByName :'select * from user where username = ?;',
+    modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
+    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
 };
 
 module.exports = user;
