@@ -156,9 +156,30 @@
                                         </div>
                                     </div>
                                 </form>
+                                <form role="form" class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">选择画师</span>
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <select data-toggle="select" class="form-control select select-inverse"> 
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" @click="bookmark">Confirm</button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="panel-footer">
-                                <button class="btn btn-primary btn-block" @click="bookmark">Bookmark</button>
+                                <button class="btn btn-primary btn-block" @click="bookmark">Apply</button>
                             </div>
                         </div>
                     </div>
