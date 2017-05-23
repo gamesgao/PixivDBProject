@@ -17,6 +17,7 @@ router.get('/delfollowing', delFollowing);
 router.get('/collect', collect);
 router.get('/addcollect', addCollecting);
 router.get('/delcollect', delCollecting);
+router.get('/contribute', contribute);
 router.get('/addcontribute', addContribute);
 router.get('/delcontribute', delContribute);
 
@@ -133,7 +134,7 @@ function configUpload(req, res, next) {
             }
             connection.query(
                 sql.modifyUserBasicInfo,
-                [userID, newName, new_alipay],
+                [newName, new_alipay, userID],
                 function (err, result) {
                     if (err)
                     {
@@ -189,7 +190,7 @@ function passwordUpload(req, res, next) {
             }
             connection.query(
                 sql.modifyUserPassword,
-                [userID, oldPassword, newPassword],
+                [oldPassword, newPassword, userID],
                 function (err, result) {
                     if (err)
                     {
@@ -251,7 +252,7 @@ function following(req, res, next) {
                             userID : homepageID,
                             following : result[2],
                             following_num : result[3][0].following_num,
-                            isSelf : (userID = homepageID)
+                            isSelf : (userID == homepageID)
                         })
                     }
                 });
@@ -365,13 +366,13 @@ function collect(req, res, next) {
                         res.render('error');
                     }
                     if (result) {
-                        res.render('following', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
+                        res.render('collect', {
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
                             userID : homepageID,
                             collect : result[2],
-                            collect_num : result[3].collect_num,
-                            isSelf : (userID = homepageID)
+                            collect_num : result[3][0].collect_num,
+                            isSelf : (userID == homepageID)
                         })
                     }
                 });
@@ -486,12 +487,12 @@ function contribute(req, res, next) {
                     }
                     if (result) {
                         res.render('contribute', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
                             userID : homepageID,
                             contribute : result[2],
-                            contribute_num : result[3].contribute_num,
-                            isSelf : (userID = homepageID)
+                            contribute_num : result[3][0].contribute_num,
+                            isSelf : (userID == homepageID)
                         })
                     }
                 });
@@ -505,9 +506,33 @@ function contribute(req, res, next) {
 
 function addContribute(req, res, next) {
     var userID = req.session.userID;
-    if (userID)
-    {
-        res.render('addcontribute');
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+                res.render('error');
+            }
+            connection.query(
+                sql.getUserName +
+                sql.getUserHeader,
+                [userID, userID]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        res.render('error');
+                    }
+                    if (result) {
+                        res.render('addcontribute',
+                            {
+                                username: result[0][0].username,
+                                user_header: result[1][0].user_header,
+                                userID: req.query.userID
+                            });
+                    }
+                    connection.release();
+                }
+            );
+        });
     }
     else
     {

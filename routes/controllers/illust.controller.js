@@ -5,8 +5,9 @@ var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 
 router.get('/', comm);
-router.get('/addTag', addTag);
-router.get('/delTag', delTag);
+router.post('/addTag', addTag);
+router.post('/delTag', delTag);
+router.post('/upvote', upvote);
 
 function comm(req, res, next) {
     var illustID = Number(req.query.paintingID);
@@ -62,8 +63,8 @@ function comm(req, res, next) {
 
 function delTag(req, res, next) {
     var userID = req.session.userID;
-    var tag = req.query.tag;
-    var paintingID = req.query.paintingID;
+    var tag = req.body.tag;
+    var paintingID = Number(req.body.paintingID);
     var status = 0;
     var message = '';
     if (userID && paintingID)
@@ -103,10 +104,11 @@ function delTag(req, res, next) {
 }
 
 function addTag(req, res, next) {
-    var tag = req.query.tag;
-    var paintingID = req.query.paintingID;
+    var tag = req.body.tag;
+    var paintingID = Number(req.body.paintingID);
     var status = 0;
     var message = '';
+    var userID = req.session.userID;
     if (userID && paintingID)
     {
         pool.getConnection(function (err, connection) {
@@ -139,6 +141,47 @@ function addTag(req, res, next) {
     {
         //handle error
         res.redirect('/login');
+    }
+}
+
+function upvote(req, res, next) {
+    var userID = req.session.userID;
+    var paintingID = req.body.paintingID;
+    var status = 0;
+    var message = '';
+    if (userID && paintingID)
+    {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+            }
+            connection.query(
+                sql.upvote,
+                [paintingID, userID]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        status = 0;
+                        message = '删除画tag失败';
+                    }
+                    if (result) {
+                        status = 1;
+                        message = '删除画tag成功';
+                    }
+                    res.json({
+                        status:status,
+                        msg:message
+                    });
+                    connection.release();
+                    return;
+                }
+            );
+        });
+    }
+    else
+    {
+        //handle error
+        res.redirect('/login')
     }
 }
 

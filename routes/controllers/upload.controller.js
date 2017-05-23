@@ -49,6 +49,8 @@ function paintingUpload(req, res, next) {
             if (err) {
                 // handle error
             }
+            var datetime = new Date();
+            console.log(datetime);
             connection.query(
                 sql.addContribute,
                 [userID, paintingID],

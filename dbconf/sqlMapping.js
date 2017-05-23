@@ -19,7 +19,7 @@ var user = {
     checkUserPassword : 'SELECT checkUserPassword(?,?) AS userID;', //第一个参数是用户名,第二个参数是用户提供的密码，返回是否登陆成功，成功返回userID，失败返回-1，返回值名为userID [已修改]
     getUserName : 'SELECT username FROM user WHERE id = ?;',//返回username，输入用户ID
     getPaintingName : 'SELECT topic FROM painting WHERE id = ?;',
-    getContribute : 'SELECT p.url AS url, c.painting AS paintingID FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
+    getContribute : 'SELECT p.url AS url, c.painting AS paintingID, p.topic AS name FROM painting p, contribute c WHERE c.user = ? and c.painting = p.id;',//输入用户ID
     getContributeNum : 'SELECT count(*) AS contribute_num FROM contribute WHERE user = ?;',
     getFollowing : 'SELECT followee AS userID, icon AS header ,username FROM follow, user WHERE followee = id and follower = ?;',//已修改，返回当前用户关注的人
     getFollowingNum : 'SELECT count(*) AS following_num FROM follow WHERE follower = ?;',//已修改，返回当前用户关注的人数
@@ -45,7 +45,7 @@ var user = {
     getRatedCount : 'SELECT upvote AS ratedCount FROM painting WHERE id = ?;',
     getViewCount : 'SELECT page_view AS viewCount FROM painting WHERE id = ?;',
     delPaintingTag : 'SELECT delPaintingTag(?,?,?) AS status;',//这个函数的第一个参数是paintingID,第二个参数是paintingTag,第三个参数是操作用户的id，只有画师可以删Tag @陈旭旸
-    addPaintingTag : 'INSERT INTO painting_tag WHERE painting = ? AND tag = ?;',
+    addPaintingTag : 'INSERT INTO painting_tag VALUES(?,?);',
     getBuyerFlag :'SELECT getBuyerFlag(?) AS buyerflag;',//返回0代表不是买家，返回1代表是买家
     getBriefTrade :'SELECT buyer, price, deadline AS ddl, status AS state FROM trade WHERE id = ?;',
     addTrade :'SELECT addTrade(?,?,?,?,?) AS tradeID;',//目前的使用范例为 SELECT addTrade('liuliuliuyun',20,'2017-05-21 16:44:44','start',1) as tradeID;
