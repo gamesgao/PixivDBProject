@@ -244,7 +244,7 @@
                 app.tags = $(event.target).tagsinput('items');
             });
             $('#timeInput').datetimepicker().on('changeDate', function(event) {
-                app.ddl = Date.parse(event.date).toString();
+                app.ddl = event.date.toLocaleString();
             });
         });
     </script>
