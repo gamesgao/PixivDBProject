@@ -274,12 +274,16 @@ return页面register.ejs
 		招标项目： trade
 		{
 			buyer:发起人,
+			buyername: 发起人名字,
 			price:价格,
 			ddl:deadline,
 			state:状态,
 			tradeID: ID
 		}		
 		**以上这些简称brief trade**
+
+		buyername not check!
+
 /initTrade@get
 	Param
 	显示发起交易页面

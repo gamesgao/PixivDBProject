@@ -78,9 +78,9 @@ function initialTradeGet(req, res, next) {
                     }
                     if (result) {
                         res.render('trade', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
-                            buyerflag : result[2].buyerflag,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
+                            buyerflag : result[2][0].buyerflag,
                             userID : userID
                         });
                     }
