@@ -83,13 +83,14 @@
                             </div>
                             <ul class="intro">
                                 <template v-for="tag in tags">
-                                    <li>
-                                        <form class="form-horizontal" role="form">
+                                    <li class="text-center">
+                                        <form class="form-inline" role="form">
                                             <div class="form-group">
-                                                <label for="delete" class="col-lg-2 col-lg-offset-1 col-sm-2 control-label text-center">{{tag.tag}}</label>
-                                                <div class="pull-right">
-                                                    <button type="button" class="btn btn-primary btn-xs" id="delete" @click="delTag(tag.tag)">Delete</button>
-                                                </div>
+                                                <p class="form-control-static">{{ tag.tag }}</p>
+                                            </div>
+                                            <div class="form-group pull-right">
+                                                <label for="delete" class="sr-only">del</label>
+                                                <button type="button" class="btn btn-primary btn-xs" id="delete" @click="delTag(tag.tag)">Delete</button>
                                             </div>
                                         </form>
                                         <hr>
@@ -117,7 +118,7 @@
                     </div>
 
 
-                    <div class="col-md-9 ">
+                    <!--<div class="col-md-9 ">
                         <div class="panel panel-default ">
                             <div class="panel-heading ">
                                 <a href="#">
@@ -148,8 +149,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <img src=<%=url %> alt="Infinity-Loop" class="img-rounded img-responsive" />
-                                        <!--<h3 class="tile-title ">Easy to Customize</h3>-->
-                                        <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +156,7 @@
                                 <button class="btn btn-primary btn-block" @click="bookmark">Bookmark</button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
