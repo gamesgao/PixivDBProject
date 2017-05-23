@@ -1,4 +1,4 @@
-如何使用session，这是官方网站
+﻿如何使用session，这是官方网站
 https://www.npmjs.com/package/express-session
 
 这里我采用的session存储方式就是mysql，session的配置在app.js中，需要按照需要修改。采用插件express-mysql-session。
@@ -138,7 +138,7 @@ return页面register.ejs
 /collect@get？userID
 	Param userID
 	Return 页面 collect.ejs
-		用于显示用户的关注用户
+		用于显示用户收藏的画
 
 	在这里实现删除功能
 	Ejs 用户名称：username
@@ -170,7 +170,7 @@ return页面register.ejs
 /contribute@get？userID
 	Param userID
 	Return 页面 contribute.ejs		
-
+	显示用户提交的画
 	在这里实现删除功能
 	Ejs 用户名称：username
 		用户头像：user_header：url
@@ -199,9 +199,19 @@ return页面register.ejs
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
-		用于为登陆用户删除收藏的画，注意权限判断
+		用于为登陆用户删除投稿的画，注意权限判断
 
-朋友/收藏的画/投稿作品同理，请你补全
+/charge@get?
+	Param session.userID
+	Return 页面 charge.ejs
+		输入想充的钱，注意如果是画师或围观群众，则显示“不是买家”，如果未登录则跳转登陆界面
+	Ejs 	username:用户名
+		money: 现有钱
+		frozen_money: 冻结钱
+/charge@post?
+	Param money
+	Return 1:成功 0:失败
+
 
 用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全 ： 见config 和 configupload
 用户设置上传，访问
@@ -211,6 +221,7 @@ return页面register.ejs
 	Param paintingID
 	Return 页面 illust.ejs
 		用户画的展示页面
+		注意：每次访问时画的浏览量+1
 	Ejs 用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
@@ -235,7 +246,7 @@ return页面register.ejs
 			错误信息：msg
 		用于添加tag
 
-/rated@post
+/upvote@post
 	param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
@@ -264,7 +275,7 @@ return页面register.ejs
 		**以上这些简称brief trade**
 /initTrade@get
 	Param
-
+	显示发起交易页面
 	Return页面 initTrade.ejs
 		用于发起招标
 
@@ -302,10 +313,11 @@ return页面register.ejs
 		applier : 所有候选人
 		(对于1和2)
 		需要返回sessionID对应的人是画师还是买家，围观群众是否允许进入此界面？
+		围观群众只能看不能选择接单吧
 		type: 1:画师 2:买家
 		(对于3)
 		需要返回该trade是否被画师接单
-		isApplied
+		isApplied	
 
 		1.用于显示一个招标的详细信息和用于接受（画师）
 		2.这个页面对于买家同时用于接受候选人
@@ -324,6 +336,7 @@ return页面register.ejs
 	Return 
 		tradeHomepage.ejs
 		交易:trades
+
 			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
 			如果是买家，则返回他所发出的trade，同上
 
@@ -350,10 +363,10 @@ return页面register.ejs
 /painting@post
 	Param tag
 
-			byID
+			byID 
 			byTopic
-			byUpvote
-			byPageView
+			byUpvote //大于等于关系
+			byPageView //大于等于关系
 			以上四个如果有那么值就是用户输入，没有就是undefined
 			OrderByID
 			OrderByUpvote
@@ -362,7 +375,8 @@ return页面register.ejs
 		painting[{
 			url: //图片地址
 			paintingID: // 图片ID
-			upvote: 
+			upvote: //
+			pageView: //
 		}
 	
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
@@ -385,7 +399,4 @@ return页面register.ejs
 画上传路径: /public/img/painting
 
 //TODO
-删除图片
-点赞&图片访问量 
-充值
 可能trade要把简介分成简介和详细信息
