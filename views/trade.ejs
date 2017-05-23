@@ -94,9 +94,9 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="buyer"><span class="fui-user"></span></span>
-                                                    <p class="form-control flat">
-                                                        <%=trade[i].buyer %>
-                                                    </p>
+                                                    <a class="form-control flat" href=<%='/homepage?userID=' + trade[i].buyer %> >
+                                                        <%=trade[i].buyername %>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -131,7 +131,7 @@
                                             <!--<h3 class="tile-title ">buyer:发起人</h3>-->
                                             <!--, price:价格, ddl:deadline, state:状态-->
                                             <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/trade/getTrade?tradeID=' + trade[i].tradeID %>>More</a>
+                                            <a class="btn btn-primary btn-large btn-block " href=<%='/trade/getTrade?tradeID=' + trade[i].tradeID %> >More</a>
                                         </div>
                                     </div>
                                     <% } %>
