@@ -113,7 +113,7 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Submitted Illustrations</a></div>
+                            <div class="panel-heading "><a href=<%='/homepage/contribute?userID=' + userID %> >Submitted Illustrations</a></div>
 
                             <div class="panel-body">
                                 <% for(var i=0; i<contribute_painting.length; i++) { %>
@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Bookmarks</a></div>
+                            <div class="panel-heading "><a href=<%='/homepage/collect?userID=' + userID %> >Bookmarks</a></div>
 
                             <div class="panel-body ">
                                 <% for(var i=0; i<collect_painting.length; i++) { %>
