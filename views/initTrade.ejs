@@ -208,7 +208,7 @@
                     let data = {};
                     data.abstract = this.abstract;
                     data.price = this.price;
-                    data.tag = this.tag;
+                    data.tag = this.tags;
                     data.deadline = this.ddl;
                     this.$http.post('/trade/initTrade', data).then(
                         function(response) {
