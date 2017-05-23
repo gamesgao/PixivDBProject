@@ -310,7 +310,10 @@ return页面register.ejs
 			buyer:
 			responder: 选中人
 		}
-		applier : 所有候选人
+		applier : 所有候选人{
+			username:
+			userID:
+		}
 		(对于1和2)
 		需要返回sessionID对应的人是画师还是买家，围观群众是否允许进入此界面？
 		围观群众只能看不能选择接单吧
