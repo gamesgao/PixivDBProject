@@ -217,7 +217,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Follow successfully!";
+                                app.message = response.data.msg;
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
@@ -235,7 +235,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Bookmark successfully!";
+                                app.message = response.data.msg;
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
@@ -256,7 +256,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Delete tag successfully!";
+                                app.message = response.data.msg;
                                 console.log(data);
                                 for (var i = 0; i < app.tags.length; i++) {
                                     var temp = app.tags.shift();
@@ -284,7 +284,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Bookmark successfully!";
+                                app.message = response.data.msg;
                                 app.tags.push(this.newTag);
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
@@ -305,7 +305,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Bookmark successfully!";
+                                app.message = response.data.msg;
                                 app.starCount = Number(app.starCount) + 1;
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {

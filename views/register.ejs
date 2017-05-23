@@ -185,7 +185,7 @@
                                 // console.log(response.data);
                                 if (response.data.status == 1) {
                                     app.status = "Success!";
-                                    app.message = "You have registered successfully!";
+                                    app.message = response.data.msg;
                                     setTimeout(function() {
                                         location.href = '/login';
                                     }, 2000);

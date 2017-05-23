@@ -162,7 +162,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Follow successfully!";
+                                app.message = response.data.msg;
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
@@ -180,7 +180,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "Delete successfully!";
+                                app.message = response.data.msg;
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";

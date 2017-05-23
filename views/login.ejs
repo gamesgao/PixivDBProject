@@ -144,7 +144,7 @@
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
-                                app.message = "You have logged in successfully!";
+                                app.message = response.data.msg;
                                 setTimeout(function() {
                                     location.href = `/homepage?userID=${response.data.msg}`;
                                 }, 2000);
