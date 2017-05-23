@@ -62,7 +62,9 @@ var user = {
     cancelTrade :'', //这个比较麻烦，有时间讨论一下
     searchUserByName :'select * from user where username = ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
-    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
+    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
+    getAllBriefTrade :'SELECT buyer, price, deadline AS ddl, status AS state FROM trade;',
+    upvote : ''
 };
 
 module.exports = user;

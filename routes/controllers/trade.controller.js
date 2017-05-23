@@ -29,7 +29,7 @@ function trade(req, res, next) {
                 sql.getUserName +
                 sql.getUserHeader +
                 sql.getBuyerFlag +
-                sql.getBriefTrade
+                sql.getAllBriefTrade
                 ,
                 [userID, userID, userID]
                 , function (err, result) {
@@ -39,10 +39,10 @@ function trade(req, res, next) {
                     }
                     if (result) {
                         res.render('trade', {
-                            username : result[0].username,
-                            user_header : result[1].user_header,
+                            username : result[0][0].username,
+                            user_header : result[1][0].user_header,
                             userID : userID,
-                            buyerflag : result[2].buyerflag,
+                            buyerflag : result[2][0].buyerflag,
                             trade : result[3]
                         });
                     }

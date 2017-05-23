@@ -193,6 +193,7 @@ return页面register.ejs
 	ejs 用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
+		not checked!
 
 
 /delcontribute@get?paintingID
@@ -200,6 +201,7 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 		用于为登陆用户删除投稿的画，注意权限判断
+		not checked!
 
 /charge@get?
 	Param session.userID
@@ -208,9 +210,11 @@ return页面register.ejs
 	Ejs 	username:用户名
 		money: 现有钱
 		frozen_money: 冻结钱
+		not checked!
 /charge@post?
 	Param money
 	Return 1:成功 0:失败
+	not checked!
 	
 //checked 5.23 注意上面4个还没check
 
@@ -246,12 +250,14 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 		用于添加tag
+	多个字会一样一个？不知为何。。
 
 /upvote@post
 	param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 			用于为一幅画点赞，不知道赞数有没有相应的数据库支持，估计没有，那现在就是一个人可以无限为一幅画点赞。
+	not checked!
 
 /trade页面下
 /@get

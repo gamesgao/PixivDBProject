@@ -162,11 +162,11 @@ function upvote(req, res, next) {
                     if (err) {
                         // handle error
                         status = 0;
-                        message = '删除画tag失败';
+                        message = '点赞失败';
                     }
                     if (result) {
                         status = 1;
-                        message = '删除画tag成功';
+                        message = '点赞成功';
                     }
                     res.json({
                         status:status,
@@ -181,7 +181,7 @@ function upvote(req, res, next) {
     else
     {
         //handle error
-        res.redirect('/login')
+        res.redirect('/login');
     }
 }
 
