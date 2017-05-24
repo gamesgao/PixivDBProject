@@ -1,24 +1,16 @@
 /*
  本次修改的语句：
  [添加]
- getAllBriefTrade
- modifyResolution
- addView
- upvote
  [删除]
  [修改]
- addPaintingTag 
- addContribute
- addUser
- addTrade
- getBreifTrade
- getContribute 添加画的题目
+ cancelTrade
+ addApplierForTrade
  */
 /*
  本次对数据库的修改：
- 修改addContribute函数为Procedure 添加transaction
- 修改addUser函数为Procedure 添加transaction
- 修改addTrade函数为Procedure 添加transaction 判断买家是否为买家列表中的人，自动判断DDL晚于当前时间
+ [添加]
+ painter_add_money
+ cancelTrade
  */
 
 var user = {
@@ -63,14 +55,14 @@ var user = {
     getFullTrade : 'SELECT * FROM trade WHERE id = tradeID;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?);',//第一个参数是tradeID，第二个参数是painterID
-    addApplierForTrade : 'INSERT INTO painter_apply_for_trade VALUES (?,?);',//INSERT INTO painter_apply_for_trade VALUES (6,3);第一个参数是painterID,第二个参数是tradeID
+    addApplierForTrade : 'CALL painter_apply_for_trade(?,?);',//第一个参数是painterID,第二个参数是tradeID
     getRelatedTrades : '',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
     delete: 'delete from user where id=?;',
     queryById: 'select * from user where id=?;',
     queryAll: 'select * from user;',
-    cancelTrade :'', //这个比较麻烦，有时间讨论一下
+    cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
     searchUserByName :'select * from user where username = ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
