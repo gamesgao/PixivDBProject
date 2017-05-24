@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Vixip
+    </title>
+    <!--Vue-->
+    <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/vue-resource.js"></script>
+    <!-- Bootstrap -->
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+    <!--Flat UI-->
+    <link href="/stylesheets/flat-ui.css" rel="stylesheet">
+    <!--User-->
+    <link rel='stylesheet' href='/stylesheets/searchUser.css' />
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <style>
+        body {
+            /*min-height: 2000px;*/
+            padding-top: 70px;
+        }
+    </style>
+    <!--<img id='bg' src='/img/main-bg.jpg' />-->
+    <!--this is for Vue-->
+    <div id="app">
+
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>  
+                    </button>
+                    <a class="navbar-brand" href="/">Vixip</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right" action="#" role="search">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                                <span class="input-group-btn">
+                      <button type="submit" class="btn"><span class="fui-search"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/comm">Predict</a></li>
+                        <li><a href="/data">Search</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <!--webpage body-->
+        <div id="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="user">
+                            <div class="user-header">
+                                <img alt="..." class="img-circle" src=<%=user_header %> />
+                            </div>
+                            <div class="intro last">
+                                <h4>
+                                    <%=username %>
+                                </h4>
+                                <br/>
+                                <button class="btn btn-primary btn-hg" @click="follow">Follow</button>
+                            </div>
+                        </div>
+                        <!--the others are the same-->
+                    </div>
+
+                    <div class="col-md-9 ">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading "><a href="#">Search User</a></div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" action="#" role="search">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input class="form-control" id="navbarInput-01" type="search" placeholder="User name" v-model="suser" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn" @click="searchUser"><span class="fui-search"></span></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <template v-if="users.length !== 0">
+                                        <template v-for="user in users">
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                                <div class="tile">
+                                                    <img :src="user.header" alt="Infinity-Loop" class="tile-image">
+                                                    <h3 class="tile-title ">
+                                                        {{user.username}}
+                                                    </h3>
+                                                    <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                                    <a class="btn btn-primary btn-large btn-block " :href="'/homepage?userID=' + user.userID" >More</a>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{message}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--footer part-->
+        <footer>
+            <div class="container ">
+                <div class="row ">
+                    <div class="col-md-10 ">
+                        <p>PM2.5 cloud platform by SJTU
+                        </p>
+                    </div>
+                    <div class="col-md-2 ">
+                        <p><a href="# ">&copy; 联系我们</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="/javascripts/jquery.js "></script>
+    <script src="/javascripts/flat-ui.js "></script>
+    <script src="/javascripts/application.js"></script>
+    <!-- 注意bind的js必须放在页面的最后 -->
+    <script type="text/javascript ">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                userID: '<%=userID %>',
+                status: "",
+                message: "",
+                suser: "",
+                users: [],
+                isProcess: false
+            },
+            computed: {
+                update2: function() {
+                    if (this.suser !== "" && !this.isProcess) {
+                        return false;
+                    }
+                    return true;
+                }
+            },
+            methods: {
+                follow: function() {
+                    this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                searchUser: function() {
+                    var data = {};
+                    data.username = this.suser;
+                    this.isProcess = true;
+                    this.$http.get('/search/user', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                // app.status = "Success!";
+                                // app.message = response.data.msg;
+                                // $('#warning').modal({});
+                                app.users = response.data.data;
+                                this.isProcess = false;
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                this.isProcess = false;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
