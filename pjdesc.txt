@@ -373,11 +373,27 @@ return页面register.ejs
 	Param 无
 	Return 页面 searchUser.ejs
 		用于搜索用户，暂且只支持通过名字搜索
-	Ejs 无？
+	Ejs 用户名称：username
+		用户头像：user_header：url
+		用户ID：userID
+
+/user@post
+	param username
+	return 状态：status： 1：成功/0：失败
+			错误信息：msg
+			数据：data:[{
+				header: url 头像图片地址
+				username: 用户名称
+				userID: 用户ID
+			},...]
+
+/painting@get
+	param 无
+	return 页面 searchpainting.ejs
+	ejs 无
 
 /painting@post
 	Param tag
-
 			byID 
 			byTopic
 			byUpvote //大于等于关系
@@ -386,13 +402,15 @@ return页面register.ejs
 			OrderByID
 			OrderByUpvote
 			OrderByPageView
-	Return /searchpainting 
-		painting[{
-			url: //图片地址
-			paintingID: // 图片ID
-			upvote: //
-			pageView: //
-		}
+	Return 状态：status： 1：成功/0：失败
+			错误信息：msg
+			数据 painting[{
+				url: //图片地址
+				paintingID: // 图片ID
+				name: //图片名称
+				upvote: //
+				pageView: //
+			}
 	
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
 
