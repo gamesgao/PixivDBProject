@@ -121,7 +121,7 @@ function initialTradePost(req, res, next) {
                         return;
                     }
                     if (result) {
-                        var trade_id = Number(result[0].tradeID);
+                        var trade_id = Number(result[1][0].tradeID);
                         var tags = req.body.tag;
                         var trade_tag_pair = new Array(tags.length);
                         for (var i = 0; i < tags.length; i++)

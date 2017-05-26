@@ -40,10 +40,10 @@ function comm(req, res, next) {
                             user_header : result[1][0].user_header,
                             userID : result[2][0].userID,
                             url : result[3][0].url,
-                            painting_name : result[4][0].painting_name,
+                            painting_name : result[4][0].topic,
                             tag : JSON.stringify(result[5]),
                             time : result[6][0].time,
-                            resolution : result[7][0].resolution,
+                            resolution : String(result[7][0].width)+'×'+String(result[7][0].length),
                             ratedCount : result[8][0].ratedCount,
                             viewCount : result[9][0].viewCount,
                             paintingID : illustID
@@ -164,7 +164,7 @@ function upvote(req, res, next) {
                         status = 0;
                         message = '点赞失败';
                     }
-                    if (result) {
+                    else if (result) {
                         status = 1;
                         message = '点赞成功';
                     }

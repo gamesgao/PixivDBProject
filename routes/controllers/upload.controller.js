@@ -66,25 +66,61 @@ function paintingUpload(req, res, next) {
                         message = '用户添加画失败';
                         //delete file
                         fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
+                        res.json({
+                            status: state,
+                            msg: message
+                        });
+                        connection.release();
+                        return;
                     }
                     var paintingID = 0;
                     if (result) {
                         paintingID = result[1][0].paintingID;
                         //res.render('following', {})
-                        state = 1;
-                        message = '用户添加画成功';
-                        fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/painting/' + paintingID.toString() + path.extname(req.file.originalname), function (err) {
-                            if (err) {
-                                throw err;
-                            }
-                            console.log('painting transfer done!');
+                        var sizeOf = require('image-size');
+                        var height, width;
+                        sizeOf(__dirname + '/../../public/img/' + req.file.filename, function (err, dimensions) {
+
+                            height = dimensions.height;
+                            width = dimensions.width;
+                            fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/painting/' + paintingID.toString() + path.extname(req.file.originalname), function (err) {
+                                if (err) {
+                                    state = 0;
+                                    message = '用户添加画失败';
+                                    res.json({
+                                        status: state,
+                                        msg: message
+                                    });
+                                    connection.release();
+                                    return;
+                                }
+                                else
+                                {
+                                    connection.query(
+                                        sql.modifyResolution,
+                                        [height, width, userID, paintingID],
+                                        function (err, result) {
+                                            state = 1;
+                                            if (err)
+                                            {
+                                                message = '画分辨率未知';
+                                            }
+                                            if (result)
+                                            {
+                                                message = '用户添加画成功';
+                                                res.json({
+                                                    status: state,
+                                                    msg: message
+                                                });
+                                            }
+                                            connection.release();
+                                        }
+                                    );
+                                }
+                            });
                         });
+
                     }
-                    res.json({
-                        status: state,
-                        msg: message
-                    });
-                    connection.release();
                     return;
                 });
         });

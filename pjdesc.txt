@@ -256,7 +256,8 @@ return页面register.ejs
 	param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
-			用于为一幅画点赞，不知道赞数有没有相应的数据库支持，估计没有，那现在就是一个人可以无限为一幅画点赞。
+			用于为一幅画点赞，已经建立相应的数据库
+			需要检查是否能重复投票
 	not checked!
 
 /trade页面下
