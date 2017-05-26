@@ -67,7 +67,7 @@
                     <div class="col-md-3">
                         <div class="user">
                             <div class="user-header">
-                                <img alt="..." class="img-circle" src=<%=user_header %> />
+                                <img alt="..." class="img-circle" src="<%=user_header %>" />
                             </div>
                             <div class="intro last">
                                 <h4>
@@ -85,8 +85,8 @@
                             <ul class="intro last list-inline">
                                 <% for(var i=0; i<following.length; i++) { %>
                                     <li>
-                                        <a href=<%='/homepage?userID=' +following[i].userID %> class="following-icon ">
-                                            <img alt="... " class="img-circle " src=<%=following[i].header %> width="30 " />
+                                        <a href="<%='/homepage?userID=' +following[i].userID %>" class="following-icon ">
+                                            <img alt="... " class="img-circle " src="<%=following[i].header %>" width="30 " />
                                         </a>
                                     </li>
                                     <% } %>
@@ -100,7 +100,7 @@
                                 <% for(var i=0; i<tag.length; i++) { %>
                                     <li>
                                         <p>
-                                            <%- tag[i].tag%>(
+                                            <%- tag[i].tag %>(
                                                 <%- tag[i].count %>)
                                         </p>
                                     </li>
@@ -113,32 +113,32 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href=<%='/homepage/contribute?userID=' + userID %> >Submitted Illustrations</a></div>
+                            <div class="panel-heading "><a href="<%='/homepage/contribute?userID=' + userID %>">Submitted Illustrations</a></div>
 
                             <div class="panel-body">
                                 <% for(var i=0; i<contribute_painting.length; i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
-                                            <img src=<%=contribute_painting[i].url %> alt="Infinity-Loop" class="tile-image">
+                                            <img src="<%=contribute_painting[i].url %>" alt="Infinity-Loop" class="tile-image">
                                             <!--<h3 class="tile-title ">Easy to Customize</h3>-->
                                             <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + contribute_painting[i].paintingID %> >More</a>
+                                            <a class="btn btn-primary btn-large btn-block " href="<%='/illust?paintingID=' + contribute_painting[i].paintingID %>">More</a>
                                         </div>
                                     </div>
                                     <% } %>
                             </div>
                         </div>
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href=<%='/homepage/collect?userID=' + userID %> >Bookmarks</a></div>
+                            <div class="panel-heading "><a href="<%='/homepage/collect?userID=' + userID %>">Bookmarks</a></div>
 
                             <div class="panel-body ">
                                 <% for(var i=0; i<collect_painting.length; i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
-                                            <img src=<%=collect_painting[i].url %> alt="Infinity-Loop" class="tile-image">
+                                            <img src="<%=collect_painting[i].url %>" alt="Infinity-Loop" class="tile-image">
                                             <!--<h3 class="tile-title ">Easy to Customize</h3>-->
                                             <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + collect_painting[i].paintingID %> >More</a>
+                                            <a class="btn btn-primary btn-large btn-block " href="<%='/illust?paintingID=' + collect_painting[i].paintingID %>">More</a>
                                         </div>
                                     </div>
                                     <% } %>

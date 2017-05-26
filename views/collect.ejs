@@ -67,7 +67,7 @@
                     <div class="col-md-3">
                         <div class="user">
                             <div class="user-header">
-                                <img alt="..." class="img-circle" src=<%=user_header %> />
+                                <img alt="..." class="img-circle" src="<%=user_header %>" />
                             </div>
                             <div class="intro last">
                                 <h4>
@@ -89,12 +89,12 @@
                                 <% for(var i=0; i<collect.length; i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
-                                            <img src=<%=collect[i].url %> alt="Infinity-Loop" class="tile-image">
+                                            <img src="<%=collect[i].url %>" alt="Infinity-Loop" class="tile-image">
                                             <h3 class="tile-title ">
                                                 <%=collect[i].name %>
                                             </h3>
                                             <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href=<%='/illust?paintingID=' + collect[i].paintingID %> >More</a>
+                                            <a class="btn btn-primary btn-large btn-block " href="<%='/illust?paintingID=' + collect[i].paintingID %>">More</a>
 
                                             <!--条件显示-->
                                             <% if (isSelf) { %>

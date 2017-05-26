@@ -67,7 +67,7 @@
                     <div class="col-md-3">
                         <div class="user">
                             <div class="user-header">
-                                <img alt="..." class="img-circle" src=<%=user_header %> />
+                                <img alt="..." class="img-circle" src="<%=user_header %>" />
                             </div>
                             <div class="intro last">
                                 <h4>
@@ -167,7 +167,7 @@
                                         <div class="form-group">
                                             <select data-toggle="select" class="form-control select select-inverse" id="selectApplier">   
                                                 <% for(var i=0;i<applier.length;i++) { %> 
-                                                <option value=<%=applier[i].userID %> ><%=applier[i].username %></option>
+                                                <option value="<%=applier[i].userID %>" ><%=applier[i].username %></option>
                                                 <% } %>
                                             </select>
                                         </div>
