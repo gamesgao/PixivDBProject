@@ -81,6 +81,41 @@
                     </div>
 
                     <div class="col-md-9 ">
+                        <div class="panel panel-default">
+                            <div class="panel-heading "><a href="#">Pay Charge</a></div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label for="inputMoney" class="col-lg-2 control-label">InCharge Mnoey</label>
+                                            <div class="col-lg-10 input-group">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-usd"></span></span>
+                                                <input type="text" class="form-control" id="inputMoney" v-model.number="newMoney" placeholder="0" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputTotal" class="col-lg-2 control-label">Total Money</label>
+                                            <div class="col-lg-10">
+                                                <p type="email" class="form-control-static" id="inputTotal">{{totalMoney}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputFreezing" class="col-lg-2 control-label">Freezing Money</label>
+                                            <div class="col-lg-10">
+                                                <p type="email" class="form-control-static" id="inputFreezing">
+                                                    <%=frozen_money %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <button type="button" class="btn btn-primary" :disabled="update0" @click="charge">Charge</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <div class="panel panel-default ">
                             <div class="panel-heading "><a href="#">User Config</a></div>
                             <div class="panel-body">
@@ -107,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default ">
+                        <div class="panel panel-default">
                             <div class="panel-heading "><a href="#">User Header</a></div>
                             <div class="panel-body">
                                 <div class="col-md-12">
@@ -227,6 +262,8 @@
                 userID: '<%=userID %>',
                 oldUsername: '<%=username %>',
                 oldAlipay: '<%=alipay %>',
+                totalMoney: '<%=money%>',
+                newMoney: 0,
                 status: "",
                 message: "",
                 newUsername: "",
@@ -242,6 +279,12 @@
 
             },
             computed: {
+                update0: function() {
+                    if (!isNumber(this.newMoney) || this.newMoney == 0) {
+                        return true;
+                    }
+                    return false;
+                },
                 update1: function() {
                     if (this.newAlipay !== "" && testEmail(this.newAlipay)) {
                         return false;
@@ -368,9 +411,34 @@
                             console.log(err);
                         }
                     )
+                },
+                charge: function() {
+                    let data = {};
+                    data.money = this.newMoney;
+                    this.$http.post('/homepage/charge', data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                app.totalMoney = Number(app.totalMoney) + app.newMoney;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while updateing ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
                 }
             }
         });
+
+        function isNumber(obj) {
+            return obj === +obj
+        }
 
         function testEmail(str) {
             var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
