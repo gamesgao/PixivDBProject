@@ -52,7 +52,7 @@ var user = {
     getAllBriefTrade :'SELECT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id;',
     addTrade :'CALL addTrade(?,?,?,?,1,@output); SELECT @output AS tradeID;',//目前的使用范例为 CALL addTrade('test_for_contri',20,'2017-08-08 22:22','start',1,@output); SELECT @output AS tradeID;
     addTradeTags : 'INSERT INTO trade_tag VALUES ?;',//第一个值是tradeID,第二个值是tag
-    getFullTrade : 'SELECT * FROM trade WHERE id = tradeID;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
+    getFullTrade : 'SELECT * FROM trade WHERE id = ?;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?);',//第一个参数是tradeID，第二个参数是painterID
     addApplierForTrade : 'CALL painter_apply_for_trade(?,?);',//第一个参数是painterID,第二个参数是tradeID
@@ -63,7 +63,7 @@ var user = {
     queryById: 'select * from user where id=?;',
     queryAll: 'select * from user;',
     cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
-    searchUserByName :'select * from user where username = ?;',
+    searchUserByName :'SELECT * FROM user WHERE id like ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
 };

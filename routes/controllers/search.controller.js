@@ -5,17 +5,53 @@ var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
 
 router.get('/', search);
-router.post('/user', searchUser);
-router.post('/painting',searchPainting);
+router.get('/user', searchUserGet);
+router.post('/user', searchUserPost);
+router.get('/painting',searchPaintingGet);
+router.post('/painting',searchPaintingPost);
 
 
 function search(req, res, next) {
-    res.render('search', { title: 'pm2.5 cloud platform' })
+    res.render('search');
 }
 
-function searchUser(req,res,next) {
+
+//get
+function searchUserGet(req,res,next) {
     var userID = req.session.userID;
-    var namesnippet = req.query.namesnippet;
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+            }
+            connection.query(
+                sql.getUserName +
+                sql.getUserHeader,
+                [userID, userID]
+                , function (err, result) {
+                    if (err) {
+                        //handle error
+                        res.render('error');
+                    }
+                    if (result) {
+                        res.render('searchUser', {
+                            username: result[0][0].username,
+                            user_header: result[1][0].user_header,
+                            userID: userID
+                        });
+                    }
+                    connection.release();
+                });
+
+        });
+    }
+}
+
+//post
+function searchUserPost(req,res,next) {
+    var userID = req.session.userID;
+    var namesnippet = '%'.concat(req.body.username.concat('%'));
+
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -46,8 +82,22 @@ function searchUser(req,res,next) {
     }
 }
 
+//get
+function searchPaintingGet(req,res,next) {
+    var userID = req.session.userID;
+    if (userID)
+    {
+        res.render('/');
+    }
+    else
+    {
+        res.render('/');
+    }
+}
+
+
 //post
-function searchPainting(req,res,next) {
+function searchPaintingPost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
     var statement = 'SELECT * FROM painting WHERE ';
