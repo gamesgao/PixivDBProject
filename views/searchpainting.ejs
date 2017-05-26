@@ -15,7 +15,7 @@
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
     <!--User-->
-    <link rel='stylesheet' href='/stylesheets/searchUser.css' />
+    <link rel='stylesheet' href='/stylesheets/searchpainting.css' />
 </head>
 
 <body>
@@ -82,30 +82,63 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Search User</a></div>
+                            <div class="panel-heading "><a href="#">Search Painting</a></div>
                             <div class="panel-body">
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" action="#" role="search">
+                                    <form action="#" role="search">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input class="form-control" id="navbarInput-01" type="search" placeholder="User name" v-model="suser" />
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn" @click="searchUser" :disabled="update2"><span class="fui-search"></span></button>
-                                                </span>
+                                                <span class="input-group-addon">ID</span>
+                                                <input class="form-control" type="text" placeholder="ID Number" v-model="ID" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Topic</span>
+                                                <input class="form-control" type="text" placeholder="Topic" v-model="topic" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> >Star</span>
+                                                <input class="form-control" type="text" placeholder="1000" v-model="star" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"> >View Count</span>
+                                                <input class="form-control" type="text" placeholder="1000" v-model="view" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="radio radio-inline" for="radio5a">
+                                                <input type="radio" name="optionsRadios" data-toggle="radio" value="1" id="radio5a" required > Order By ID
+                                            </label>
+                                            <label class="radio radio-inline" for="radio5b"> 
+                                                <input type="radio" name="optionsRadios" data-toggle="radio" value="2" id="radio5b" required > Order By Star
+                                            </label>
+                                            <label class="radio radio-inline" for="radio5c">
+                                                <input type="radio" name="optionsRadios" data-toggle="radio" value="3" id="radio5c" required > Order By View Count
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-2 col-lg-offset-10">
+                                                <button class="btn btn-block btn-primary" :disabled="update2">Submit</button>
                                             </div>
                                         </div>
                                     </form>
-
-                                    <template v-if="users.length !== 0">
-                                        <template v-for="user in users">
+                                    <template v-if="paintings.length !== 0">
+                                        <template v-for="painting in paintings">
                                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                                 <div class="tile">
-                                                    <img :src="user.header" alt="Infinity-Loop" class="tile-image">
+                                                    <img :src="painting.url" alt="Infinity-Loop" class="tile-image" />
                                                     <h3 class="tile-title ">
-                                                        {{user.username}}
+                                                        {{painting.name}}
                                                     </h3>
                                                     <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                                    <a class="btn btn-primary btn-large btn-block " :href="'/homepage?userID=' + user.userID" >More</a>
+                                                    <a class="btn btn-primary btn-large btn-block " :href="'/illust?paintingID='+painting.paintingID">More</a>
+                                                    <span class="fui-star-2 pull-left">{{painting.upvote}}</span>
+                                                    <span class="glyphicon glyphicon-eye-open">{{painting.pageView}}</span>
                                                 </div>
                                             </div>
                                         </template>
@@ -161,14 +194,20 @@
                 userID: '<%=userID %>',
                 status: "",
                 message: "",
-                suser: "",
-                users: [],
+                paintings: [],
+                ID: "",
+                topic: "",
+                star: "",
+                view: "",
+                order: 0,
                 isProcess: false
             },
             computed: {
                 update2: function() {
-                    if (this.suser !== "" && !this.isProcess) {
-                        return false;
+                    if (this.ID !== "" || this.topic !== "" || this.star !== "" || this.view !== "") {
+                        if (!this.isProcess && this.order !== 0) {
+                            return false;
+                        }
                     }
                     return true;
                 }
@@ -192,17 +231,36 @@
                         }
                     )
                 },
-                searchUser: function() {
+                searchpainting: function() {
                     var data = {};
-                    data.username = this.suser;
+                    if (this.ID != "") {
+                        data.byID = this.ID;
+                    }
+                    if (this.topic != "") {
+                        data.byTopic = this.topic;
+                    }
+                    if (this.star != "") {
+                        data.byUpvote = this.star;
+                    }
+
+                    if (this.view != "") {
+                        data.byPageView = this.view;
+                    }
+                    if (this.order == 1) {
+                        data.OrderByID = true;
+                    } else if (this.order == 2) {
+                        data.OrderByUpvote = true;
+                    } else if (this.order == 3) {
+                        data.OrderByPageView = true;
+                    }
                     this.isProcess = true;
-                    this.$http.post('/search/user', data).then(
+                    this.$http.post('/search/painting', data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 // app.status = "Success!";
                                 // app.message = response.data.msg;
                                 // $('#warning').modal({});
-                                app.users = response.data.data;
+                                app.painting = response.data.painting;
                                 this.isProcess = false;
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
@@ -218,6 +276,11 @@
                     )
                 }
             }
+        });
+        $(function() {
+            $(':radio').on('change.radiocheck', function(event) {
+                app.order = Number($(event.target)[0].value);
+            });
         });
     </script>
 </body>
