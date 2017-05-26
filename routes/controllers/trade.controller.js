@@ -180,9 +180,11 @@ function getTrade(req, res, next) {
                         res.render('error');
                     }
                     if (result) {
+                        result[1].user_header = 'public/img/header/'+String(result[1].userID)+'.png';
                         res.render('getTrade',{
                             trade : result[0],
                             applier : result[1]
+
                         });
                     }
                     connection.release();
