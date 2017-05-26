@@ -196,7 +196,7 @@
                     var data = {};
                     data.username = this.suser;
                     this.isProcess = true;
-                    this.$http.get('/search/user', data).then(
+                    this.$http.post('/search/user', data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 // app.status = "Success!";
