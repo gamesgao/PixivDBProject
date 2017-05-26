@@ -8,8 +8,8 @@ var sql = require('../../dbconf/sqlMapping.js');
 // 感觉画家接单也可以直接放在这个页面
 router.get('/', trade);
 // 招标的发起页
-router.get('/initTrade',initialTradeGet);
 router.post('/initTrade',initialTradePost);
+router.get('/initTrade',initialTradeGet);
 router.get('/getTrade',getTrade);
 router.get('/getTrade/selectpainter',selectPainter);
 router.get('/getTrade/applyfortrade',applyForTrade);
@@ -77,7 +77,7 @@ function initialTradeGet(req, res, next) {
                         // handle error
                     }
                     if (result) {
-                        res.render('trade', {
+                        res.render('initTrade', {
                             username : result[0][0].username,
                             user_header : result[1][0].user_header,
                             buyerflag : result[2][0].buyerflag,
@@ -98,6 +98,7 @@ function initialTradeGet(req, res, next) {
 
 function initialTradePost(req, res, next) {
     var userID = req.session.userID;
+    var body = req.body;
     var status = 1;
     var message = '';
     var trade = req.body;
@@ -109,26 +110,27 @@ function initialTradePost(req, res, next) {
             }
             connection.query(
                 sql.addTrade,
-                [trade, userID, userID]
+                [body.abstract, body.price, body.deadline, 'start', userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
                         status = 0;
                         message = '加入Trade失败';
+                        res.json({status:status, msg:message});
                         connection.release();
                         return;
                     }
                     if (result) {
-                        var trade_id = result[0].tradeID;
-                        var tags = req.body.tags;
+                        var trade_id = Number(result[0].tradeID);
+                        var tags = req.body.tag;
                         var trade_tag_pair = new Array(tags.length);
-                        for (var i = 0; i < tags.length, i++;)
+                        for (var i = 0; i < tags.length; i++)
                         {
-                            trade_tag_pair[i] = [trade_id, tags[i]];
+                            trade_tag_pair[i] = [trade_id,tags[i]];
                         }
                         connection.query(
                             sql.addTradeTags,
-                            [userID, userID, userID]
+                            [trade_tag_pair]
                             , function (err, result) {
                                 if (err) {
                                     //handle error

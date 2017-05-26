@@ -543,7 +543,7 @@ function addContribute(req, res, next) {
 
 function delContribute(req, res, next) {
     var userID = req.session.userID;
-    var paintingID = req.query.paintingID;
+    var paintingID = Number(req.query.paintingID);
     var status = 0;
     var message = '';
     if (userID)
@@ -554,7 +554,7 @@ function delContribute(req, res, next) {
             }
             connection.query(
                 sql.delContribute,
-                [userID, paintingID],
+                [paintingID, userID],
                 function (err, result) {
                     if (err) {
                         //handle error
@@ -563,9 +563,16 @@ function delContribute(req, res, next) {
                     }
                     if (result) {
                         //res.render('following', {})
-                        fs.unlinkSync('/upload/img/header/' + result[0].paintingurl);
-                        status = 1;
-                        message = '用户删除画成功';
+                        try {
+                            fs.unlinkSync(__dirname + '/../../public' + result[0].paintingurl);
+                            status = 1;
+                            message = '用户删除画成功';
+                        } catch (err) {
+                            if (err.code == 'ENOENT')
+                            {
+                                message = '用户删除画不存在';
+                            }
+                        }
                     }
                     res.json({
                         status: status,

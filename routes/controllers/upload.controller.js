@@ -43,17 +43,20 @@ function headerUpload(req, res, next) {
 
 function paintingUpload(req, res, next) {
     var userID = req.session.userID;
+    var title = req.body.title;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                //delete file
+                fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
             }
             var datetime = new Date();
             console.log(datetime);
             connection.query(
                 sql.addContribute,
-                [userID, paintingID],
+                [title, userID, path.extname(req.file.originalname)],
                 function (err, result) {
                     var state = 0;
                     var message = '';
@@ -61,14 +64,16 @@ function paintingUpload(req, res, next) {
                         //handle error
                         state = 0;
                         message = '用户添加画失败';
+                        //delete file
+                        fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
                     }
                     var paintingID = 0;
                     if (result) {
-                        paintingID = result[0].paintingID;
+                        paintingID = result[1][0].paintingID;
                         //res.render('following', {})
                         state = 1;
                         message = '用户添加画成功';
-                        fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/header/' + paintingID.toString() + path.extname(file.originalname), function (err) {
+                        fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/painting/' + paintingID.toString() + path.extname(req.file.originalname), function (err) {
                             if (err) {
                                 throw err;
                             }
@@ -76,9 +81,11 @@ function paintingUpload(req, res, next) {
                         });
                     }
                     res.json({
-                        code: state.toString(),
+                        status: state,
                         msg: message
                     });
+                    connection.release();
+                    return;
                 });
         });
     }

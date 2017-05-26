@@ -368,6 +368,9 @@ return页面register.ejs
 		状态：status
 		招标候选人：需要详细讨论
 
+/canceltrade@get
+	
+
 /search页面下
 /user@get
 	Param 无
@@ -423,6 +426,7 @@ return页面register.ejs
 
 /painting/@post
 	Param 用户作品	
+			tital 主题
 	需要对权限有所判断
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
@@ -433,3 +437,5 @@ return页面register.ejs
 
 //TODO
 可能trade要把简介分成简介和详细信息
+search trade 啊啊啊啊啊
+painting 上传失败需要删除
