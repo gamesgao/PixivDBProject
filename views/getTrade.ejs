@@ -209,28 +209,12 @@
         var app = new Vue({
             el: '#app',
             data: {
-                userID: '<%=userID %>',
                 tradeID: '<%=trade.id %>',
                 selectedID: "ww",
                 status: "",
                 message: "",
             },
             methods: {
-                follow: function() {
-                    this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(function(response) {
-                        if (response.data.status == 1) {
-                            app.status = "Success!";
-                            app.message = response.data.msg;
-                            $('#warning').modal({});
-                        } else if (response.data.status == 0) {
-                            app.status = "Error!";
-                            app.message = `Something wrong while following ERR:${response.data.msg}`;
-                            $('#warning').modal({});
-                        }
-                    }, function(err) {
-                        console.log(err);
-                    })
-                },
                 apply: function() {
                     this.$http.get(`/trade/getTrade/applyfortrade?tradeID=${this.tradeID}`).then(function(response) {
                         if (response.data.status == 1) {
