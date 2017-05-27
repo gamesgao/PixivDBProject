@@ -3,9 +3,7 @@
  [添加]
  [删除]
  [修改]
- getApplierForTrade
- getFullTrade
- searchUserByName
+ getRelatedTrades
  */
 /*
  本次对数据库的修改：
@@ -55,14 +53,14 @@ var user = {
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?);',//第一个参数是tradeID，第二个参数是painterID
     addApplierForTrade : 'SELECT username,id AS userID, icon AS user_header FROM painter_apply_for_trade p,user u WHERE p.trade = ? and p.painter = u.id;',//第一个参数是painterID,第二个参数是tradeID
-    getRelatedTrades : '',
+    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(?,?,?,?,?);',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
     delete: 'delete from user where id=?;',
     queryById: 'select * from user where id=?;',
     queryAll: 'select * from user;',
     cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
-    searchUserByName :'select * from user where username LIKE ?;',
+    searchUserByName :'SELECT * FROM user WHERE username like ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
 };
