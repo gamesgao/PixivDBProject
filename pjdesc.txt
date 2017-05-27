@@ -327,13 +327,16 @@ return页面register.ejs
 			userID:
 			user_header
 		}
+		还需要
+		respondername，responder的名字
+		buyername, buyer的名字
 		(对于1和2)
 		需要返回sessionID对应的人是画师还是买家，围观群众是否允许进入此界面？
 		围观群众只能看不能选择接单吧
 		type: 0:围观群众 1:画师 2:买家 
 		(对于3)
 		需要返回该trade是否被画师接单
-		isApplied	
+		isApplied
 
 		1.用于显示一个招标的详细信息和用于接受（画师）
 		2.这个页面对于买家同时用于接受候选人

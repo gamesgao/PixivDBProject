@@ -164,7 +164,7 @@ function initialTradePost(req, res, next) {
 
 function getTrade(req, res, next) {
     var userID = req.session.userID;
-    var tradeID = req.query.tradeID;
+    var tradeID = Number(req.query.tradeID);
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -172,20 +172,41 @@ function getTrade(req, res, next) {
             }
             connection.query(
                 sql.getFullTrade +
-                sql.getApplier,
-                [tradeID, tradeID]
+                sql.getApplier +
+                sql.getUserType,
+                [tradeID, tradeID, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
                         res.render('error');
                     }
                     if (result) {
-                        result[1].user_header = 'public/img/header/'+String(result[1].userID)+'.png';
-                        res.render('getTrade',{
-                            trade : result[0],
-                            applier : result[1]
+                        var isApplied = false;
+                        var type;
+                        if (result[2][0].type == 'o') type = 0;
+                        else if(result[2][0].type == 'p') type = 1;
+                        else if (result[2][0].type == 'b') type = 2;
+                        for (var i = 0; i < result[1].length; i++) {
 
-                        });
+                            if (userID == result[1][i].id) {
+                                isApplied = true;
+                            }
+                        }
+                        //result[1].user_header = 'public/img/header/'+String(result[1].userID)+'.png';
+                        sendJSON = {
+                            trade: result[0][0],
+                            applier: result[1],
+                            isApplied: isApplied,
+                            type: type
+                        };
+                        connection.query(
+                            sql.getUserName,
+                            [result[0][0].responder]
+                            , function (err, result) {
+                                sendJSON.respondername = result[0];
+                                res.render('getTrade', sendJSON);
+                            }
+                        );
                     }
                     connection.release();
                 });
