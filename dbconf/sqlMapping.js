@@ -3,14 +3,13 @@
  [添加]
  [删除]
  [修改]
- cancelTrade
- addApplierForTrade
+ getApplierForTrade
+ getFullTrade
+ searchUserByName
  */
 /*
  本次对数据库的修改：
  [添加]
- painter_add_money
- cancelTrade
  */
 
 var user = {
@@ -49,13 +48,13 @@ var user = {
     addPaintingTag : 'INSERT INTO painting_tag VALUES(?,?);',//已修改 第一个变量是paintingID，第二个变量是tag
     getBuyerFlag :'SELECT getBuyerFlag(?) AS buyerflag;',//返回0代表不是买家，返回1代表是买家
     getBriefTrade :'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id and u.id = ?;',
-    getAllBriefTrade :'SELECT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id;',
+    getAllBriefTrade :'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id;',
     addTrade :'CALL addTrade(?,?,?,?,1,@output); SELECT @output AS tradeID;',//目前的使用范例为 CALL addTrade('test_for_contri',20,'2017-08-08 22:22','start',1,@output); SELECT @output AS tradeID;
-    addTradeTags : 'INSERT INTO trade_tag VALUES ?;',//第一个值是tradeID,第二个值是tag
+    addTradeTags : 'INSERT INTO trade_tag VALUES(?,?);',//第一个值是tradeID,第二个值是tag
     getFullTrade : 'SELECT * FROM trade WHERE id = ?;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?);',//第一个参数是tradeID，第二个参数是painterID
-    addApplierForTrade : 'CALL painter_apply_for_trade(?,?);',//第一个参数是painterID,第二个参数是tradeID
+    addApplierForTrade : 'SELECT username,id AS userID, icon AS user_header FROM painter_apply_for_trade p,user u WHERE p.trade = ? and p.painter = u.id;',//第一个参数是painterID,第二个参数是tradeID
     getRelatedTrades : '',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
@@ -63,9 +62,10 @@ var user = {
     queryById: 'select * from user where id=?;',
     queryAll: 'select * from user;',
     cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
-    searchUserByName :'SELECT * FROM user WHERE id like ?;',
+    searchUserByName :'select * from user where username LIKE ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
-    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
+    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
+    getUserType : 'SELECT type FROM user WHERE id = ?;'
 };
 
 module.exports = user;

@@ -26,9 +26,10 @@ function comm(req, res, next) {
                 sql.getCreatedTime +
                 sql.getResolution +
                 sql.getRatedCount +
-                sql.getViewCount,
+                sql.getViewCount +
+                sql.addView,
                 [illustID, illustID, illustID, illustID, illustID,
-                    illustID, illustID, illustID, illustID, illustID]
+                    illustID, illustID, illustID, illustID, illustID, illustID]
                 , function (err, result) {
                     if (err) {
                         // handle error
