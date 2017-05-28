@@ -4,7 +4,12 @@ var router = express.Router();
 router.get('/', index);
 
 function index(req, res, next) {
-    res.redirect('/login');
+    var sessionUserID = req.session.userID;
+    if (sessionUserID) {
+        res.redirect('/homepage');
+    } else {
+        res.redirect('/login');
+    }
 }
 
 
