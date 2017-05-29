@@ -43,7 +43,7 @@ function register(req, res, next) {
             return;
         }
         connection.query(
-            sql.addUser, [user.username, user.usertype, user.password],
+            sql.addUser, [user.username, user.usertype, user.password, user.alipay_address],
             function(err, result) {
                 if (err) {
                     // handle error
