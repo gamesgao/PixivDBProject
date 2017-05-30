@@ -145,6 +145,41 @@
                                     <% } %>
                             </div>
                         </div>
+                        <div class="panel panel-default ">
+                            <div class="panel-heading ">
+                                <a href="#">
+                                    Personal Information
+                                </a>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">个人主页</span>
+                                            <p class="form-control">
+                                                <%=pdata.phomepage %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">推特</span>
+                                            <p class="form-control">
+                                                <%=pdata.twitter %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">简介</span>
+                                            <textarea class="form-control" rows="3">
+                                                <%=pdata.abstract %>
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
