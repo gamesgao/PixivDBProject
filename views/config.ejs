@@ -95,15 +95,15 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputTotal" class="col-lg-2 control-label">Total Money</label>
+                                            <label for="inputTotal" class="col-lg-2 control-label">Current Money</label>
                                             <div class="col-lg-10">
-                                                <p type="email" class="form-control-static" id="inputTotal">{{totalMoney}}</p>
+                                                <p type="text" class="form-control-static" id="inputTotal">{{totalMoney}}</p>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputFreezing" class="col-lg-2 control-label">Freezing Money</label>
                                             <div class="col-lg-10">
-                                                <p type="email" class="form-control-static" id="inputFreezing">
+                                                <p type="text" class="form-control-static" id="inputFreezing">
                                                     <%=frozen_money %>
                                                 </p>
                                             </div>
@@ -263,7 +263,7 @@
                 userID: '<%=userID %>',
                 oldUsername: '<%=username %>',
                 oldAlipay: '<%=alipay %>',
-                totalMoney: '<%=money%>',
+                totalMoney: '<%=current_money %>',
                 newMoney: 0,
                 status: "",
                 message: "",
