@@ -15,7 +15,7 @@
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
     <!--User-->
-    <link rel='stylesheet' href='/stylesheets/addcontribute.css' />
+    <link rel='stylesheet' href='/stylesheets/uploadwork.css' />
 </head>
 
 <body>
@@ -82,7 +82,7 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Painting Upload</a></div>
+                            <div class="panel-heading "><a href="#">Work Upload</a></div>
                             <div class="panel-body">
                                 <div class="col-md-12">
                                     <form class="form-horizontal" role="form">
@@ -105,14 +105,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputTitle" class="col-lg-2 control-label">Title</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="inputTitle" v-model="title" placeholder="Title" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <div class="col-lg-offset-2 col-lg-10">
-                                                <button type="button" class="btn btn-primary" :disabled="upload" @click="uploadPainting">Upload</button>
+                                                <button type="button" class="btn btn-primary" :disabled="isImage" @click="uploadPainting">Upload</button>
                                             </div>
                                         </div>
                                     </form>
@@ -174,14 +168,6 @@
                 isImage: true,
                 title: ""
             },
-            computed: {
-                upload: function() {
-                    if (this.title !== "" && !this.isImage) {
-                        return false;
-                    }
-                    return true;
-                }
-            },
             methods: {
                 follow: function() {
                     this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
@@ -226,9 +212,8 @@
                 },
                 uploadPainting: function() {
                     var fileFormData = new FormData();
-                    fileFormData.append("painting", this.newImage);
-                    fileFormData.append("title", this.title);
-                    this.$http.post('/upload/painting', fileFormData).then(function(response) {
+                    fileFormData.append("tradework", this.newImage);
+                    this.$http.post('/upload/tradework', fileFormData).then(function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
                                 app.message = response.data.msg;
