@@ -71,7 +71,7 @@ var user = {
     getUserMoney :'CALL getUserMoney(?,@frozen_money,@current_money);SELECT @frozen_money,@current_money;',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
     modifyUserTwitter :'UPDATE user SET twitter = ? WHERE id = ?',
     modifyUserAbstract : 'UPDATE user SET abstract = ? WHERE id = ?',
-    modifyUserHomepage : 'UPDATE user SET phomepage = ? WHERE id = ?',
+    modifyUserHomepage : 'UPDATE user SET phomepage = ? WHERE id = ?'
 };
 
 module.exports = user;

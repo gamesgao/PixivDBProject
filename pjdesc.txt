@@ -1,4 +1,4 @@
-﻿如何使用session，这是官方网站
+﻿何使用session，这是官方网站
 https://www.npmjs.com/package/express-session
 
 这里我采用的session存储方式就是mysql，session的配置在app.js中，需要按照需要修改。采用插件express-mysql-session。
@@ -78,8 +78,7 @@ return页面register.ejs
 			name: //好友名字
 			id: //好友id
 		}
-		// 朋友人数：friendNum
-	not checked: pdata
+		// 朋友人数：friendNum	
 	
 /config@get
 	Param 无
@@ -94,7 +93,7 @@ return页面register.ejs
 		冻结的钱: frozen_money
 		可用的钱: current_money
 
-	not checked! 两个钱
+	not checked! 两个钱 和个人信息
 
 /configUpload@post
 	Param newname(新的用户名), newAlipay, 以后还要加用户的详细信息
@@ -281,7 +280,6 @@ return页面register.ejs
 		}		
 		**以上这些简称brief trade**
 
-		buyername not check!
 
 /initTrade@get
 	Param
@@ -333,23 +331,27 @@ return页面register.ejs
 		围观群众只能看不能选择接单吧
 		type: 0:围观群众 1:画师 2:买家 
 		(对于3)
-		需要返回该trade是否被画师接单
+		需要返回该trade是否被画师接单		
 		isApplied - if true 显示取消
 		isResponded -if true 显示取消和投稿
 		isBuyer - if true 显示已投稿的作品
 		url - 作品url,没有的话是undefined
 		要显示画还需要什么？
+
 		1.用于显示一个招标的详细信息和用于接受（画师）
 		2.这个页面对于买家同时用于接受候选人
 		3.画师也可以在这个页面取消接单
 
+
 /getTrade/uploadwork@get
-	Param: 无
+	Param:tradeID
 	上传交易的画，只需要上传文件，不需要简介，tag等
 	Return 页面 uploadwork.ejs
 	ejs 用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
+
+	not checked : get trade url
 
 /getTrade/selectpainter@get 
 	Param: painterID, tradeID
@@ -364,15 +366,12 @@ return页面register.ejs
 	Return 
 		tradeHomepage.ejs
 		返回：
-			交易:trades （brief trade 形式）
+			交易:trades （brief trade 形式 + relation）
 			用户与交易的关系 relation（三种字符创：buyer,responder,applier）如果是responder就返回responder，不是再返回applier
 
 			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
 			如果是买家，则返回他所发出的trade，同上
-		同上需要用户类型type
-
-		这个页面，如果是买家，则可以取消交易
-				如果是画师，则可以取消应聘 //注意：分画师是应聘还是被选中分情况讨论
+		
 
 这个页面可能还要同时做取消？
 	Ejs 简介：abstract
@@ -447,6 +446,12 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 
+/tradework/@post
+	Param tradeID 用户作品
+	需要对权限有所判断
+	Return 状态：status： 1：成功/0：失败
+			错误信息：msg
+
 头像默认图片 /public/img/default_header.png
 头像上传路径： /public/img/header
 画上传路径: /public/img/painting
@@ -454,4 +459,3 @@ return页面register.ejs
 //TODO
 可能trade要把简介分成简介和详细信息
 search trade 啊啊啊啊啊
-painting 上传失败需要删除

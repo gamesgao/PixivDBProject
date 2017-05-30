@@ -41,14 +41,19 @@ function data(req, res, next) {
                 sql.getFollowingNum +
                 sql.getCollectedPainting +
                 sql.getMostTag +
-                sql.getUserHeader,
-                [userID, userID, userID, userID, userID, userID, userID]
+                sql.getUserHeader +
+                sql.getUserInfo,
+                [userID, userID, userID, userID, userID, userID, userID, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
                         res.render('error');
                     }
                     if (result) {
+                        pdata = {};
+                        pdata.phomepage = result[7][0].phomepage;
+                        pdata.abstract = result[7][0].abstract;
+                        pdata.twitter = result[7][0].twitter;
                         res.render('homepage',
                             {
                                 contribute_painting: result[0],
@@ -58,7 +63,8 @@ function data(req, res, next) {
                                 collect_painting: result[4],
                                 tag: result[5],
                                 user_header: result[6][0].user_header,
-                                userID: req.query.userID
+                                userID: req.query.userID,
+                                pdata: pdata
                             });
                     }
                     connection.release();
@@ -101,8 +107,8 @@ function config(req, res, next) {
                             user_header : result[1][0].user_header,
                             alipay : result[2][0].alipay,
                             userID : req.session.userID,
-                            frozen_money: 0,
-                            current_money: 0
+                            frozen_money: result[4][0].frozen_money,
+                            current_money: result[4][0].current_money
                         });
                     }
                 });

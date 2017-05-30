@@ -7,12 +7,13 @@ var fs = require('fs');
 
 var path = require('path');
 var multer = require('multer');
-
 var upload = multer({ dest: 'public/img/' });
 
 router.get('/', uploads);
 router.post('/header', upload.single('user_header'), headerUpload);
 router.post('/painting', upload.single('painting'), paintingUpload);
+router.post('/tradework', upload.single('tradework'), tradeworkUpload);
+
 
 function uploads(req, res, next) {
     res.render('upload', { title: 'pm2.5 cloud platform' })
@@ -121,6 +122,55 @@ function paintingUpload(req, res, next) {
                             });
                         });
 
+                    }
+                });
+        });
+    }
+    else{
+        //handle error
+    }
+}
+
+function tradeworkUpload(req, res, next) {
+    var userID = req.session.userID;
+    var tradeID = req.body.tradeID;
+    if (userID)
+    {
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                // handle error
+                //delete file
+                fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
+            }
+            connection.query(
+                sql.addTradeWork,
+                [userID, tradeID, path.extname(req.file.originalname)],
+                function (err, result) {
+                    var state = 0;
+                    var message = '';
+                    if (err) {
+                        //handle error
+                        state = 0;
+                        message = '用户添加交易画失败';
+                        //delete file
+                        fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
+                        res.json({
+                            status: state,
+                            msg: message
+                        });
+                        connection.release();
+                        return;
+                    }
+                    var paintingID = 0;
+                    if (result) {
+                        state = 1;
+                        message = '用户添加交易画成功';
+                        res.json({
+                            status: state,
+                            msg: message
+                        });
+                        connection.release();
+                        return;
                     }
                 });
         });

@@ -3,6 +3,8 @@ var router = express.Router();
 var mysql = require('mysql');
 var pool = require('../../dbconf/pool.js');
 var sql = require('../../dbconf/sqlMapping.js');
+var multer = require('multer');
+var upload = multer({ dest: 'public/img/' });
 
 // 招标的主页
 // 感觉画家接单也可以直接放在这个页面
@@ -14,8 +16,9 @@ router.get('/getTrade',getTrade);
 router.get('/getTrade/selectpainter',selectPainter);
 router.get('/getTrade/applyfortrade',applyForTrade);
 router.get('/cancelTrade',cancelTrade);
-
 router.get('/tradehomepage', tradeHomepage);
+router.get('/getTrade/uploadwork', uploadwork);
+
 
 
 function trade(req, res, next) {
@@ -175,7 +178,7 @@ function getTrade(req, res, next) {
                 sql.getApplier +
                 sql.getUserType +
                 sql.getTradeUrl,
-                [tradeID, tradeID, userID]
+                [tradeID, tradeID, userID, userID, tradeID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -186,6 +189,7 @@ function getTrade(req, res, next) {
                         var isBuyer = false;
                         var isResponded = false;
                         var type;
+                        var url = '';
                         var responderID = result[0][0].responder;
                         var buyerID = result[0][0].buyer;
                         if (result[2][0].type == 'o') type = 0;
@@ -213,15 +217,19 @@ function getTrade(req, res, next) {
                             isResponded: isResponded,
                             isBuyer: isBuyer,
                             type: type,
-
+                            url: url,
                         };
                         connection.query(
                             sql.getUserName +
                             sql.getUserName,
                             [responderID, buyerID]
                             , function (err, result) {
-                                sendJSON.respondername = result[0][0].username;
-                                sendJSON.buyername = result[1][0].username;
+                                if (result[0][0])
+                                    sendJSON.respondername = result[0][0].username;
+                                else sendJSON.respondername = null;
+                                if (result[1][0])
+                                    sendJSON.buyername = result[1][0].username;
+                                else sendJSON.buyername = null;
                                 res.render('getTrade', sendJSON);
                             }
                         );
@@ -250,7 +258,7 @@ function selectPainter(req, res, next) {
             }
             connection.query(
                     sql.addResponderForTrade,
-                [tradeID, painterID]
+                [tradeID, painterID,userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -320,6 +328,8 @@ function tradeHomepage(req, res, next) {
     var userID = req.session.userID;
     var status = 1;
     var message = '';
+    var getID = req.query.userID;
+    if (!getID) getID = userID;
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -327,16 +337,16 @@ function tradeHomepage(req, res, next) {
             }
             connection.query(
                 sql.getRelatedTrades,
-                [userID]
+                [getID]
                 , function (err, result) {
                     if (err) {
                         // handle error
-                        status = 0;
-                        message = '获取用户相关交易失败';
+                        res.render('error');
                     }
                     if (result) {
-                        status = 1;
-                        message = '获取用户相关交易成功';
+                        res.render('tradeHomepage',{
+
+                        });
                     }
                     res.json({
                         status : status,
@@ -393,13 +403,40 @@ function cancelTrade(req, res, next) {
     }
 }
 
-
-function applyTrade(req, res, next) {
-    return;
-}
-
-function transaction(req, res, next) {
-    return;
+function uploadwork(req, res, next) {
+    var userID = req.session.userID;
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+                res.render('error');
+            }
+            connection.query(
+                sql.getUserName +
+                sql.getUserHeader,
+                [userID, userID]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        res.render('error');
+                    }
+                    if (result) {
+                        res.render('uploadwork',
+                            {
+                                username: result[0][0].username,
+                                user_header: result[1][0].user_header,
+                                userID: req.query.userID
+                            });
+                    }
+                    connection.release();
+                }
+            );
+        });
+    }
+    else
+    {
+        res.redirect('/login');
+    }
 }
 
 module.exports = router;
