@@ -53,7 +53,7 @@ var user = {
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?,?);',//第一个参数是tradeID，第二个参数是painterID，第三个参数是buyerID
     addApplierForTrade : 'SELECT username,id AS userID, icon AS user_header FROM painter_apply_for_trade p,user u WHERE p.trade = ? and p.painter = u.id;',//第一个参数是painterID,第二个参数是tradeID
-    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(?,?,?,?,?);',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation
+    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl); SELECT @buyer,@price,@buyername,@state,@relation,@ddl;',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,state,buyername,relationf,ddl;
     getUserType : 'SELECT type FROM user WHERE id = ?;',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
