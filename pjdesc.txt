@@ -47,7 +47,8 @@ return页面register.ejs
 	Ejs 个人信息：pdata={
 					个人主页:phomepage
 					推特:twitter
-				} //项太多了先不管 //这里打算直接用p站那样一个列表www
+					简介:abstract
+				} 
 		投稿作品：contribute_painting[{
 			url: //图片地址
 			paintingID: // 图片ID
@@ -91,6 +92,8 @@ return页面register.ejs
 		用户ID：userID
 		冻结的钱: frozen_money
 		可用的钱: current_money
+
+	not checked! 两个钱
 
 /configUpload@post
 	Param newname(新的用户名), newAlipay, 以后还要加用户的详细信息

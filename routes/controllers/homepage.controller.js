@@ -86,7 +86,7 @@ function config(req, res, next) {
                 sql.getUserHeader +
                 sql.getUserAlipay +
                 sql.getUserMoney,
-                [userID, userID, userID],
+                [userID, userID, userID, userID],
                 function (err, result) {
                     if (err)
                     {
@@ -99,7 +99,9 @@ function config(req, res, next) {
                             username : result[0][0].username,
                             user_header : result[1][0].user_header,
                             alipay : result[2][0].alipay,
-                            userID : req.session.userID
+                            userID : req.session.userID,
+                            frozen_money: 0,
+                            current_money: 0
                         });
                     }
                 });

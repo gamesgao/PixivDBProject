@@ -64,8 +64,9 @@ var user = {
     cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
     searchUserByName :'SELECT * FROM user WHERE username like ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
-    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
-    getUserMoney:'';
+    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
+    getUserMoney:'',
+    chargeMoney:''
 };
 
 module.exports = user;
