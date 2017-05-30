@@ -301,7 +301,7 @@
                 rated: function() {
                     var data = {};
                     data.paintingID = this.paintingID;
-                    this.$http.post('/illlust/upvote', data).then(
+                    this.$http.post('/illust/upvote', data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
