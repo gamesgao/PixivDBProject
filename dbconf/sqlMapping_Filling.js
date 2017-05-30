@@ -1,11 +1,10 @@
 /*
  本次修改的语句：
  [添加]
+ addTradeWork
+ getTradeUrl
  [删除]
  [修改]
- addTradeTags
- addTrade
- getUserMoney
  */
 /*
  本次对数据库的修改：
@@ -68,6 +67,8 @@ var user = {
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
     getUserMoney :'CALL getUserMoney(?,?,?)',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
     chargeMoney :'CALL buyer_add_money(?,?)',//第一个参数是userID,第二个参数是money
+    addTradeWork :'CALL addTradeWork(?,?,?)',//第一个参数是painterID,第二个参数是tradeID,第三个参数是paintingURL格式 就是trade中的upload_file_route
+    getTradeUrl :'CALL getTradeUrl(?,?,?)',//第一个参数是buyerID,第二个参数是tradeID,第三个参数是paintingURL 就是trade中的upload_file_route
 };
 
 module.exports = user;
