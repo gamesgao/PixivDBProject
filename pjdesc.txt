@@ -79,7 +79,8 @@ return页面register.ejs
 			id: //好友id
 		}
 		// 朋友人数：friendNum
-		
+	not checked: pdata
+	
 /config@get
 	Param 无
 	Return 页面 config.ejs
@@ -200,8 +201,7 @@ return页面register.ejs
 	显示上传页面	
 	ejs 用户名称：username
 		用户头像：user_header：url
-		用户ID：userID
-		not checked!
+		用户ID：userID		
 
 
 /delcontribute@get?paintingID
@@ -209,22 +209,13 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 		用于为登陆用户删除投稿的画，注意权限判断
-		not checked!
+		
 
-/charge@get?
-	Param session.userID
-	Return 页面 charge.ejs
-		输入想充的钱，注意如果是画师或围观群众，则显示“不是买家”，如果未登录则跳转登陆界面
-	Ejs 	username:用户名
-		money: 现有钱
-		frozen_money: 冻结钱
-		not checked!
 /charge@post?
 	Param money
 	Return 1:成功 0:失败
-	not checked!
+	not checked! 等待数据库实现 
 	
-//checked 5.23 注意上面4个还没check
 
 用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全 ： 见config 和 configupload
 用户设置上传，访问
@@ -265,8 +256,7 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 			用于为一幅画点赞，已经建立相应的数据库
-			需要检查是否能重复投票
-	not checked!
+			需要检查是否能重复投票	
 
 /trade页面下
 /@get
@@ -344,8 +334,11 @@ return页面register.ejs
 		type: 0:围观群众 1:画师 2:买家 
 		(对于3)
 		需要返回该trade是否被画师接单
-		isApplied
-
+		isApplied - if true 显示取消
+		isResponded -if true 显示取消和投稿
+		isBuyer - if true 显示已投稿的作品
+		url - 作品url,没有的话是undefined
+		要显示画还需要什么？
 		1.用于显示一个招标的详细信息和用于接受（画师）
 		2.这个页面对于买家同时用于接受候选人
 		3.画师也可以在这个页面取消接单

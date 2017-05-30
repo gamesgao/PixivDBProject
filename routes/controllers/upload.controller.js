@@ -114,6 +114,7 @@ function paintingUpload(req, res, next) {
                                                 });
                                             }
                                             connection.release();
+                                            return;
                                         }
                                     );
                                 }
@@ -121,7 +122,6 @@ function paintingUpload(req, res, next) {
                         });
 
                     }
-                    return;
                 });
         });
     }

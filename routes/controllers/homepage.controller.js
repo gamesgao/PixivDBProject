@@ -11,6 +11,7 @@ router.get('/', data);
 router.get('/config', config);
 router.post('/configUpload', configUpload);
 router.post('/passwordUpload', passwordUpload);
+router.post('/charge', charge);
 router.get('/following', following);
 router.get('/addfollowing', addFollowing);
 router.get('/delfollowing', delFollowing);
@@ -230,6 +231,7 @@ function passwordUpload(req, res, next) {
 function following(req, res, next) {
     var userID = req.session.userID;
     var homepageID = req.query.userID;
+    if (!(homepageID)) homepageID = userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -350,6 +352,7 @@ function delFollowing(req, res, next) {
 function collect(req, res, next) {
     var userID = req.session.userID;
     var homepageID = req.query.userID;
+    if (!(homepageID)) homepageID = userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -470,6 +473,7 @@ function delCollecting(req, res, next) {
 function contribute(req, res, next) {
     var userID = req.session.userID;
     var homepageID = req.query.userID;
+    if (!(homepageID)) homepageID = userID;
     if (userID)
     {
         pool.getConnection(function(err, connection) {
@@ -581,6 +585,7 @@ function delContribute(req, res, next) {
                         status: status,
                         msg: message
                     });
+                    return;
                 });
         });
     }
@@ -590,5 +595,40 @@ function delContribute(req, res, next) {
     }
 }
 
-
+//post
+function charge(req, res, next) {
+    var userID = req.session.userID;
+    var money = req.body.money;
+    var status = 0;
+    var message = '';
+    if (userID)
+    {
+        pool.getConnection(function(err, connection) {
+            if (err) {
+                // handle error
+                status = 0;
+                message = '数据库连接失败';
+                res.json(
+                    {
+                        status: status,
+                        msg: message
+                    });
+            }
+            connection.query(
+                sql.chargeMoney,
+                [userID, money],
+                function (err, result) {
+                    if (err) {
+                        status = 0;
+                        message = '添加钱失败';
+                    }
+                    else {
+                        status = 1;
+                        message = '添加钱成功';
+                    }
+                }
+            );
+        });
+    }
+}
 module.exports = router;

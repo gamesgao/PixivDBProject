@@ -147,7 +147,7 @@ function addTag(req, res, next) {
 
 function upvote(req, res, next) {
     var userID = req.session.userID;
-    var paintingID = req.body.paintingID;
+    var paintingID = Number(req.body.paintingID);
     var status = 0;
     var message = '';
     if (userID && paintingID)
@@ -158,7 +158,7 @@ function upvote(req, res, next) {
             }
             connection.query(
                 sql.upvote,
-                [paintingID, userID]
+                [userID, paintingID, paintingID]
                 , function (err, result) {
                     if (err) {
                         // handle error
