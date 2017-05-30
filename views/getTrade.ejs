@@ -139,32 +139,49 @@
                                         </div>
                                     </div>
                                 </form>
-                                <% if(type == 2 && !isApplied) { %>
-                                    <form role="form" class="form-inline">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">选择画师</span>
-                                                <p></p>
+                                <% if(type !== 0) { %>
+                                    <% if(isBuyer && !isApplied) { %>
+                                        <form role="form" class="form-inline">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">选择画师</span>
+                                                    <p></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <select data-toggle="select" class="form-control select select-inverse" id="selectApplier">   
+                                            <div class="form-group">
+                                                <select data-toggle="select" class="form-control select select-inverse" id="selectApplier">   
                                                 <% for(var i=0;i<applier.length;i++) { %> 
                                                 <option value="<%=applier[i].userID %>" ><%=applier[i].username %></option>
                                                 <% } %>
                                             </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="btn btn-primary" @click="confirm">Confirm</button>
-                                        </div>
-                                    </form>
-                                    <% } %>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-primary" @click="confirm">Confirm</button>
+                                            </div>
+                                        </form>
+                                        <% } else if(isBuyer && isApplied && url) { %>
+                                            <div class="col-lg-12">
+                                                <img src="<%-url %>" class="img-thumbnail img-responsive" />
+                                            </div>
+                                            <% } %>
                             </div>
-                            <% if(type == 1 && !isApplied) { %>
+                            <% if(type === 1 && !isApplied && !isResponded) { %>
                                 <div class="panel-footer">
                                     <button type="button" class="btn btn-primary btn-block" @click="apply">Apply</button>
                                 </div>
                                 <% } %>
+                                    <% if(isResponded && isApplied) { %>
+                                        <div class="panel-footer">
+                                            <a class="btn btn-primary btn-large btn-block " href="/trade/getTrade/uploadWork">Upload Work</a>
+                                        </div>
+                                        <% } %>
+                                            <% if((isResponded || isBuyer) && isApplied) { %>
+                                                <div class="panel-footer">
+                                                    <button class="btn btn-danger btn-large btn-block " @change="cancelTrade">Cancel</button>
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+
                         </div>
                     </div>
                 </div>
@@ -244,6 +261,24 @@
                     }, function(err) {
                         console.log(err);
                     })
+                },
+                cancelTrade: function() {
+                    this.$http.get(`/trade/canceltrade?userID=${this.userID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
                 }
             }
         });
