@@ -84,7 +84,8 @@ function config(req, res, next) {
             connection.query(
                 sql.getUserName +
                 sql.getUserHeader +
-                sql.getUserAlipay,
+                sql.getUserAlipay +
+                sql.getUserMoney,
                 [userID, userID, userID],
                 function (err, result) {
                     if (err)

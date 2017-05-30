@@ -53,15 +53,17 @@ function register(req, res, next) {
                 if (result) {
                     status = 1;
                     message = '用户注册成功';
-                    fs.copy('/public/img/default_header.png', '/public/img/header/' + (result[0].insertId).toString() + '.png',
+                    fs.copy(__dirname + '/../../public/img/default_header.png', __dirname + '/../../public/img/header/' + (result[1][0].userID).toString() + '.png',
                         function(err) {
                             if (err)
                             {
                                 status = 0;
                                 message = '头像重命名失败';
                             }
-                            status = 1;
-                            message = '用户注册成功';
+                            else {
+                                status = 1;
+                                message = '用户注册成功';
+                            }
                         });
                 }
                 res.json({status:status, msg:message});
