@@ -1,10 +1,10 @@
 /*
  本次修改的语句：
  [添加]
- getUserType
+ chargeMoney
+ getBuyerMoney
  [删除]
  [修改]
- addResponderForTrade
  */
 /*
  本次对数据库的修改：
@@ -64,7 +64,9 @@ var user = {
     cancelTrade :'CALL cancelTrade(?,?);',//userID tradeID
     searchUserByName :'SELECT * FROM user WHERE username like ?;',
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
-    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;'
+    modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
+    getBuyerMoney :'CALL getBuyerMoney(?,?,?)',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
+    chargeMoney :'CALL buyer_add_money(?,?)',//第一个参数是userID,第二个参数是money
 };
 
 module.exports = user;
