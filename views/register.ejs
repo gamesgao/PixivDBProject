@@ -60,6 +60,7 @@
                                     <input type="text" class="form-control" id="username" name="username" v-model="username" placeholder="请输入用户名" required>
                                 </div>
                             </div>
+                            <template v-if="usertype !== 'o'">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">
@@ -68,6 +69,7 @@
                                     <input type="text" class="form-control" id="alipay-address" name="alipay-address" v-model="alipay_address" placeholder="请输入邮箱地址" required>
                                 </div>
                             </div>
+                            </template>
 
                             <div class="form-group">
                                 <div class="input-group">
@@ -155,13 +157,17 @@
                 repeatPwd: "",
                 usertype: "",
                 status: "",
-                message: "o"
+                message: ""
             },
             computed: {
                 iserror: function() {
-                    if (this.username !== "" && this.alipay_address !== "" && this.password === this.repeatPwd && this.password !== "" && this.repeatPwd !== "" && this.usertype !== "") {
-                        if (testEmail(this.alipay_address)) {
+                    if (this.username !== "" && this.password === this.repeatPwd && this.password !== "" && this.repeatPwd !== "" && this.usertype !== "") {
+                        if (this.usertype === "o") {
                             return false;
+                        } else {
+                            if (this.alipay_address !== "" && testEmail(this.alipay_address)) {
+                                return false;
+                            }
                         }
                     }
                     return true;
@@ -177,12 +183,10 @@
                             "username": this.username,
                             "password": this.password,
                             "alipay_address": this.alipay_address,
-                            "type": this.usertype
+                            "usertype": this.usertype
                         };
-                        // console.log(data);
                         this.$http.post('/register/reg', data).then(
                             function(response) {
-                                // console.log(response.data);
                                 if (response.data.status == 1) {
                                     app.status = "Success!";
                                     app.message = response.data.msg;
