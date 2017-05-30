@@ -183,6 +183,8 @@ function getTrade(req, res, next) {
                     if (result) {
                         var isApplied = false;
                         var type;
+                        var responderID = result[0][0].responder;
+                        var buyerID = result[0][0].buyer;
                         if (result[2][0].type == 'o') type = 0;
                         else if(result[2][0].type == 'p') type = 1;
                         else if (result[2][0].type == 'b') type = 2;
@@ -200,10 +202,12 @@ function getTrade(req, res, next) {
                             type: type
                         };
                         connection.query(
+                            sql.getUserName +
                             sql.getUserName,
-                            [result[0][0].responder]
+                            [responderID, buyerID]
                             , function (err, result) {
-                                sendJSON.respondername = result[0];
+                                sendJSON.respondername = result[0][0].username;
+                                sendJSON.buyername = result[1][0].username;
                                 res.render('getTrade', sendJSON);
                             }
                         );
@@ -231,8 +235,8 @@ function selectPainter(req, res, next) {
                 // handle error
             }
             connection.query(
-                sql.addResponderForTrade,
-                [userID, tradeID, painterID]
+                    sql.addResponderForTrade,
+                [tradeID, painterID]
                 , function (err, result) {
                     if (err) {
                         // handle error
