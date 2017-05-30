@@ -66,7 +66,8 @@ var user = {
     modifyUserPassword :'SELECT modifyUserPassword(?,?,?);',//第一个参数是oldUserPassword，第二个参数是newUserPassword，第三个参数是userID
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
     getUserMoney:'',
-    chargeMoney:''
+    chargeMoney:'',
+    getTradeUrl:''
 };
 
 module.exports = user;

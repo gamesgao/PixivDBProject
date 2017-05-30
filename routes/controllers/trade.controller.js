@@ -173,7 +173,8 @@ function getTrade(req, res, next) {
             connection.query(
                 sql.getFullTrade +
                 sql.getApplier +
-                sql.getUserType,
+                sql.getUserType +
+                sql.getTradeUrl,
                 [tradeID, tradeID, userID]
                 , function (err, result) {
                     if (err) {
@@ -182,6 +183,8 @@ function getTrade(req, res, next) {
                     }
                     if (result) {
                         var isApplied = false;
+                        var isBuyer = false;
+                        var isResponded = false;
                         var type;
                         var responderID = result[0][0].responder;
                         var buyerID = result[0][0].buyer;
@@ -194,12 +197,23 @@ function getTrade(req, res, next) {
                                 isApplied = true;
                             }
                         }
+                        if (result[0][0].responder == userID)
+                        {
+                            isResponded = true;
+                        }
+                        if (result[0][0].buyer == userID)
+                        {
+                            isBuyer = true;
+                        }
                         //result[1].user_header = 'public/img/header/'+String(result[1].userID)+'.png';
                         sendJSON = {
                             trade: result[0][0],
                             applier: result[1],
                             isApplied: isApplied,
-                            type: type
+                            isResponded: isResponded,
+                            isBuyer: isBuyer,
+                            type: type,
+
                         };
                         connection.query(
                             sql.getUserName +

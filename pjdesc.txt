@@ -343,6 +343,11 @@ return页面register.ejs
 		2.这个页面对于买家同时用于接受候选人
 		3.画师也可以在这个页面取消接单
 
+/uploadwork@get
+	Param:tradeID
+	上传交易的画，只需要上传文件，不需要简介，tag等
+	Return 是否成功，同之前
+
 /getTrade/selectpainter@get 
 	Param: painterID, tradeID
 	Return 是否成功，同之前
