@@ -63,7 +63,7 @@ function data(req, res, next) {
                                 collect_painting: result[4],
                                 tag: result[5],
                                 user_header: result[6][0].user_header,
-                                userID: req.query.userID,
+                                userID: userID,
                                 pdata: pdata
                             });
                     }
@@ -94,7 +94,7 @@ function config(req, res, next) {
                 sql.getUserAlipay +
                 sql.getUserMoney +
                 sql.getUserInfo,
-                [userID, userID, userID, userID],
+                [userID, userID, userID, userID, userID],
                 function (err, result) {
                     if (err)
                     {
@@ -549,7 +549,7 @@ function addContribute(req, res, next) {
                             {
                                 username: result[0][0].username,
                                 user_header: result[1][0].user_header,
-                                userID: req.query.userID
+                                userID: userID
                             });
                     }
                     connection.release();
