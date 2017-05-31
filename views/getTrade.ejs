@@ -140,7 +140,7 @@
                                     </div>
                                 </form>
                                 <% if(type !== 0) { %>
-                                    <% if(isBuyer && !isApplied) { %>
+                                    <% if(isBuyer) { %>
                                         <form role="form" class="form-inline">
                                             <div class="form-group">
                                                 <div class="input-group">
@@ -159,7 +159,7 @@
                                                 <button type="button" class="btn btn-primary" @click="confirm">Confirm</button>
                                             </div>
                                         </form>
-                                        <% } else if(isBuyer && isApplied && url) { %>
+                                        <% } else if(isBuyer && url) { %>
                                             <div class="col-lg-12">
                                                 <img src="<%-url %>" class="img-thumbnail img-responsive" />
                                             </div>
@@ -170,12 +170,12 @@
                                     <button type="button" class="btn btn-primary btn-block" @click="apply">Apply</button>
                                 </div>
                                 <% } %>
-                                    <% if(isResponded && isApplied) { %>
+                                    <% if(isResponded) { %>
                                         <div class="panel-footer">
                                             <a class="btn btn-primary btn-large btn-block " href="/trade/getTrade/uploadWork">Upload Work</a>
                                         </div>
                                         <% } %>
-                                            <% if(isResponded || isBuyer) { %>
+                                            <% if(isResponded || isBuyer || isApplied) { %>
                                                 <div class="panel-footer">
                                                     <button class="btn btn-danger btn-large btn-block " @change="cancelTrade">Cancel</button>
                                                 </div>
