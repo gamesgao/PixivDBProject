@@ -3,10 +3,9 @@
  [添加]
  [删除]
  [修改]
- getBriefTrade
  getRelatedTrades
- getTradeUrl
- getUserMoney
+ addApplierForTrade
+ getApplier
  */
 /*
  本次对数据库的修改：
@@ -53,10 +52,10 @@ var user = {
     addTrade :'CALL addTrade(?,?,?,?,?,@output); SELECT @output AS tradeID;',//目前的使用范例为 CALL addTrade('test_for_contri',20,'2017-08-08 22:22','start',1,@output); SELECT @output AS tradeID;
     addTradeTags : 'INSERT INTO trade_tag VALUES ?;',//第一个值是tradeID,第二个值是tag
     getFullTrade : 'SELECT * FROM trade WHERE id = ?;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
-    getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
+    getApplier : 'SELECT painter AS userID,username AS username,icon AS user_header FROM painter_apply_for_trade, user WHERE trade = ? AND id = painter;', 
     addResponderForTrade :'CALL buyer_decide_painter(?,?,?);',//第一个参数是tradeID，第二个参数是painterID，第三个参数是buyerID
-    addApplierForTrade : 'SELECT username,id AS userID, icon AS user_header FROM painter_apply_for_trade p,user u WHERE p.trade = ? and p.painter = u.id;',//第一个参数是painterID,第二个参数是tradeID
-    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl,@tradeID); SELECT @buyer AS buyer,@price AS price,@buyername AS buyername,@state AS state,@ddl AS ddl,@tradeID AS tradeID;',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation
+    addApplierForTrade : 'CALL painter_apply_for_trade(?,?)',//第一个参数是painterID,第二个参数是tradeID
+    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl,@tradeID); SELECT @buyer AS buyer,@price AS price,@buyername AS buyername,@state AS state,@ddl AS ddl,@tradeID AS tradeID;',//参数是第一个输入，userID，第二个到第七个是输出，buyer,price,buyername,state,relation,tradeID
     getUserType : 'SELECT type FROM user WHERE id = ?;',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
