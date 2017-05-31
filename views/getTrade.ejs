@@ -159,11 +159,12 @@
                                                 <button type="button" class="btn btn-primary" @click="confirm">Confirm</button>
                                             </div>
                                         </form>
-                                        <% } else if(isBuyer && url) { %>
-                                            <div class="col-lg-12">
-                                                <img src="<%-url %>" class="img-thumbnail img-responsive" />
-                                            </div>
-                                            <% } %>
+                                        <% } %>
+                                            <% if(isBuyer && url) { %>
+                                                <div class="col-lg-12">
+                                                    <img src="<%-url %>" class="img-thumbnail img-responsive" />
+                                                </div>
+                                                <% } %>
                             </div>
                             <% if(type === 1 && !isApplied && !isResponded) { %>
                                 <div class="panel-footer">
