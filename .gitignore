@@ -58,3 +58,7 @@ test*
 *.jpg
 
 *.png
+# db connection
+app.js
+
+pool.js
