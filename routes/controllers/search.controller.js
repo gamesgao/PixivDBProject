@@ -47,6 +47,9 @@ function searchUserGet(req,res,next) {
 
         });
     }
+    else{
+        res.redirect('/login');
+    }
 }
 
 //post
@@ -141,6 +144,9 @@ function searchPaintingGet(req,res,next) {
                 });
 
         });
+    }
+    else{
+        res.redirect('/login');
     }
 }
 
@@ -258,7 +264,7 @@ function searchTradeGet(req,res,next) {
                         res.render('error');
                     }
                     if (result) {
-                        res.render('searchpainting', {
+                        res.render('searchtrade', {
                             username: result[0][0].username,
                             user_header: result[1][0].user_header,
                             userID: userID
@@ -269,6 +275,9 @@ function searchTradeGet(req,res,next) {
 
         });
     }
+    else{
+        res.redirect('/login');
+    }
 }
 
 
@@ -277,44 +286,23 @@ function searchTradeGet(req,res,next) {
 function searchTradePost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT url, id AS paintingID, topic AS name, upvote, page_view AS pageView FROM painting WHERE ';
+    var statement = 'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername,t.id AS tradeID FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id';
     var num = 0;
     var query = new Array(4);
     var status;
     var message = '';
 
-    if (userRequire.byID) {
-        if (num > 0) statement += 'and ';
-        statement += 'id = ? ' ;
-        query[num] = Number(userRequire.byID);
+    if (userRequire.byTag) {
+        statement += 'and ';
+        statement += 'ttag.tag LIKE ? ' ;
+        query[num] = '%'+userRequire.byTag+'%';
         num++;
     }
-    if (userRequire.byTopic) {
-        if (num > 0) statement += 'and ';
-        statement += 'topic like ? ' ;
-        query[num] = '%'+userRequire.byTopic+'%';
+    if (userRequire.byDesc) {
+        statement += 'and ';
+        statement += 't.description like ? ' ;
+        query[num] = '%'+userRequire.byDesc+'%';
         num++
-    }
-    if (userRequire.byUpvote) {
-        if (num > 0) statement += 'and ';
-        statement += 'upvote >= ? ' ;
-        query[num] = Number(userRequire.byUpvote);
-        num++
-    }
-    if (userRequire.byPageView) {
-        if (num > 0) statement += 'and ';
-        statement += 'page_view >= ? ' ;
-        query[num] = Number(userRequire.byPageView);
-        num++
-    }
-    if (userRequire.OrderByID) {
-        statement += 'order by id' ;
-    }
-    if (userRequire.OrderByPageView) {
-        statement += 'order by page_view' ;
-    }
-    if (userRequire.OrderByUpvote) {
-        statement += 'order by upvote' ;
     }
     statement += ';';
 
@@ -347,7 +335,7 @@ function searchTradePost(req,res,next) {
                     }
                     if (result) {
                         status = 1;
-                        message = '查找画成功';
+                        message = '查找交易成功';
                         res.json({
                             status: status,
                             msg: message,
