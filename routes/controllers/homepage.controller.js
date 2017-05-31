@@ -148,13 +148,14 @@ function configUpload(req, res, next) {
                        status : status,
                         msg : message
                     });
+                return;
             }
             connection.query(
                 sql.modifyUserBasicInfo +
                 sql.modifyUserTwitter +
                 sql.modifyUserAbstract +
                 sql.modifyUserHomepage,
-                [newName, new_alipay, userID, twitter, abstract, phomepage],
+                [newName, new_alipay, userID, twitter,  userID, abstract,  userID, phomepage, userID],
                 function (err, result) {
                     if (err)
                     {
@@ -166,6 +167,8 @@ function configUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
+                        connection.release();
+                        return;
                     }
                     if (result)
                     {
@@ -176,6 +179,8 @@ function configUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
+                        connection.release();
+                        return;
                     }
                 });
 
@@ -207,6 +212,8 @@ function passwordUpload(req, res, next) {
                         status : status,
                         msg : message
                     });
+                //connection.release();
+                return;
             }
             connection.query(
                 sql.modifyUserPassword,
@@ -222,6 +229,8 @@ function passwordUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
+                        connection.release();
+                        return;
                     }
                     if (result)
                     {
@@ -232,6 +241,8 @@ function passwordUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
+                        connection.release();
+                        return;
                     }
                 });
 

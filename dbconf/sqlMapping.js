@@ -72,9 +72,9 @@ var user = {
     getTradeUrl :'CALL getTradeUrl(?,?,@url); SELECT @url AS url;',//第一个参数是buyerID,第二个参数是tradeID,第三个参数是paintingURL 就是trade中的upload_file_route
     getUserInfo: 'SELECT phomepage, twitter, abstract FROM user WHERE id = ?',
     getUserMoney :'CALL getUserMoney(?,@frozen_money,@current_money);SELECT @frozen_money AS frozen_money,@current_money AS current_money;',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
-    modifyUserTwitter :'UPDATE user SET twitter = ? WHERE id = ?',
-    modifyUserAbstract : 'UPDATE user SET abstract = ? WHERE id = ?',
-    modifyUserHomepage : 'UPDATE user SET phomepage = ? WHERE id = ?'
+    modifyUserTwitter :'UPDATE user SET twitter = ? WHERE id = ?;',
+    modifyUserAbstract : 'UPDATE user SET abstract = ? WHERE id = ?;',
+    modifyUserHomepage : 'UPDATE user SET phomepage = ? WHERE id = ?;'
 };
 
 module.exports = user;
