@@ -175,7 +175,7 @@
                                             <a class="btn btn-primary btn-large btn-block " href="/trade/getTrade/uploadWork">Upload Work</a>
                                         </div>
                                         <% } %>
-                                            <% if((isResponded || isBuyer) && isApplied) { %>
+                                            <% if(isResponded || isBuyer) { %>
                                                 <div class="panel-footer">
                                                     <button class="btn btn-danger btn-large btn-block " @change="cancelTrade">Cancel</button>
                                                 </div>
