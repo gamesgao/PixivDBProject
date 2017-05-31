@@ -113,7 +113,7 @@ function initialTradePost(req, res, next) {
             }
             connection.query(
                 sql.addTrade,
-                [body.abstract, body.price, body.deadline, 'start', userID]
+                [body.abstract, body.price, body.deadline, 'Calling', userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -189,7 +189,7 @@ function getTrade(req, res, next) {
                         var isBuyer = false;
                         var isResponded = false;
                         var type;
-                        var url = '';
+                        var url = result[4][0].url;
                         var responderID = result[0][0].responder;
                         var buyerID = result[0][0].buyer;
                         if (result[2][0].type == 'o') type = 0;
@@ -217,7 +217,7 @@ function getTrade(req, res, next) {
                             isResponded: isResponded,
                             isBuyer: isBuyer,
                             type: type,
-                            url: url,
+                            url: url
                         };
                         connection.query(
                             sql.getUserName +
@@ -250,7 +250,7 @@ function selectPainter(req, res, next) {
     var status = 1;
     var message = '';
     var tradeID = req.query.tradeID;
-    var painterID = req.query.painterID;
+    var painterID = Number(req.query.painterID);
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -289,7 +289,7 @@ function applyForTrade(req, res, next) {
     var userID = req.session.userID;
     var status = 1;
     var message = '';
-    var tradeID = req.query.tradeID;
+    var tradeID = Number(req.query.tradeID);
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -336,8 +336,10 @@ function tradeHomepage(req, res, next) {
                 // handle error
             }
             connection.query(
-                sql.getRelatedTrades,
-                [getID]
+                sql.getRelatedTrades +
+                sql.getUserName +
+                sql.getUserHeader,
+                [getID,getID,getID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -345,13 +347,12 @@ function tradeHomepage(req, res, next) {
                     }
                     if (result) {
                         res.render('tradeHomepage',{
-
+                            trade:result[2],
+                            username: result[3][0].username,
+                            user_header:result[4][0].user_header,
+                            userID: getID
                         });
                     }
-                    res.json({
-                        status : status,
-                        msg : message
-                    });
                     connection.release();
                     return;
                 });
@@ -405,6 +406,7 @@ function cancelTrade(req, res, next) {
 
 function uploadwork(req, res, next) {
     var userID = req.session.userID;
+    var tradeID = req.query.tradeID;
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -425,7 +427,8 @@ function uploadwork(req, res, next) {
                             {
                                 username: result[0][0].username,
                                 user_header: result[1][0].user_header,
-                                userID: req.query.userID
+                                userID: req.query.userID,
+                                tradeID: tradeID
                             });
                     }
                     connection.release();
