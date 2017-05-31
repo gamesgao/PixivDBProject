@@ -31,9 +31,16 @@ function headerUpload(req, res, next) {
                 status = 0;
                 message = '上传头像失败';
             }
-            status = 1;
-            message = '上传头像成功';
+            else {
+                status = 1;
+                message = '上传头像成功';
+            }
+            res.json({
+               status: status,
+                msg: message
+            });
             console.log('header transfer done!');
+            return;
         });
     }
     else{
