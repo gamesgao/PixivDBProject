@@ -156,7 +156,7 @@ function searchPaintingGet(req,res,next) {
 function searchPaintingPost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT url, id AS paintingID, topic AS name, upvote, page_view AS pageView FROM painting WHERE ';
+    var statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting WHERE ';
     var num = 0;
     var query = new Array(4);
     var status;
@@ -286,7 +286,7 @@ function searchTradeGet(req,res,next) {
 function searchTradePost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername,t.id AS tradeID FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id';
+    var statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id';
     var num = 0;
     var query = new Array(4);
     var status;
