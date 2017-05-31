@@ -88,8 +88,8 @@
                                     <form action="#" role="search">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <span class="input-group-addon">Topic</span>
-                                                <input class="form-control" type="text" placeholder="Topic" v-model="topic" />
+                                                <span class="input-group-addon">Tag</span>
+                                                <input class="form-control" type="text" placeholder="Tag" v-model="tag" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -200,13 +200,13 @@
                 status: "",
                 message: "",
                 trades: [],
-                topic: "",
+                tag: "",
                 desc: "",
                 isProcess: false
             },
             computed: {
                 update2: function() {
-                    if (this.topic !== "" || this.desc !== "") {
+                    if (this.tag !== "" || this.desc !== "") {
                         if (!this.isProcess) {
                             return false;
                         }
@@ -235,8 +235,8 @@
                 },
                 searchtrade: function() {
                     var data = {};
-                    if (this.topic != "") {
-                        data.byTopic = this.topic;
+                    if (this.tag != "") {
+                        data.byTag = this.tag;
                     }
                     if (this.desc != "") {
                         data.byDesc = this.desc;
