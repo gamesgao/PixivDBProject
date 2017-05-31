@@ -122,13 +122,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-
-                                            <!--<h3 class="tile-title ">buyer:发起人</h3>-->
-                                            <!--<h3 class="tile-title ">buyer:发起人</h3>-->
-                                            <!--, price:价格, ddl:deadline, state:状态-->
-                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
                                             <a class="btn btn-primary btn-large btn-block " href="<%='/trade/getTrade?tradeID=' + trade[i].tradeID %>">More</a>
-                                            <!--<button class="btn btn-danger btn-large btn-block " @change="cancelTrade">Cancel</button>-->
                                         </div>
                                     </div>
                                     <% } %>
@@ -185,41 +179,23 @@
             },
             methods: {
                 follow: function() {
-                        this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
-                            function(response) {
-                                if (response.data.status == 1) {
-                                    app.status = "Success!";
-                                    app.message = response.data.msg;
-                                    $('#warning').modal({});
-                                } else if (response.data.status == 0) {
-                                    app.status = "Error!";
-                                    app.message = `Something wrong while following ERR:${response.data.msg}`;
-                                    $('#warning').modal({});
-                                }
-                            },
-                            function(err) {
-                                console.log(err);
+                    this.$http.get(`/homepage/addfollowing?userID=${this.userID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
                             }
-                        )
-                    }
-                    // cancelTrade: function() {
-                    //     this.$http.get(`/trade/canceltrade?userID=${this.userID}`).then(
-                    //         function(response) {
-                    //             if (response.data.status == 1) {
-                    //                 app.status = "Success!";
-                    //                 app.message = response.data.msg;
-                    //                 $('#warning').modal({});
-                    //             } else if (response.data.status == 0) {
-                    //                 app.status = "Error!";
-                    //                 app.message = `Something wrong while following ERR:${response.data.msg}`;
-                    //                 $('#warning').modal({});
-                    //             }
-                    //         },
-                    //         function(err) {
-                    //             console.log(err);
-                    //         }
-                    //     )
-                    // }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                }
             }
         });
         $(function() {
