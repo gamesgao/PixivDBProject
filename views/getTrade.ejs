@@ -149,7 +149,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <select data-toggle="select" class="form-control select select-inverse" id="selectApplier">   
+                                                <select data-toggle="select" class="form-control select select-inverse" id="selectApplier" v-model="selectedID">   
                                                 <% for(var i=0;i<applier.length;i++) { %> 
                                                 <option value="<%=applier[i].userID %>" ><%=applier[i].username %></option>
                                                 <% } %>
@@ -227,7 +227,7 @@
             el: '#app',
             data: {
                 tradeID: '<%=trade.id %>',
-                selectedID: "ww",
+                selectedID: "",
                 status: "",
                 message: "",
             },
