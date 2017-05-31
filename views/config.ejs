@@ -135,6 +135,26 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label for="inputTwitter" class="col-lg-2 control-label">twitter</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="inputTwitter" v-model="newTwitter" placeholder="<%=twitter %>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputphomepage" class="col-lg-2 control-label">Personal Homepage</label>
+                                            <div class="col-lg-10">
+                                                <input type="text" class="form-control" id="inputphomepage" v-model="newPhomepage" placeholder="<%=phomepage %>" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputabstract" class="col-lg-2 control-label">Personal Abstract</label>
+                                            <div class="col-lg-10">
+                                                <textarea class="form-control" rows="3" id="inputabstract" v-model="newAbstract">
+                                                    <%=abstract %>
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <div class="col-lg-offset-2 col-lg-10">
                                                 <button type="button" class="btn btn-primary" :disabled="update1" @click="updateUser">Update</button>
                                             </div>
@@ -209,12 +229,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">Personal Information</a></div>
-                            <div class="panel-body ">
-                                <p>TODO</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -263,12 +277,18 @@
                 userID: '<%=userID %>',
                 oldUsername: '<%=username %>',
                 oldAlipay: '<%=alipay %>',
+                oldTwitter: '<%=twitter %>',
+                oldPhomepage: '<%=phomepage %>',
+                oldAbstract: '<%=abstract %>',
                 totalMoney: '<%=current_money %>',
                 newMoney: 0,
                 status: "",
                 message: "",
                 newUsername: "",
                 newAlipay: "",
+                newTwitter: "",
+                newPhomepage: "",
+                newAbstract: "",
                 files: [],
                 newFilename: "Please select file",
                 newImage: null,
@@ -287,10 +307,7 @@
                     return false;
                 },
                 update1: function() {
-                    if (this.newAlipay !== "" && testEmail(this.newAlipay)) {
-                        return false;
-                    }
-                    if (this.newUsername !== "" && this.newAlipay === "") {
+                    if ((this.newAlipay !== "" && testEmail(this.newAlipay) || this.newUsername !== "") || this.newTwitter !== "" || this.newPhomepage !== "" || this.newAbstract !== "") {
                         return false;
                     }
                     return true;
@@ -332,6 +349,16 @@
                         data.newAlipay = this.newAlipay;
                     } else {
                         data.newAlipay = this.oldAlipay;
+                    }
+                    if (this.newPhomepage !== "") {
+                        data.phomepage = this.newPhomepage;
+                    } else {
+                        data.phomepage = this.oldPhomepage;
+                    }
+                    if (this.newAbstract !== "") {
+                        data.abstract = this.newAbstract;
+                    } else {
+                        data.abstract = this.oldAbstract;
                     }
                     this.$http.post('/homepage/configUpload', data).then(
                         function(response) {
