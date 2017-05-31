@@ -92,7 +92,8 @@ function config(req, res, next) {
                 sql.getUserName +
                 sql.getUserHeader +
                 sql.getUserAlipay +
-                sql.getUserMoney,
+                sql.getUserMoney +
+                sql.getUserInfo,
                 [userID, userID, userID, userID],
                 function (err, result) {
                     if (err)
@@ -108,7 +109,10 @@ function config(req, res, next) {
                             alipay : result[2][0].alipay,
                             userID : req.session.userID,
                             frozen_money: result[4][0].frozen_money,
-                            current_money: result[4][0].current_money
+                            current_money: result[4][0].current_money,
+                            twitter: result[5][0].twitter,
+                            phomepage: result[6][0].phomepage,
+                            abstract: result[7][0].abstract
                         });
                     }
                 });
@@ -127,7 +131,8 @@ function configUpload(req, res, next) {
     var newName = req.body.newname;
     var new_alipay = req.body.newAlipay;
     var twitter = req.body.twitter;
-
+    var abstract = req.body.abstract;
+    var phomepage = req.body.phomepage;
     var status = 0;
     var message = '';
     if (userID)
@@ -145,8 +150,11 @@ function configUpload(req, res, next) {
                     });
             }
             connection.query(
-                sql.modifyUserBasicInfo,
-                [newName, new_alipay, userID],
+                sql.modifyUserBasicInfo +
+                sql.modifyUserTwitter +
+                sql.modifyUserAbstract +
+                sql.modifyUserHomepage,
+                [newName, new_alipay, userID, twitter, abstract, phomepage],
                 function (err, result) {
                     if (err)
                     {

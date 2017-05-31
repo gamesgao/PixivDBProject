@@ -442,7 +442,7 @@ return页面register.ejs
 
 /trade@post
 	Param 			
-			byTopic
+			byTag
 			byDesc			
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
@@ -456,7 +456,8 @@ return页面register.ejs
 			state:状态,
 			tradeID: ID
 			}
-					
+		
+	not checked!		
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
 
 /upload页面下

@@ -345,7 +345,7 @@ function searchTradePost(req,res,next) {
                         res.json({
                             status: status,
                             msg: message,
-                            painting: result
+                            trade: result
                         });
                         connection.release();
                         return;
