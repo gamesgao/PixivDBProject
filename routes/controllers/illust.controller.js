@@ -134,6 +134,7 @@ function addTag(req, res, next) {
                         msg:message
                     });
                     connection.release();
+                    return;
                 }
             );
         });

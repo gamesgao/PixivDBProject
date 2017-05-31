@@ -92,6 +92,9 @@ return页面register.ejs
 		用户ID：userID
 		冻结的钱: frozen_money
 		可用的钱: current_money
+		推特: twitter
+		个人主页: phomepage
+		个人简介: abstract
 
 	not checked! 两个钱 和个人信息
 

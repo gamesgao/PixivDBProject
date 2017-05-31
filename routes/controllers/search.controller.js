@@ -156,34 +156,40 @@ function searchPaintingGet(req,res,next) {
 function searchPaintingPost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting WHERE ';
+    var statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting,painting_tag WHERE painting = id ';
     var num = 0;
     var query = new Array(4);
     var status;
     var message = '';
 
     if (userRequire.byID) {
-        if (num > 0) statement += 'and ';
+        statement += 'and ';
         statement += 'id = ? ' ;
         query[num] = Number(userRequire.byID);
         num++;
     }
     if (userRequire.byTopic) {
-        if (num > 0) statement += 'and ';
+        statement += 'and ';
         statement += 'topic like ? ' ;
         query[num] = '%'+userRequire.byTopic+'%';
         num++
     }
     if (userRequire.byUpvote) {
-        if (num > 0) statement += 'and ';
+        statement += 'and ';
         statement += 'upvote >= ? ' ;
         query[num] = Number(userRequire.byUpvote);
         num++
     }
     if (userRequire.byPageView) {
-        if (num > 0) statement += 'and ';
+        statement += 'and ';
         statement += 'page_view >= ? ' ;
         query[num] = Number(userRequire.byPageView);
+        num++
+    }
+    if (userRequire.byTag) {
+        statement += 'and ';
+        statement += 'tag like ? ' ;
+        query[num] = '%'+userRequire.byTag+'%';
         num++
     }
     if (userRequire.OrderByID) {
@@ -286,7 +292,7 @@ function searchTradeGet(req,res,next) {
 function searchTradePost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id';
+    var statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id ';
     var num = 0;
     var query = new Array(4);
     var status;

@@ -126,6 +126,8 @@ function configUpload(req, res, next) {
     var userID = req.session.userID;
     var newName = req.body.newname;
     var new_alipay = req.body.newAlipay;
+    var twitter = req.body.twitter;
+
     var status = 0;
     var message = '';
     if (userID)
