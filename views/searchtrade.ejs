@@ -14,10 +14,8 @@
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
-    <!--time picker-->
-    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <!--User-->
-    <link rel='stylesheet' href='/stylesheets/initTrade.css' />
+    <link rel='stylesheet' href='/stylesheets/searchtrade.css' />
 </head>
 
 <body>
@@ -44,20 +42,20 @@
                     <form class="navbar-form navbar-right" action="#" role="search">
                         <div class="form-group">
                             <div class="input-group">
-                                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search Trade">
+                                <input class="form-control" id="navbarInput-01" type="search" placeholder="Search Painting">
                                 <span class="input-group-btn">
-                      <a type="button" class="btn" href="/search/trade"><span class="fui-search"></span></a>
+                      <a type="button" class="btn" href="/search/painting"><span class="fui-search"></span></a>
                                 </span>
                             </div>
                         </div>
                     </form>
                     <ul class="nav navbar-nav navbar-left">
-                        <li><a href="/trade/tradehomepage">Trade Home</a></li>
-                        <li><a href="/trade/initTrade">Init Trade</a></li>
-                        <li><a href="/trade">All Trade</a></li>
+                        <li><a href="/homepage">Home page</a></li>
+                        <li><a href="/homepage/addcontribute">New Contribution</a></li>
+                        <!--<li><a href="/homepage/collect">Collection</a></li>-->
+                        <li><a href="/trade">Trade</a></li>
                         <li><a href="/homepage/config"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -84,43 +82,72 @@
 
                     <div class="col-md-9 ">
                         <div class="panel panel-default ">
-                            <div class="panel-heading "><a href="#">New Trade</a></div>
+                            <div class="panel-heading "><a href="#">Search Trade</a></div>
                             <div class="panel-body">
                                 <div class="col-md-12">
-                                    <form class="form-horizontal" role="form">
+                                    <form action="#" role="search">
                                         <div class="form-group">
-                                            <label for="inputUsername" class="col-lg-2 control-label">Abstract</label>
-                                            <div class="col-lg-10">
-                                                <textarea class="form-control" rows="3" v-model="abstract"></textarea>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Topic</span>
+                                                <input class="form-control" type="text" placeholder="Topic" v-model="topic" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputPrice" class="col-lg-2 control-label">Price</label>
-                                            <div class="col-lg-10">
-                                                <input type="text" class="form-control" id="inputPrice" v-model.number="price" placeholder="Please input price" />
+                                            <div class="input-group">
+                                                <span class="input-group-addon">Description</span>
+                                                <input class="form-control" type="text" placeholder="ooxx" v-model="desc" />
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputddl" class="col-lg-2 control-label">ddl</label>
-                                            <div class="col-lg-10">
-                                                <div class='input-group date' id='timeInput'>
-                                                    <input type='text' class="form-control" />
-                                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputTags" class="col-lg-2 control-label">Tags</label>
-                                            <div class="col-lg-10">
-                                                <input id="inputTags" class="tagsinput" data-role="tagsinput" />
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-offset-2 col-lg-10">
-                                                <button type="button" class="btn btn-primary" :disabled="update1" @click="initTrade">Submit</button>
+                                            <div class="col-lg-2 col-lg-offset-10">
+                                                <button class="btn btn-block btn-primary" :disabled="update2" @click="searchtrade">Submit</button>
                                             </div>
                                         </div>
                                     </form>
+                                    <template v-if="trades.length !== 0">
+                                        <template v-for="trade in trades">
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                                <div class="tile">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="buyer"><span class="fui-user"></span></span>
+                                                            <a class="form-control flat" :href="'/homepage?userID=' + trade.buyer">
+                                                                {{trade.buyername}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="price"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span></span>
+                                                            <p class="form-control flat">
+                                                                {{trade.price}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="deadline"><span class="fui-calendar"></span></span>
+                                                            <p class="form-control flat">
+                                                                {{trade.ddl}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="status">
+                                                                <span class="glyphicon glyphicon-tasks" aria-hidden="true">
+                                                                </span>
+                                                            </span>
+                                                            <p class="form-control flat">
+                                                                {{trade.state}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <a class="btn btn-primary btn-large btn-block " :href="'/trade/getTrade?tradeID=' + trade.tradeID">More</a>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -143,6 +170,7 @@
             </div>
         </div>
 
+
         <!--footer part-->
         <footer>
             <div class="container ">
@@ -162,7 +190,6 @@
 
     <script src="/javascripts/jquery.js "></script>
     <script src="/javascripts/flat-ui.js "></script>
-    <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script src="/javascripts/application.js"></script>
     <!-- 注意bind的js必须放在页面的最后 -->
     <script type="text/javascript ">
@@ -172,15 +199,17 @@
                 userID: '<%=userID %>',
                 status: "",
                 message: "",
-                abstract: "",
-                price: 0,
-                ddl: "",
-                tags: []
+                trades: [],
+                topic: "",
+                desc: "",
+                isProcess: false
             },
             computed: {
-                update1: function() {
-                    if (this.abstract !== "" && isNumber(this.price) && this.ddl !== "") {
-                        return false;
+                update2: function() {
+                    if (this.topic !== "" || this.desc !== "") {
+                        if (!this.isProcess) {
+                            return false;
+                        }
                     }
                     return true;
                 }
@@ -204,48 +233,37 @@
                         }
                     )
                 },
-                initTrade: function() {
-                    let data = {};
-                    data.abstract = this.abstract;
-                    data.price = this.price;
-                    data.tag = this.tags;
-                    data.deadline = this.ddl;
-                    this.$http.post('/trade/initTrade', data).then(
+                searchtrade: function() {
+                    var data = {};
+                    if (this.topic != "") {
+                        data.byTopic = this.topic;
+                    }
+                    if (this.desc != "") {
+                        data.byDesc = this.desc;
+                    }
+                    this.isProcess = true;
+                    this.$http.post('/search/trade', data).then(
                         function(response) {
                             if (response.data.status == 1) {
-                                app.status = "Success!";
-                                app.message = response.data.msg;
-                                $('#warning').modal({});
+                                // app.status = "Success!";
+                                // app.message = response.data.msg;
+                                // $('#warning').modal({});
+                                app.trades = response.data.trade;
+                                this.isProcess = false;
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
-                                app.message = `Something wrong while trading ERR:${response.data.msg}`;
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                this.isProcess = false;
                                 $('#warning').modal({});
                             }
                         },
                         function(err) {
                             console.log(err);
+                            this.isProcess = false;
                         }
                     )
                 }
             }
-        });
-
-        function isNumber(obj) {
-            return obj === +obj
-        }
-
-        $(function() {
-            $('#timeInput').datetimepicker({
-                locale: 'zh-cn',
-                autoclose: true,
-                pickerPosition: "bottom-left"
-            });
-            $('#inputTags').on('itemAdded', function(event) {
-                app.tags = $(event.target).tagsinput('items');
-            });
-            $('#timeInput').datetimepicker().on('changeDate', function(event) {
-                app.ddl = $(event.target).children("input")[0].value;
-            });
         });
     </script>
 </body>
