@@ -13,14 +13,15 @@ router.post('/reg', register);
 function index(req, res, next) {
 
     var userID = req.session.userID;
-    if (!(userID)) { //user not login
+    res.render('register');
+    /*if (!(userID)) { //user not login
         res.render('register');
         return;
     }
     else
     {
         res.redirect('/homepage'); //which website?
-    }
+    }*/
 }
 
 

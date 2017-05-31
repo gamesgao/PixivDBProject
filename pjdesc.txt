@@ -350,6 +350,7 @@ return页面register.ejs
 	ejs 用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
+		交易ID: tradeID
 
 	not checked : get trade url
 
@@ -366,7 +367,7 @@ return页面register.ejs
 	Return 
 		tradeHomepage.ejs
 		返回：
-			交易:trades （brief trade 形式 + relation）
+			交易:trade （brief trade 形式 + relation）
 			用户与交易的关系 relation（三种字符创：buyer,responder,applier）如果是responder就返回responder，不是再返回applier
 
 			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
@@ -414,6 +415,7 @@ return页面register.ejs
 	Param tag
 			byID 
 			byTopic
+			byTag
 			byUpvote //大于等于关系
 			byPageView //大于等于关系
 			以上四个如果有那么值就是用户输入，没有就是undefined
@@ -429,7 +431,29 @@ return页面register.ejs
 				upvote: //
 				pageView: //
 			}
-	
+
+/trade@get
+	param 无
+	return 页面 searchtrade.ejs
+	ejs 无
+
+/trade@post
+	Param 			
+			byTopic
+			byDesc			
+	Return 状态：status： 1：成功/0：失败
+			错误信息：msg
+			数据
+			trade
+			{
+			buyer:发起人,
+			buyername: 发起人名字,
+			price:价格,
+			ddl:deadline,
+			state:状态,
+			tradeID: ID
+			}
+					
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
 
 /upload页面下

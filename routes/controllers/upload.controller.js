@@ -163,14 +163,23 @@ function tradeworkUpload(req, res, next) {
                     }
                     var paintingID = 0;
                     if (result) {
-                        state = 1;
-                        message = '用户添加交易画成功';
-                        res.json({
-                            status: state,
-                            msg: message
+                        fs.rename(__dirname + '/../../public/img/' + req.file.filename, __dirname + '/../../public/img/tradework/' + tradeID.toString() + path.extname(req.file.originalname), function (err) {
+                            if (err)
+                            {
+                                state = 0;
+                                message = '用户添加交易画重命名失败';
+                            }
+                            else {
+                                state = 1;
+                                message = '用户添加交易画成功';
+                            }
+                            res.json({
+                                status: state,
+                                msg: message
+                            });
+                            connection.release();
+                            return;
                         });
-                        connection.release();
-                        return;
                     }
                 });
         });
