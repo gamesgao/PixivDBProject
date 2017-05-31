@@ -111,8 +111,8 @@ function config(req, res, next) {
                             frozen_money: result[4][0].frozen_money,
                             current_money: result[4][0].current_money,
                             twitter: result[5][0].twitter,
-                            phomepage: result[6][0].phomepage,
-                            abstract: result[7][0].abstract
+                            phomepage: result[5][0].phomepage,
+                            abstract: result[5][0].abstract
                         });
                     }
                 });

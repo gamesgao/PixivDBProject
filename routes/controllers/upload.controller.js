@@ -128,6 +128,7 @@ function paintingUpload(req, res, next) {
     }
     else{
         //handle error
+        res.redirect('/login');
     }
 }
 
