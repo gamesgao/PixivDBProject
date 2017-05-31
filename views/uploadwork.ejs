@@ -166,7 +166,8 @@
                 newImage: null,
                 newImagePath: "",
                 isImage: true,
-                title: ""
+                title: "",
+                tradeID: '<%=tradeID %>'
             },
             methods: {
                 follow: function() {
@@ -213,6 +214,7 @@
                 uploadPainting: function() {
                     var fileFormData = new FormData();
                     fileFormData.append("tradework", this.newImage);
+                    fileFormData.append("tradeID", this.tradeID);
                     this.$http.post('/upload/tradework', fileFormData).then(function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
