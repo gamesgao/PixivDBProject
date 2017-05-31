@@ -3,7 +3,10 @@
  [添加]
  [删除]
  [修改]
- getAllBriefTrade
+ getBriefTrade
+ getRelatedTrades
+ getTradeUrl
+ getUserMoney
  */
 /*
  本次对数据库的修改：
@@ -45,7 +48,7 @@ var user = {
     delPaintingTag : 'SELECT delPaintingTag(?,?,?) AS status;',//这个函数的第一个参数是paintingID,第二个参数是paintingTag,第三个参数是操作用户的id，只有画师可以删Tag @陈旭旸
     addPaintingTag : 'INSERT INTO painting_tag VALUES(?,?);',//已修改 第一个变量是paintingID，第二个变量是tag
     getBuyerFlag :'SELECT getBuyerFlag(?) AS buyerflag;',//返回0代表不是买家，返回1代表是买家
-    getBriefTrade :'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id and u.id = ?;',
+    getBriefTrade :'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername,t.id AS tradeID FROM trade t,user u WHERE t.buyer = u.id and u.id = ?;',
     getAllBriefTrade :'SELECT t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername,t.id AS tradeID FROM trade t,user u WHERE t.buyer = u.id;',
     addTrade :'CALL addTrade(?,?,?,?,?,@output); SELECT @output AS tradeID;',//目前的使用范例为 CALL addTrade('test_for_contri',20,'2017-08-08 22:22','start',1,@output); SELECT @output AS tradeID;
     addTradeTags : 'INSERT INTO trade_tag VALUES ?;',//第一个值是tradeID,第二个值是tag
@@ -53,7 +56,7 @@ var user = {
     getApplier : 'SELECT painter AS applier FROM painter_apply_for_trade WHERE trade = ?;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?,?);',//第一个参数是tradeID，第二个参数是painterID，第三个参数是buyerID
     addApplierForTrade : 'SELECT username,id AS userID, icon AS user_header FROM painter_apply_for_trade p,user u WHERE p.trade = ? and p.painter = u.id;',//第一个参数是painterID,第二个参数是tradeID
-    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl); SELECT @buyer,@price,@buyername,@state,@relation,@ddl;',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,state,buyername,relationf,ddl;
+    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl,@tradeID); SELECT @buyer AS buyer,@price AS price,@buyername AS buyername,@state AS state,@ddl AS ddl,@tradeID AS tradeID;',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation
     getUserType : 'SELECT type FROM user WHERE id = ?;',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
@@ -66,9 +69,9 @@ var user = {
     modifyUserBasicInfo :'UPDATE user SET username = ?, alipay_address = ? WHERE id = ?;',
     chargeMoney :'CALL buyer_add_money(?,?)',//第一个参数是userID,第二个参数是money
     addTradeWork :'CALL addTradeWork(?,?,?)',//第一个参数是painterID,第二个参数是tradeID,第三个参数是paintingURL格式 就是trade中的upload_file_route
-    getTradeUrl :'CALL getTradeUrl(?,?,?)',//第一个参数是buyerID,第二个参数是tradeID,第三个参数是paintingURL 就是trade中的upload_file_route
+    getTradeUrl :'CALL getTradeUrl(?,?,@url); SELECT @url AS url;',//第一个参数是buyerID,第二个参数是tradeID,第三个参数是paintingURL 就是trade中的upload_file_route
     getUserInfo: 'SELECT phomepage, twitter, abstract FROM user WHERE id = ?',
-    getUserMoney :'CALL getUserMoney(?,@frozen_money,@current_money);SELECT @frozen_money,@current_money;',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
+    getUserMoney :'CALL getUserMoney(?,@frozen_money,@current_money);SELECT @frozen_money AS frozen_money,@current_money AS current_money;',//第一个参数是userID,第二个是frozenMoney,第三个参数是currentMoney
     modifyUserTwitter :'UPDATE user SET twitter = ? WHERE id = ?',
     modifyUserAbstract : 'UPDATE user SET abstract = ? WHERE id = ?',
     modifyUserHomepage : 'UPDATE user SET phomepage = ? WHERE id = ?'
