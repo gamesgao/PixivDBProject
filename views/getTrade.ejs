@@ -264,7 +264,7 @@
                     })
                 },
                 cancelTrade: function() {
-                    this.$http.get(`/trade/canceltrade?userID=${this.userID}`).then(
+                    this.$http.get(`/trade/cancelTrade?tradeID=${this.tradeID}`).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
