@@ -81,7 +81,7 @@
                         </div>
                         <div class="user">
                             <div class="user-following">
-                                <h3>Following<span class="badge"><%=following_num %></span></h3>
+                                <h3 @click="hrefFollow">Following<span class="badge"><%=following_num %></span></h3>
                             </div>
                             <ul class="intro last list-inline">
                                 <% for(var i=0; i<following.length; i++) { %>
@@ -255,6 +255,9 @@
                             console.log(err);
                         }
                     )
+                },
+                hrefFollow: function() {
+                    location.href = '/homepage/following';
                 }
             }
         });
