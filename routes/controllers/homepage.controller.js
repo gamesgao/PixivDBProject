@@ -669,7 +669,7 @@ function quit(req, res, next) {
                 res.json({status: 0, msg: 退出失败});
             }
             else res.json({status: 1, msg: 退出成功});
-            redirect('/');
+            res.redirect('/');
         })
     }
 }
