@@ -285,7 +285,9 @@
                             if (response.data.status == 1) {
                                 app.status = "Success!";
                                 app.message = response.data.msg;
-                                app.tags.push(app.newTag);
+                                app.tags.push({
+                                    tag: app.newTag
+                                });
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
