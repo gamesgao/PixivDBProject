@@ -156,7 +156,12 @@ function searchPaintingGet(req,res,next) {
 function searchPaintingPost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting,painting_tag WHERE painting = id ';
+    var statement = '';
+    if (userRequire.byTag) {
+        statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting, painting_tag WHERE painting = id ';
+    }
+    else
+        statement = 'SELECT DISTINCT id AS paintingID, url, topic AS name, upvote, page_view AS pageView FROM painting WHERE 1=1 ';
     var num = 0;
     var query = new Array(4);
     var status;
@@ -292,7 +297,11 @@ function searchTradeGet(req,res,next) {
 function searchTradePost(req,res,next) {
     var userID = req.session.userID;
     var userRequire = req.body;
-    var statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id ';
+    var statement = '';
+    if (userRequire.byTag)
+        statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u, trade_tag ttag WHERE t.buyer = u.id and ttag.trade = t.id ';
+    else
+        statement = 'SELECT DISTINCT t.id AS tradeID, t.buyer AS buyer, t.price AS price, t.deadline AS ddl, t.status AS state, u.username AS buyername FROM trade t,user u WHERE t.buyer = u.id ';
     var num = 0;
     var query = new Array(4);
     var status;
