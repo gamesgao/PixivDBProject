@@ -666,9 +666,9 @@ function quit(req, res, next) {
     if (req.session) {
         req.session.destroy(function cb(err) {
             if (err) {
-                res.json({status: 0, msg: 退出失败});
+                res.json({status: 0, msg: '退出失败'});
             }
-            else res.json({status: 1, msg: 退出成功});
+            else res.json({status: 1, msg: '退出成功'});
             res.redirect('/');
         })
     }
