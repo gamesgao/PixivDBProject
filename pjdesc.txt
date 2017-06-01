@@ -69,7 +69,7 @@ return页面register.ejs
 		Tag：tag [], 字符串
 		用户头像：user_header：url
 		用户ID：userID
-		共 7 项
+		用户类型: type
 
 		下面三个暂且不要
 		// 粉丝？不存在的
