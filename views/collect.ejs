@@ -203,6 +203,9 @@
                             if (response.data.status == 1) {
                                 app.status = "Success!";
                                 app.message = response.data.msg;
+                                setTimeout(function() {
+                                    location = location;
+                                }, 2000);
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";

@@ -391,6 +391,9 @@
                                 app.status = "Success!";
                                 app.message = response.data.msg;
                                 $('#warning').modal({});
+                                setTimeout(function() {
+                                    location = location;
+                                }, 2000);
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while following ERR:${response.data.msg}`;
@@ -433,6 +436,9 @@
                                 app.status = "Success!";
                                 app.message = response.data.msg;
                                 $('#warning').modal({});
+                                setTimeout(function() {
+                                    location = location;
+                                }, 2000);
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while uploading ERR:${response.data.msg}`;
