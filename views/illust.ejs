@@ -39,7 +39,7 @@
                     <a class="navbar-brand" href="/homepage">Vixip</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right" action="#" role="search">
+                    <form class="navbar-form navbar-left" action="#" role="search">
                         <div class="form-group">
                             <div class="input-group">
                                 <input class="form-control" id="navbarInput-01" type="search" placeholder="Search Painting">
@@ -49,14 +49,14 @@
                             </div>
                         </div>
                     </form>
-                    <ul class="nav navbar-nav navbar-left">
+                    <ul class="nav navbar-nav navbar-right">
                         <li><a href="/homepage">Home page</a></li>
                         <li><a href="/homepage/addcontribute">New Contribution</a></li>
                         <!--<li><a href="/homepage/collect">Collection</a></li>-->
                         <li><a href="/trade/tradehomepage">Trade Home</a></li>
                         <li><a href="/homepage/config"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
+                        <li><a @click="quit"><span class="fui-exit"></span></a></li>
                     </ul>
-
                 </div>
             </div>
         </div>
@@ -218,6 +218,27 @@
                             if (response.data.status == 1) {
                                 app.status = "Success!";
                                 app.message = response.data.msg;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                },
+                quit: function() {
+                    this.$http.get('/homepage/quit').then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                setTimeout(function() {
+                                    location.href = '/login';
+                                }, 2000);
                                 $('#warning').modal({});
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
