@@ -21,6 +21,7 @@ router.get('/delcollect', delCollecting);
 router.get('/contribute', contribute);
 router.get('/addcontribute', addContribute);
 router.get('/delcontribute', delContribute);
+router.get('/quit', quit);
 
 function data(req, res, next) {
 	var data = req.query;
@@ -658,6 +659,18 @@ function charge(req, res, next) {
                 }
             );
         });
+    }
+}
+
+function quit(req, res, next) {
+    if (req.session) {
+        req.session.destroy(function cb(err) {
+            if (err) {
+                res.json({status: 0, msg: '退出失败'});
+            }
+            else res.json({status: 1, msg: '退出成功'});
+            res.redirect('/');
+        })
     }
 }
 module.exports = router;

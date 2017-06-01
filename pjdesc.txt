@@ -217,6 +217,9 @@ return页面register.ejs
 	Param money
 	Return 1:成功 0:失败
 	not checked! 等待数据库实现 
+
+/quit@get
+	退出当前用户登陆状态，销毁session
 	
 
 用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全 ： 见config 和 configupload
