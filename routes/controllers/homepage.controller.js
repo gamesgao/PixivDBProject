@@ -643,6 +643,8 @@ function charge(req, res, next) {
                         status: status,
                         msg: message
                     });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.chargeMoney,
@@ -656,6 +658,13 @@ function charge(req, res, next) {
                         status = 1;
                         message = '添加钱成功';
                     }
+                    res.json(
+                        {
+                            status: status,
+                            msg: message
+                        });
+                    connection.release();
+                    return;
                 }
             );
         });
