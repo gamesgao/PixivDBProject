@@ -346,6 +346,8 @@ function tradeHomepage(req, res, next) {
                         res.render('error');
                     }
                     if (result) {
+                        if (result[2][0].buyer == null)
+                            result[2] = [];
                         res.render('tradeHomepage',{
                             trade:result[2],
                             username: result[3][0].username,
