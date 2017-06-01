@@ -281,7 +281,7 @@
                                 console.log(data);
                                 for (var i = 0; i < app.tags.length; i++) {
                                     var temp = app.tags.shift();
-                                    if (temp != data.tag) {
+                                    if (temp.tag != data.tag) {
                                         app.tags.push(temp);
                                     }
                                 }
