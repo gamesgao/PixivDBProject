@@ -664,12 +664,15 @@ function charge(req, res, next) {
 
 function quit(req, res, next) {
     if (req.session) {
-        req.session.destroy(function cb(err) {
+        req.session.destroy(function(err) {
             if (err) {
                 res.json({status: 0, msg: '退出失败'});
+                return;
             }
-            else res.json({status: 1, msg: '退出成功'});
-            res.redirect('/');
+            else {
+                res.json({status: 1, msg: '退出成功'});
+                return;
+            }
         })
     }
 }
