@@ -138,7 +138,7 @@
                                         </p>
                                     </div>
                                     <div class="col-md-3 text-center">
-                                        <a :title="starCount" data-placement="top" data-toggle="tooltip" @click="rated">
+                                        <a :data-original-title="starCount" :data-title="starCount" data-placement="top" data-toggle="tooltip" @click="rated">
                                         Star
                                         </a>
                                     </div>
@@ -207,7 +207,7 @@
                 paintingID: '<%=paintingID%>',
                 status: "",
                 message: "",
-                starCount: '<%=ratedCount %>',
+                starCount: Number('<%=ratedCount %>'),
                 tags: JSON.parse('<%-tag %>'),
                 newTag: ""
             },
