@@ -42,8 +42,9 @@ function data(req, res, next) {
                 sql.getCollectedPainting +
                 sql.getMostTag +
                 sql.getUserHeader +
-                sql.getUserInfo,
-                [userID, userID, userID, userID, userID, userID, userID, userID]
+                sql.getUserInfo +
+                sql.getUserType,
+                [userID, userID, userID, userID, userID, userID, userID, userID, userID]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -64,7 +65,8 @@ function data(req, res, next) {
                                 tag: result[5],
                                 user_header: result[6][0].user_header,
                                 userID: userID,
-                                pdata: pdata
+                                pdata: pdata,
+                                type: result[8][0].type
                             });
                     }
                     connection.release();
