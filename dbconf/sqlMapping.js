@@ -55,8 +55,8 @@ var user = {
     getFullTrade : 'SELECT * FROM trade WHERE id = ?;',//我看过所有的参数都对的上，要是需要改动请注明 @陈旭旸
     getApplier : 'SELECT painter AS userID,username AS username,icon AS user_header FROM painter_apply_for_trade, user WHERE trade = ? AND id = painter;',
     addResponderForTrade :'CALL buyer_decide_painter(?,?,?);',//第一个参数是tradeID，第二个参数是painterID，第三个参数是buyerID
-    addApplierForTrade : 'CALL painter_apply_for_trade(?,?)',//第一个参数是painterID,第二个参数是tradeID
-    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades(@buyer,@price,@state,@buyername,@relation,@ddl,@tradeID); SELECT @buyer AS buyer,@price AS price,@buyername AS buyername,@state AS state,@ddl AS ddl,@tradeID AS tradeID;',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation,
+    addApplierForTrade : 'CALL painter_apply_for_trade(?,?);',//第一个参数是painterID,第二个参数是tradeID
+    getRelatedTrades : 'SET @inuserid = ?; CALL getRelatedTrades();',//参数是第一个输入，userID，第二个到第六个是输出，buyer,price,buyername,state,relation,
     getUserType : 'SELECT type FROM user WHERE id = ?;',
     update:'update user set name=?, age=? where id=?;',
     upvote:'INSERT INTO upvote VALUES (?,?); UPDATE painting SET upvote = upvote + 1 WHERE id = ?;',//userID paintingID
