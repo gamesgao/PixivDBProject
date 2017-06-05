@@ -208,6 +208,7 @@
                 star: "",
                 view: "",
                 order: 0,
+                data: {},
                 isProcess: false
             },
             computed: {
@@ -261,49 +262,49 @@
                     )
                 },
                 searchpainting: function() {
-                    var data = {};
                     if (this.ID != "") {
-                        data.byID = this.ID;
+                        this.data.byID = this.ID;
                     }
                     if (this.topic != "") {
-                        data.byTopic = this.topic;
+                        this.data.byTopic = this.topic;
                     }
                     if (this.tag != "") {
-                        data.byTag = this.tag;
+                        this.data.byTag = this.tag;
                     }
                     if (this.star != "") {
-                        data.byUpvote = this.star;
+                        this.data.byUpvote = this.star;
                     }
 
                     if (this.view != "") {
-                        data.byPageView = this.view;
+                        this.data.byPageView = this.view;
                     }
                     if (this.order == 1) {
-                        data.OrderByID = true;
+                        this.data.OrderByID = true;
                     } else if (this.order == 2) {
-                        data.OrderByUpvote = true;
+                        this.data.OrderByUpvote = true;
                     } else if (this.order == 3) {
-                        data.OrderByPageView = true;
+                        this.data.OrderByPageView = true;
                     }
+                    this.data.offset = 0;
                     this.isProcess = true;
-                    this.$http.post('/search/painting', data).then(
+                    this.$http.post('/search/painting', this.data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 // app.status = "Success!";
                                 // app.message = response.data.msg;
                                 // $('#warning').modal({});
                                 app.paintings = response.data.painting;
-                                this.isProcess = false;
+                                app.isProcess = false;
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while following ERR:${response.data.msg}`;
-                                this.isProcess = false;
+                                app.isProcess = false;
                                 $('#warning').modal({});
                             }
                         },
                         function(err) {
                             console.log(err);
-                            this.isProcess = false;
+                            app.isProcess = false;
                         }
                     )
                 }
@@ -314,6 +315,49 @@
                 app.order = Number($(event.target)[0].value);
             });
         });
+        $(window).scroll(function() {　　
+            var scrollTop = $(this).scrollTop();　　
+            var scrollHeight = $(document).height();　　
+            var windowHeight = $(this).height();　　
+            if (scrollTop + windowHeight >= scrollHeight) {　　　　
+                console.log("已经到最底部了！");
+                if (!isEmptyObject(app.data)) {
+                    app.data.offset = app.paintings.length;
+                    app.isProcess = true;
+                    app.$http.post('/search/painting', app.data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                // app.status = "Success!";
+                                // app.message = response.data.msg;
+                                // $('#warning').modal({});
+                                // app.paintings = response.data.painting;
+                                for (var i = 0; i < response.data.painting.length; i++) {
+                                    var element = response.data.painting[i];
+                                    app.paintings.push(element);
+                                }
+                                app.isProcess = false;
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                app.isProcess = false;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                            app.isProcess = false;
+                        }
+                    )
+                }　　
+            }
+        });
+
+        function isEmptyObject(obj) {
+            for (var key in obj) {
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 
