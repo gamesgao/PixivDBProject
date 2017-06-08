@@ -58,6 +58,7 @@ function searchUserPost(req,res,next) {
     var namesnippet = '%'.concat(req.body.username.concat('%'));
     var status = 0;
     var message = '';
+    var offset = req.body.offset;
     if (userID) {
         pool.getConnection(function (err, connection) {
             if (err) {
@@ -75,7 +76,7 @@ function searchUserPost(req,res,next) {
             connection.query(
                 sql.searchUserByName
                 ,
-                [namesnippet]
+                [namesnippet,offset]
                 , function (err, result) {
                     if (err) {
                         // handle error
@@ -198,14 +199,17 @@ function searchPaintingPost(req,res,next) {
         num++
     }
     if (userRequire.OrderByID) {
-        statement += 'order by id' ;
+        statement += 'order by id ' ;
     }
     if (userRequire.OrderByPageView) {
-        statement += 'order by page_view' ;
+        statement += 'order by page_view ' ;
     }
     if (userRequire.OrderByUpvote) {
-        statement += 'order by upvote' ;
+        statement += 'order by upvote ' ;
     }
+    statement += 'limit ?,18 ';
+    query[num] = Number(userRequire.offset);
+    num++;
     statement += ';';
 
     if (userID) {
@@ -319,6 +323,9 @@ function searchTradePost(req,res,next) {
         query[num] = '%'+userRequire.byDesc+'%';
         num++
     }
+    statement += 'limit ?,18 ';
+    query[num] = Number(userRequire.offset);
+    num++;
     statement += ';';
 
     if (userID) {
