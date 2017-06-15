@@ -84,7 +84,7 @@
                                 <h3 @click="hrefFollow">Following<span class="badge"><%=following_num %></span></h3>
                             </div>
                             <ul class="intro last list-inline">
-                                <% for(var i=0; i<following.length; i++) { %>
+                                <% for(var i=0; i<Math.min(following.length, 12); i++) { %>
                                     <li>
                                         <a href="<%='/homepage?userID=' +following[i].userID %>" class="following-icon ">
                                             <img alt="... " class="img-circle " src="<%=following[i].header %>" width="30 " />
@@ -98,7 +98,7 @@
                                 <h3>Tag</h3>
                             </div>
                             <ul class="intro last list-inline">
-                                <% for(var i=0; i<tag.length; i++) { %>
+                                <% for(var i=0; i<Math.min(tag.length, 5); i++) { %>
                                     <li>
                                         <p>
                                             <%- tag[i].tag %>(
@@ -117,7 +117,7 @@
                             <div class="panel-heading "><a href="<%='/homepage/contribute?userID=' + userID %>">Submitted Illustrations</a></div>
 
                             <div class="panel-body">
-                                <% for(var i=0; i<contribute_painting.length; i++) { %>
+                                <% for(var i=0; i<Math.min(contribute_painting.length, 3); i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
                                             <img src="<%=contribute_painting[i].url %>" alt="Infinity-Loop" class="tile-image">
@@ -133,7 +133,7 @@
                             <div class="panel-heading "><a href="<%='/homepage/collect?userID=' + userID %>">Bookmarks</a></div>
 
                             <div class="panel-body ">
-                                <% for(var i=0; i<collect_painting.length; i++) { %>
+                                <% for(var i=0; i<Math.min(collect_painting.length, 3); i++) { %>
                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
                                         <div class="tile">
                                             <img src="<%=collect_painting[i].url %>" alt="Infinity-Loop" class="tile-image">

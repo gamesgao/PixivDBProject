@@ -222,9 +222,6 @@
                     this.$http.post('/search/user', this.data).then(
                         function(response) {
                             if (response.data.status == 1) {
-                                // app.status = "Success!";
-                                // app.message = response.data.msg;
-                                // $('#warning').modal({});
                                 app.users = response.data.data;
                                 app.isProcess = false;
                             } else if (response.data.status == 0) {
