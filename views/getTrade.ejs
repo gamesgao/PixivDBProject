@@ -160,7 +160,7 @@
                                             </div>
                                         </form>
                                         <% } %>
-                                            <% if(isBuyer && url && trade.status == "TradeSucceed" ) { %>
+                                            <% if(isBuyer && url) { %>
                                                 <div class="col-lg-12">
                                                     <img src="<%=url %>" class="img-thumbnail img-responsive" />
                                                 </div>
@@ -171,17 +171,18 @@
                                     <button type="button" class="btn btn-primary btn-block" @click="apply">Apply</button>
                                 </div>
                                 <% } %>
-                                    <% if(isResponded) { %>
+                                    <% if(isResponded || isBuyer || isApplied) { %>
                                         <div class="panel-footer">
-                                            <a class="btn btn-primary btn-large btn-block " href="<%='/trade/getTrade/uploadWork?tradeID='+trade.id %>">Upload Work</a>
+                                            <% if(isResponded) { %>
+                                                <a class="btn btn-primary btn-large btn-block " href="<%='/trade/getTrade/uploadWork?tradeID='+trade.id %>">Upload Work</a>
+                                                <% } %>
+                                                    <% if(isBuyer && trade.status == "Complete") { %>
+                                                        <button type="button" class="btn btn-danger btn-large btn-block " @click="completeTrade">confirm</button>
+                                                        <% } %>
+                                                            <button type="button" class="btn btn-danger btn-large btn-block " @click="cancelTrade">Cancel</button>
                                         </div>
                                         <% } %>
-                                            <% if(isResponded || isBuyer || isApplied) { %>
-                                                <div class="panel-footer">
-                                                    <button type="button" class="btn btn-danger btn-large btn-block " @click="cancelTrade">Cancel</button>
-                                                </div>
-                                                <% } %>
-                                                    <% } %>
+                                            <% } %>
 
                         </div>
                     </div>
@@ -286,6 +287,24 @@
                 },
                 cancelTrade: function() {
                     this.$http.get(`/trade/cancelTrade?tradeID=${this.tradeID}`).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                }，
+                completeTrade: function() {
+                    this.$http.get(`/trade/completeTrade?tradeID=${this.tradeID}`).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 app.status = "Success!";
