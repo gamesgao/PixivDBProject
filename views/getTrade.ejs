@@ -160,9 +160,9 @@
                                             </div>
                                         </form>
                                         <% } %>
-                                            <% if(isBuyer && url) { %>
+                                            <% if(isBuyer && url && trade.status == "TradeSucceed" ) { %>
                                                 <div class="col-lg-12">
-                                                    <img src="<%-url %>" class="img-thumbnail img-responsive" />
+                                                    <img src="<%=url %>" class="img-thumbnail img-responsive" />
                                                 </div>
                                                 <% } %>
                             </div>
