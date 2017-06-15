@@ -71,7 +71,7 @@
                                 <img alt="..." class="img-circle img-responsive" src="<%=user_header %>" />
                             </div>
                             <div class="intro last">
-                                <h4>
+                                <h4 @click="gotohomepage">
                                     <%=username %>
                                 </h4>
                                 <br/>
@@ -255,6 +255,9 @@
                             console.log(err);
                         }
                     )
+                },
+                gotohomepage: function() {
+                    location.href = `/homepage?userID=${this.userID}`;
                 },
                 hrefFollow: function() {
                     location.href = '/homepage/following';

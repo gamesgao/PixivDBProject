@@ -71,7 +71,7 @@
                                 <img alt="..." class="img-circle img-responsive" src="<%=user_header %>" />
                             </div>
                             <div class="intro last">
-                                <h4>
+                                <h4 @click="gotohomepage">
                                     <%=username %>
                                 </h4>
                                 <br/>
@@ -203,6 +203,7 @@
                 trades: [],
                 tag: "",
                 desc: "",
+                data: {},
                 isProcess: false
             },
             computed: {
@@ -234,6 +235,9 @@
                         }
                     )
                 },
+                gotohomepage: function() {
+                    location.href = `/homepage?userID=${this.userID}`;
+                },
                 quit: function() {
                     this.$http.get('/homepage/quit').then(
                         function(response) {
@@ -256,37 +260,78 @@
                     )
                 },
                 searchtrade: function() {
-                    var data = {};
                     if (this.tag != "") {
-                        data.byTag = this.tag;
+                        this.data.byTag = this.tag;
                     }
                     if (this.desc != "") {
-                        data.byDesc = this.desc;
+                        this.data.byDesc = this.desc;
                     }
+                    this.data.offset = 0;
                     this.isProcess = true;
-                    this.$http.post('/search/trade', data).then(
+                    this.$http.post('/search/trade', this.data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 // app.status = "Success!";
                                 // app.message = response.data.msg;
                                 // $('#warning').modal({});
                                 app.trades = response.data.trade;
-                                this.isProcess = false;
+                                app.isProcess = false;
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while following ERR:${response.data.msg}`;
-                                this.isProcess = false;
+                                app.isProcess = false;
                                 $('#warning').modal({});
                             }
                         },
                         function(err) {
                             console.log(err);
-                            this.isProcess = false;
+                            app.isProcess = false;
                         }
                     )
                 }
             }
         });
+
+        $(window).scroll(function() {　　
+            var scrollTop = $(this).scrollTop();　　
+            var scrollHeight = $(document).height();　　
+            var windowHeight = $(this).height();　　
+            if (scrollTop + windowHeight >= scrollHeight) {　　　　
+                console.log("已经到最底部了！");
+                if (!isEmptyObject(app.data) && !app.isProcess) {
+                    app.data.offset = app.trades.length;
+                    app.isProcess = true;
+                    app.$http.post('/search/trade', app.data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                for (var i = 0; i < response.data.painting.length; i++) {
+                                    var element = response.data.painting[i];
+                                    app.trades.push(element);
+                                }
+                                app.isProcess = false;
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                app.isProcess = false;
+                                app.data = {};
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                            app.isProcess = false;
+                        }
+                    )
+                }　　
+            }
+        });
+
+        function isEmptyObject(obj) {
+            for (var key in obj) {
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 
