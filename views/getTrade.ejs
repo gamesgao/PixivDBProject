@@ -140,7 +140,7 @@
                                     </div>
                                 </form>
                                 <% if(type !== 0) { %>
-                                    <% if(isBuyer) { %>
+                                    <% if(isBuyer && trade.status == "Calling") { %>
                                         <form role="form" class="form-inline">
                                             <div class="form-group">
                                                 <div class="input-group">
