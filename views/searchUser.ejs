@@ -217,7 +217,7 @@
                 },
                 searchUser: function() {
                     this.data.username = this.suser;
-                    this.data.offet = 0;
+                    this.data.offset = 0;
                     this.isProcess = true;
                     this.$http.post('/search/user', this.data).then(
                         function(response) {
