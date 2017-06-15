@@ -29,6 +29,7 @@ function trade(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
             }
             connection.query(
                 sql.getUserName +
@@ -80,6 +81,7 @@ function initialTradeGet(req, res, next) {
                 , function (err, result) {
                     if (err) {
                         // handle error
+                        res.render('error');
                     }
                     if (result) {
                         res.render('initTrade', {
@@ -185,6 +187,7 @@ function getTrade(req, res, next) {
                     if (err) {
                         // handle error
                         res.render('error');
+                        connection.release();
                     }
                     if (result) {
                         var isApplied = false;
@@ -235,6 +238,7 @@ function getTrade(req, res, next) {
                                     sendJSON.buyername = result[1][0].username;
                                 else sendJSON.buyername = null;
                                 res.render('getTrade', sendJSON);
+                                connection.release();
                             }
                         );
                     }
