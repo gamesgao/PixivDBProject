@@ -217,7 +217,7 @@
                         return;
                     }
                     this.newFilename = files[0].name;
-                    var imgReg = /^(.)+\.((png)|(jpg)|(gif))$/;
+                    var imgReg = /^(.)+\.((png)|(jpg)|(gif)|(bmp))$/;
                     if (imgReg.test(files[0].name)) {
                         var image = new Image();
                         var reader = new FileReader();
