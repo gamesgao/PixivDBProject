@@ -164,6 +164,7 @@
                 message: "",
                 suser: "",
                 users: [],
+                data: {},
                 isProcess: false
             },
             computed: {
@@ -215,21 +216,22 @@
                     )
                 },
                 searchUser: function() {
-                    var data = {};
-                    data.username = this.suser;
+                    this.data.username = this.suser;
+                    this.data.offet = 0;
                     this.isProcess = true;
-                    this.$http.post('/search/user', data).then(
+                    this.$http.post('/search/user', this.data).then(
                         function(response) {
                             if (response.data.status == 1) {
                                 // app.status = "Success!";
                                 // app.message = response.data.msg;
                                 // $('#warning').modal({});
                                 app.users = response.data.data;
-                                this.isProcess = false;
+                                app.isProcess = false;
                             } else if (response.data.status == 0) {
                                 app.status = "Error!";
                                 app.message = `Something wrong while following ERR:${response.data.msg}`;
-                                this.isProcess = false;
+                                app.isProcess = false;
+                                app.data = {};
                                 $('#warning').modal({});
                             }
                         },
@@ -241,6 +243,47 @@
                 }
             }
         });
+
+        $(window).scroll(function() {　　
+            var scrollTop = $(this).scrollTop();　　
+            var scrollHeight = $(document).height();　　
+            var windowHeight = $(this).height();　　
+            if (scrollTop + windowHeight >= scrollHeight) {　　　　
+                console.log("已经到最底部了！");
+                if (!isEmptyObject(app.data) && !app.isProcess) {
+                    app.data.offset = app.users.length;
+                    app.isProcess = true;
+                    app.$http.post('/search/user', app.data).then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                for (var i = 0; i < response.data.painting.length; i++) {
+                                    var element = response.data.painting[i];
+                                    app.users.push(element);
+                                }
+                                app.isProcess = false;
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                app.isProcess = false;
+                                app.data = {};
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                            app.isProcess = false;
+                        }
+                    )
+                }　　
+            }
+        });
+
+        function isEmptyObject(obj) {
+            for (var key in obj) {
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 
