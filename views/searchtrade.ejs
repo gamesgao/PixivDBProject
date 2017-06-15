@@ -129,7 +129,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon" data-placement="top" data-toggle="tooltip" data-original-title="deadline"><span class="fui-calendar"></span></span>
                                                             <p class="form-control flat">
-                                                                {{trade.ddl}}
+                                                                {{ (new Date(trade.ddl)).toLocaleString() }}
                                                             </p>
                                                         </div>
                                                     </div>
