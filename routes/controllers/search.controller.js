@@ -81,7 +81,7 @@ function searchUserPost(req,res,next) {
                     if (err) {
                         // handle error
                         status = 0;
-                        message = '';
+                        message = '未找到用户';
                         res.json({
                             status: status,
                             msg: message,
