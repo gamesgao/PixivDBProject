@@ -73,7 +73,6 @@ function initialTradeGet(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -83,6 +82,7 @@ function initialTradeGet(req, res, next) {
                 ,
                 [userID, userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -95,7 +95,6 @@ function initialTradeGet(req, res, next) {
                             userID : userID
                         });
                     }
-                    connection.release();
                 }
             );
         });
@@ -124,7 +123,6 @@ function initialTradePost(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
@@ -151,12 +149,12 @@ function initialTradePost(req, res, next) {
                             sql.addTradeTags,
                             [trade_tag_pair]
                             , function (err, result) {
+                                connection.release();
                                 if (err) {
                                     //handle error
                                     status = 0;
                                     message = '加入Tags给Trade失败';
                                     res.json({status:status, msg:message});
-                                    connection.release();
                                     return;
                                 }
                                 if (result)
@@ -164,7 +162,6 @@ function initialTradePost(req, res, next) {
                                     status = 1;
                                     message = '加入Tags给Trade成功';
                                     res.json({status:status, msg:message});
-                                    connection.release();
                                     return;
                                 }
                             }
@@ -189,7 +186,6 @@ function getTrade(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -246,6 +242,7 @@ function getTrade(req, res, next) {
                             sql.getUserName,
                             [responderID, buyerID]
                             , function (err, result) {
+                                connection.release();
                                 if (result[0][0])
                                     sendJSON.respondername = result[0][0].username;
                                 else sendJSON.respondername = null;
@@ -253,11 +250,9 @@ function getTrade(req, res, next) {
                                     sendJSON.buyername = result[1][0].username;
                                 else sendJSON.buyername = null;
                                 res.render('getTrade', sendJSON);
-                                //connection.release();
                             }
                         );
                     }
-                    connection.release();
                 });
         });
     }
@@ -284,13 +279,13 @@ function selectPainter(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                     sql.addResponderForTrade,
                 [tradeID, painterID,userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -304,7 +299,6 @@ function selectPainter(req, res, next) {
                         status : status,
                         msg : message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -331,13 +325,13 @@ function applyForTrade(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.addApplierForTrade,
                 [userID, tradeID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -351,7 +345,6 @@ function applyForTrade(req, res, next) {
                         status : status,
                         msg : message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -374,7 +367,6 @@ function tradeHomepage(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -383,6 +375,7 @@ function tradeHomepage(req, res, next) {
                 sql.getUserHeader,
                 [getID,getID,getID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -397,7 +390,6 @@ function tradeHomepage(req, res, next) {
                             userID: getID
                         });
                     }
-                    connection.release();
                     return;
                 });
         });
@@ -424,13 +416,13 @@ function cancelTrade(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.cancelTrade,
                 [userID, tradeID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -444,7 +436,6 @@ function cancelTrade(req, res, next) {
                         status : status,
                         msg : message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -472,13 +463,13 @@ function completeTrade(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.completeTrade,
                 [userID, tradeID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -492,7 +483,6 @@ function completeTrade(req, res, next) {
                         status : status,
                         msg : message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -512,7 +502,6 @@ function uploadwork(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -520,6 +509,7 @@ function uploadwork(req, res, next) {
                 sql.getUserHeader,
                 [userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -533,7 +523,6 @@ function uploadwork(req, res, next) {
                                 tradeID: tradeID
                             });
                     }
-                    connection.release();
                 }
             );
         });

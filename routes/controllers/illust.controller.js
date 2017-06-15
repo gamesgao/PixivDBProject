@@ -16,7 +16,6 @@ function comm(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -34,6 +33,7 @@ function comm(req, res, next) {
                 [illustID, illustID, illustID, illustID, illustID,
                     illustID, illustID, illustID, illustID, illustID, illustID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -53,7 +53,6 @@ function comm(req, res, next) {
                             paintingID : illustID
                             });
                     }
-                    connection.release();
                 }
             );
         });
@@ -82,13 +81,13 @@ function delTag(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.delPaintingTag,
                 [paintingID, tag, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -102,7 +101,6 @@ function delTag(req, res, next) {
                         status:status,
                         msg:message
                     });
-                    connection.release();
                     return;
                 }
             );
@@ -132,13 +130,13 @@ function addTag(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.addPaintingTag,
                 [paintingID,tag]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         status = 0;
                         message = '添加画tag失败';
@@ -152,7 +150,6 @@ function addTag(req, res, next) {
                         status:status,
                         msg:message
                     });
-                    connection.release();
                     return;
                 }
             );
@@ -181,13 +178,13 @@ function upvote(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.upvote,
                 [userID, paintingID, paintingID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -201,7 +198,6 @@ function upvote(req, res, next) {
                         status:status,
                         msg:message
                     });
-                    connection.release();
                     return;
                 }
             );

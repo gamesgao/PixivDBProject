@@ -26,7 +26,6 @@ function searchUserGet(req,res,next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -34,6 +33,7 @@ function searchUserGet(req,res,next) {
                 sql.getUserHeader,
                 [userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -45,7 +45,6 @@ function searchUserGet(req,res,next) {
                             userID: userID
                         });
                     }
-                    connection.release();
                 });
 
         });
@@ -72,7 +71,6 @@ function searchUserPost(req,res,next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
@@ -80,6 +78,7 @@ function searchUserPost(req,res,next) {
                 ,
                 [namesnippet,offset]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -89,7 +88,6 @@ function searchUserPost(req,res,next) {
                             msg: message,
                             data: {}
                         });
-                        connection.release();
                         return;
                     }
                     if (result) {
@@ -106,7 +104,6 @@ function searchUserPost(req,res,next) {
                             msg: '已找到',
                             data: data
                         });
-                        connection.release();
                         return;
                     }
                 }
@@ -127,7 +124,6 @@ function searchPaintingGet(req,res,next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -135,6 +131,7 @@ function searchPaintingGet(req,res,next) {
                 sql.getUserHeader,
                 [userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -146,7 +143,6 @@ function searchPaintingGet(req,res,next) {
                             userID: userID
                         });
                     }
-                    connection.release();
                 });
 
         });
@@ -227,12 +223,12 @@ function searchPaintingPost(req,res,next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 statement,
                 query, function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -241,7 +237,6 @@ function searchPaintingPost(req,res,next) {
                             status: status,
                             msg: message
                         });
-                        connection.release();
                         return;
                     }
                     if (result) {
@@ -252,7 +247,6 @@ function searchPaintingPost(req,res,next) {
                             msg: message,
                             painting: result
                         });
-                        connection.release();
                         return;
                     }
                 }
@@ -274,7 +268,6 @@ function searchTradeGet(req,res,next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -282,6 +275,7 @@ function searchTradeGet(req,res,next) {
                 sql.getUserHeader,
                 [userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -293,7 +287,6 @@ function searchTradeGet(req,res,next) {
                             userID: userID
                         });
                     }
-                    connection.release();
                 });
 
         });
@@ -346,12 +339,12 @@ function searchTradePost(req,res,next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 statement,
                 query, function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         status = 0;
@@ -360,7 +353,6 @@ function searchTradePost(req,res,next) {
                             status: status,
                             msg: message
                         });
-                        connection.release();
                         return;
                     }
                     if (result) {
@@ -371,7 +363,6 @@ function searchTradePost(req,res,next) {
                             msg: message,
                             trade: result
                         });
-                        connection.release();
                         return;
                     }
                 }

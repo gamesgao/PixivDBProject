@@ -44,12 +44,12 @@ function register(req, res, next) {
                 status : status,
                 msg: message
             });
-            connection.release();
             return;
         }
         connection.query(
             sql.addUser, [user.username, user.usertype, user.password, user.alipay_address],
             function(err, result) {
+                connection.release();
                 if (err) {
                     // handle error
                     status = 0;
@@ -72,7 +72,6 @@ function register(req, res, next) {
                         });
                 }
                 res.json({status:status, msg:message});
-                connection.release();
                 return;
             }
         );

@@ -25,12 +25,12 @@ function userlogin(req, res, next) {
                 status : status,
                 msg: message
             });
-            connection.release();
             return;
         }
         connection.query(
             sql.checkUserPassword, [user.username, user.password],
             function(err, result) {
+                connection.release();
                 if (err) {
                     // handle error
                     status = 0;
@@ -49,7 +49,6 @@ function userlogin(req, res, next) {
                     }
                 }
                 res.json({status:status, msg:message});
-                connection.release();
                 return;
             }
         );

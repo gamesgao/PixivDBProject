@@ -63,7 +63,6 @@ function paintingUpload(req, res, next) {
                     status : 0,
                     msg: '连接数据库失败'
                 });
-                connection.release();
                 return;
             }
             var datetime = new Date();
@@ -114,6 +113,7 @@ function paintingUpload(req, res, next) {
                                         sql.modifyResolution,
                                         [height, width, userID, paintingID],
                                         function (err, result) {
+                                            connection.release();
                                             state = 1;
                                             if (err)
                                             {
@@ -127,7 +127,6 @@ function paintingUpload(req, res, next) {
                                                     msg: message
                                                 });
                                             }
-                                            connection.release();
                                             return;
                                         }
                                     );
@@ -159,13 +158,13 @@ function tradeworkUpload(req, res, next) {
                     status : 0,
                     msg: '连接数据库失败'
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.addTradeWork,
                 [userID, tradeID, path.extname(req.file.originalname)],
                 function (err, result) {
+                    connection.release();
                     var state = 0;
                     var message = '';
                     if (err) {
@@ -178,7 +177,6 @@ function tradeworkUpload(req, res, next) {
                             status: state,
                             msg: message
                         });
-                        connection.release();
                         return;
                     }
                     var paintingID = 0;
@@ -197,7 +195,6 @@ function tradeworkUpload(req, res, next) {
                                 status: state,
                                 msg: message
                             });
-                            connection.release();
                             return;
                         });
                     }

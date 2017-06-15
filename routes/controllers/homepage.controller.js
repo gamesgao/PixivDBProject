@@ -48,6 +48,7 @@ function data(req, res, next) {
                 sql.getUserType,
                 [userID, userID, userID, userID, userID, userID, userID, userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -71,7 +72,6 @@ function data(req, res, next) {
                                 type: result[8][0].type
                             });
                     }
-                    connection.release();
                 }
             );
         });
@@ -92,7 +92,6 @@ function config(req, res, next) {
             {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
 
             }
@@ -104,6 +103,7 @@ function config(req, res, next) {
                 sql.getUserInfo,
                 [userID, userID, userID, userID, userID],
                 function (err, result) {
+                    connection.release();
                     if (err)
                     {
                         //error handler
@@ -123,7 +123,6 @@ function config(req, res, next) {
                             abstract: result[5][0].abstract
                         });
                     }
-                    connection.release();
                 });
 
         });
@@ -156,7 +155,6 @@ function configUpload(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
@@ -166,6 +164,7 @@ function configUpload(req, res, next) {
                 sql.modifyUserHomepage,
                 [newName, new_alipay, userID, twitter,  userID, abstract,  userID, phomepage, userID],
                 function (err, result) {
+                    connection.release();
                     if (err)
                     {
                         //error handler
@@ -176,7 +175,6 @@ function configUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
-                        connection.release();
                         return;
                     }
                     if (result)
@@ -188,7 +186,6 @@ function configUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
-                        connection.release();
                         return;
                     }
                 });
@@ -220,13 +217,13 @@ function passwordUpload(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.modifyUserPassword,
                 [oldPassword, newPassword, userID],
                 function (err, result) {
+                    connection.release();
                     if (err)
                     {
                         //error handler
@@ -237,7 +234,6 @@ function passwordUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
-                        connection.release();
                         return;
                     }
                     if (result)
@@ -249,7 +245,6 @@ function passwordUpload(req, res, next) {
                                 status : status,
                                 msg : message
                             });
-                        connection.release();
                         return;
                     }
                 });
@@ -273,7 +268,6 @@ function following(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -283,6 +277,7 @@ function following(req, res, next) {
                 sql.getFollowingNum,
                 [homepageID, homepageID, homepageID, homepageID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -297,7 +292,6 @@ function following(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
-                    connection.release();
                 });
         });
     }
@@ -323,13 +317,13 @@ function addFollowing(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.addFollowing,
                 [userID, followingID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         status = 0;
@@ -344,7 +338,6 @@ function addFollowing(req, res, next) {
                         status : status,
                         msg: message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -371,13 +364,13 @@ function delFollowing(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.delFollowing,
                 [userID, followingID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         status = 0;
@@ -392,7 +385,6 @@ function delFollowing(req, res, next) {
                         status:status,
                         msg: message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -413,7 +405,6 @@ function collect(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -423,6 +414,7 @@ function collect(req, res, next) {
                 sql.getCollectedNum,
                 [homepageID, homepageID, homepageID, homepageID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -437,7 +429,6 @@ function collect(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
-                    connection.release();
                 });
         });
     }
@@ -463,13 +454,13 @@ function addCollecting(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.addCollecting,
                 [userID, paintingID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         status = 0;
@@ -484,7 +475,6 @@ function addCollecting(req, res, next) {
                         status : status,
                         msg: message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -511,13 +501,13 @@ function delCollecting(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.delCollecting,
                 [userID, paintingID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         status = 0;
@@ -532,7 +522,6 @@ function delCollecting(req, res, next) {
                         status : status,
                         msg: message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -553,7 +542,6 @@ function contribute(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -563,6 +551,7 @@ function contribute(req, res, next) {
                 sql.getContributeNum,
                 [homepageID, homepageID, homepageID, homepageID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         res.render('error');
@@ -577,7 +566,6 @@ function contribute(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
-                    connection.release();
                 });
         });
     }
@@ -594,7 +582,6 @@ function addContribute(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
                 return;
             }
             connection.query(
@@ -602,6 +589,7 @@ function addContribute(req, res, next) {
                 sql.getUserHeader,
                 [userID, userID]
                 , function (err, result) {
+                    connection.release();
                     if (err) {
                         // handle error
                         res.render('error');
@@ -614,7 +602,6 @@ function addContribute(req, res, next) {
                                 userID: userID
                             });
                     }
-                    connection.release();
                 }
             );
         });
@@ -642,13 +629,13 @@ function delContribute(req, res, next) {
                     status : status,
                     msg: message
                 });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.delContribute,
                 [paintingID, userID],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         //handle error
                         status = 0;
@@ -671,7 +658,6 @@ function delContribute(req, res, next) {
                         status: status,
                         msg: message
                     });
-                    connection.release();
                     return;
                 });
         });
@@ -700,13 +686,13 @@ function charge(req, res, next) {
                         status: status,
                         msg: message
                     });
-                connection.release();
                 return;
             }
             connection.query(
                 sql.chargeMoney,
                 [userID, money],
                 function (err, result) {
+                    connection.release();
                     if (err) {
                         status = 0;
                         message = '添加钱失败';
@@ -720,7 +706,6 @@ function charge(req, res, next) {
                             status: status,
                             msg: message
                         });
-                    connection.release();
                     return;
                 }
             );
