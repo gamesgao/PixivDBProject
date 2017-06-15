@@ -16,6 +16,7 @@ router.get('/getTrade',getTrade);
 router.get('/getTrade/selectpainter',selectPainter);
 router.get('/getTrade/applyfortrade',applyForTrade);
 router.get('/cancelTrade',cancelTrade);
+router.get('/completeTrade',completeTrade);
 router.get('/tradehomepage', tradeHomepage);
 router.get('/getTrade/uploadwork', uploadwork);
 
@@ -27,6 +28,7 @@ function trade(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
             }
             connection.query(
                 sql.getUserName +
@@ -189,7 +191,9 @@ function getTrade(req, res, next) {
                         var isBuyer = false;
                         var isResponded = false;
                         var type;
-                        var url = result[4][0].url;
+                        var url;
+                        //if (result[4][0] != null)
+                        url = result[4][0].url;
                         var responderID = result[0][0].responder;
                         var buyerID = result[0][0].buyer;
                         if (result[2][0].type == 'o') type = 0;
@@ -346,10 +350,10 @@ function tradeHomepage(req, res, next) {
                         res.render('error');
                     }
                     if (result) {
-                        if (result[1][0] == null)
-                            result[1] = [];
+                        //if (result[1][0] == null)
+                          //  result[1] = [];
                         res.render('tradeHomepage',{
-                            trade:result[1],
+                            trade:result[2],
                             username: result[3][0].username,
                             user_header:result[4][0].user_header,
                             userID: getID
@@ -389,6 +393,54 @@ function cancelTrade(req, res, next) {
                     if (result) {
                         status = 1;
                         message = '取消交易成功';
+                    }
+                    res.json({
+                        status : status,
+                        msg : message
+                    });
+                    connection.release();
+                    return;
+                });
+        });
+    }
+    else
+    {
+        //handle error
+        res.redirect('/login');
+    }
+}
+
+function completeTrade(req, res, next) {
+    var userID = req.session.userID;
+    var status = 1;
+    var message = '';
+    var tradeID = req.query.tradeID;
+
+    if (userID) {
+        pool.getConnection(function (err, connection) {
+            if (err) {
+                // handle error
+                status = 0;
+                message = '完成交易失败';
+                res.json({
+                    status : status,
+                    msg : message
+                });
+                connection.release();
+                return;
+            }
+            connection.query(
+                sql.completeTrade,
+                [userID, tradeID]
+                , function (err, result) {
+                    if (err) {
+                        // handle error
+                        status = 0;
+                        message = '完成交易失败';
+                    }
+                    if (result) {
+                        status = 1;
+                        message = '完成交易成功';
                     }
                     res.json({
                         status : status,

@@ -48,7 +48,7 @@ return页面register.ejs
 					个人主页:phomepage
 					推特:twitter
 					简介:abstract
-				} 
+				}
 		投稿作品：contribute_painting[{
 			url: //图片地址
 			paintingID: // 图片ID
@@ -60,7 +60,7 @@ return页面register.ejs
 			username
 		},...] // 只传三个
 		关注的人数：following_num
-		
+
 
 		收藏的画：collect_painting[{
 			url: //图片地址
@@ -78,8 +78,8 @@ return页面register.ejs
 			name: //好友名字
 			id: //好友id
 		}
-		// 朋友人数：friendNum	
-	
+		// 朋友人数：friendNum
+
 /config@get
 	Param 无
 	Return 页面 config.ejs
@@ -102,7 +102,7 @@ return页面register.ejs
 	Param newname(新的用户名), newAlipay, 以后还要加用户的详细信息
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
-		用于为登陆用户添加关注，将userID添加给登陆用户	
+		用于为登陆用户添加关注，将userID添加给登陆用户
 
 /passwordUpload@post
 	Param oldPassword 旧密码，newPassword 新密码
@@ -112,7 +112,7 @@ return页面register.ejs
 
 /following@get？userID
 	Param userID
-	Return 页面 following.ejs			
+	Return 页面 following.ejs
 
 		用于显示用户的关注用户
 		在这里实现删除功能
@@ -130,7 +130,7 @@ return页面register.ejs
 		是否是session对应的用户(即session中的userID和该页面的userID是否相同): isSelf: boolean
 		true: 是自己
 		false： 不是自己
-	
+
 
 /addfollowing@get?userID 注：这边的userID是被关注的人的ID
 	Param userID
@@ -170,17 +170,17 @@ return页面register.ejs
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
-		用于为登陆用户增加收藏的画，将paintingID添加给用户		
+		用于为登陆用户增加收藏的画，将paintingID添加给用户
 
 /delcollect@get?paintingID
 	Param paintingID
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
-		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户	
+		用于为登陆用户删除收藏的画，将paintingID删除给登陆用户
 
 /contribute@get？userID
 	Param userID
-	Return 页面 contribute.ejs		
+	Return 页面 contribute.ejs
 	显示用户提交的画
 	在这里实现删除功能
 	Ejs 用户名称：username
@@ -200,10 +200,10 @@ return页面register.ejs
 /addcontribute@get?paintingID
 	Param no
 	Return addcontribute.ejs
-	显示上传页面	
+	显示上传页面
 	ejs 用户名称：username
 		用户头像：user_header：url
-		用户ID：userID		
+		用户ID：userID
 
 
 /delcontribute@get?paintingID
@@ -211,16 +211,16 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 		用于为登陆用户删除投稿的画，注意权限判断
-		
+
 
 /charge@post?
 	Param money
 	Return 1:成功 0:失败
-	not checked! 等待数据库实现 
+	not checked! 等待数据库实现
 
 /quit@get
 	退出当前用户登陆状态，销毁session
-	
+
 
 用户设置的修改，分开还是统一修改？（按照数据库的写法来）统一或者分开都需要实现post接口，请你补全 ： 见config 和 configupload
 用户设置上传，访问
@@ -236,13 +236,13 @@ return页面register.ejs
 		用户ID：userID
 		画链接：url
 		画名称：painting_name
-		画tag：tag#可能需要加一个能不能删除的flag 
+		画tag：tag#可能需要加一个能不能删除的flag
 		时间：time
 		分辨率：resolution
 		赞数：ratedCount
 		浏览数：viewCount
 		画ID: paintingID
-		
+
 /delTag@post
 	Param paintingID, tag
 	Return 状态：status： 1：成功/0：失败
@@ -261,7 +261,7 @@ return页面register.ejs
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 			用于为一幅画点赞，已经建立相应的数据库
-			需要检查是否能重复投票	
+			需要检查是否能重复投票
 
 /trade页面下
 /@get
@@ -270,7 +270,7 @@ return页面register.ejs
 	Return页面 trade.ejs
 		招标系统的主页面
 
-	Ejs 
+	Ejs
 		用户名称：username
 		用户头像：user_header：url
 		用户ID：userID
@@ -283,7 +283,7 @@ return页面register.ejs
 			ddl:deadline,
 			state:状态,
 			tradeID: ID
-		}		
+		}
 		**以上这些简称brief trade**
 
 
@@ -298,7 +298,7 @@ return页面register.ejs
 		用户ID：userID
 
 /initTrade@post
-	Param 
+	Param
 			发起人 : buyer //不提供，由sessionID确定
 			发起时间 : start_time //不提供，系统生成
 			简介：abstract
@@ -306,10 +306,10 @@ return页面register.ejs
 			Tag：tag
 			Ddl：deadline
 			状态：state //不提供，系统生成
-			
+
 
 	Return页面 {status : 1成功0失败}
-	
+
 /getTrade@get？tradeID
 	Param tradeID
 	Return 页面 getTrade.ejs
@@ -335,9 +335,9 @@ return页面register.ejs
 		(对于1和2)
 		需要返回sessionID对应的人是画师还是买家，围观群众是否允许进入此界面？
 		围观群众只能看不能选择接单吧
-		type: 0:围观群众 1:画师 2:买家 
+		type: 0:围观群众 1:画师 2:买家
 		(对于3)
-		需要返回该trade是否被画师接单		
+		需要返回该trade是否被画师接单
 		isApplied - if true 显示取消
 		isResponded -if true 显示取消和投稿
 		isBuyer - if true 显示已投稿的作品
@@ -360,7 +360,7 @@ return页面register.ejs
 
 	not checked : get trade url
 
-/getTrade/selectpainter@get 
+/getTrade/selectpainter@get
 	Param: painterID, tradeID
 	Return 是否成功，同之前
 
@@ -370,7 +370,7 @@ return页面register.ejs
 
 /tradehomepage@get
 	Param: userID,即这个主页是关于谁的
-	Return 
+	Return
 		tradeHomepage.ejs
 		返回：
 			交易:trade （brief trade 形式 + relation）
@@ -378,7 +378,7 @@ return页面register.ejs
 
 			如果是画家，则返回他已接单的trade，trade以brief trade的形式给出
 			如果是买家，则返回他所发出的trade，同上
-		
+
 
 这个页面可能还要同时做取消？
 	Ejs 简介：abstract
@@ -393,7 +393,9 @@ return页面register.ejs
 /cancelTrade@get
 	Param tradeID
 	返回成功或失败
-	
+/completeTrade
+	Param tradeID
+	返回成功或失败
 
 /search页面下
 /user@get
@@ -421,7 +423,7 @@ return页面register.ejs
 
 /painting@post
 	Param tag
-			byID 
+			byID
 			byTopic
 			byTag
 			byUpvote //大于等于关系
@@ -446,9 +448,9 @@ return页面register.ejs
 	ejs 无
 
 /trade@post
-	Param 			
+	Param
 			byTag
-			byDesc			
+			byDesc
 	Return 状态：status： 1：成功/0：失败
 			错误信息：msg
 			数据
@@ -461,8 +463,8 @@ return页面register.ejs
 			state:状态,
 			tradeID: ID
 			}
-		
-	not checked!		
+
+	not checked!
 画搜索类似，其实可以两个合并？加的flag就可以，当然分开也行
 
 /upload页面下
@@ -473,7 +475,7 @@ return页面register.ejs
 			错误信息：msg
 
 /painting/@post
-	Param 用户作品	
+	Param 用户作品
 			tital 主题
 	需要对权限有所判断
 	Return 状态：status： 1：成功/0：失败
