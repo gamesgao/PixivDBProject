@@ -30,6 +30,7 @@ function trade(req, res, next) {
                 // handle error
                 res.render('error');
                 connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -71,6 +72,9 @@ function initialTradeGet(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -114,6 +118,14 @@ function initialTradePost(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addTrade,
@@ -176,6 +188,9 @@ function getTrade(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getFullTrade +
@@ -238,7 +253,7 @@ function getTrade(req, res, next) {
                                     sendJSON.buyername = result[1][0].username;
                                 else sendJSON.buyername = null;
                                 res.render('getTrade', sendJSON);
-                                connection.release();
+                                //connection.release();
                             }
                         );
                     }
@@ -263,6 +278,14 @@ function selectPainter(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                     sql.addResponderForTrade,
@@ -302,6 +325,14 @@ function applyForTrade(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addApplierForTrade,
@@ -342,6 +373,9 @@ function tradeHomepage(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getRelatedTrades +
@@ -384,6 +418,14 @@ function cancelTrade(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.cancelTrade,
@@ -425,10 +467,10 @@ function completeTrade(req, res, next) {
             if (err) {
                 // handle error
                 status = 0;
-                message = '完成交易失败';
+                message = '连接数据库失败';
                 res.json({
                     status : status,
-                    msg : message
+                    msg: message
                 });
                 connection.release();
                 return;
@@ -470,6 +512,8 @@ function uploadwork(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +

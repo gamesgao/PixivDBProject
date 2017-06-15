@@ -59,6 +59,12 @@ function paintingUpload(req, res, next) {
                 // handle error
                 //delete file
                 fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
+                res.json({
+                    status : 0,
+                    msg: '连接数据库失败'
+                });
+                connection.release();
+                return;
             }
             var datetime = new Date();
             console.log(datetime);
@@ -149,6 +155,12 @@ function tradeworkUpload(req, res, next) {
                 // handle error
                 //delete file
                 fs.unlink(__dirname + '/../../public/img/' + req.file.filename);
+                res.json({
+                    status : 0,
+                    msg: '连接数据库失败'
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addTradeWork,

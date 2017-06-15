@@ -25,6 +25,9 @@ function searchUserGet(req,res,next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -64,11 +67,10 @@ function searchUserPost(req,res,next) {
             if (err) {
                 // handle error
                 status = 0;
-                message = '';
+                message = '连接数据库失败';
                 res.json({
-                    status: status,
-                    msg: message,
-                    data: {}
+                    status : status,
+                    msg: message
                 });
                 connection.release();
                 return;
@@ -124,6 +126,9 @@ function searchPaintingGet(req,res,next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -217,9 +222,9 @@ function searchPaintingPost(req,res,next) {
             if (err) {
                 // handle error
                 status = 0;
-                message = '';
+                message = '连接数据库失败';
                 res.json({
-                    status: status,
+                    status : status,
                     msg: message
                 });
                 connection.release();
@@ -268,6 +273,9 @@ function searchTradeGet(req,res,next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -333,9 +341,9 @@ function searchTradePost(req,res,next) {
             if (err) {
                 // handle error
                 status = 0;
-                message = '';
+                message = '连接数据库失败';
                 res.json({
-                    status: status,
+                    status : status,
                     msg: message
                 });
                 connection.release();

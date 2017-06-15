@@ -34,7 +34,7 @@ function data(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
-                connection.release();
+                return;
             }
             connection.query(
                 sql.getContribute +
@@ -91,6 +91,10 @@ function config(req, res, next) {
             if (err)
             {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
+
             }
             connection.query(
                 sql.getUserName +
@@ -147,12 +151,12 @@ function configUpload(req, res, next) {
             {
                 // handle error
                 status = 0;
-                message = '上传设置失败';
-                res.json(
-                    {
-                       status : status,
-                        msg : message
-                    });
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
                 return;
             }
             connection.query(
@@ -211,13 +215,12 @@ function passwordUpload(req, res, next) {
             {
                 // handle error
                 status = 0;
-                message = '上传密码失败';
-                res.json(
-                    {
-                        status : status,
-                        msg : message
-                    });
-                //connection.release();
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
                 return;
             }
             connection.query(
@@ -270,6 +273,8 @@ function following(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -312,6 +317,14 @@ function addFollowing(req, res, next) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addFollowing,
@@ -352,6 +365,14 @@ function delFollowing(req, res, next) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.delFollowing,
@@ -392,6 +413,8 @@ function collect(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -434,6 +457,14 @@ function addCollecting(req, res, next) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addCollecting,
@@ -474,6 +505,14 @@ function delCollecting(req, res, next) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.delCollecting,
@@ -514,6 +553,8 @@ function contribute(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -553,6 +594,8 @@ function addContribute(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserName +
@@ -593,6 +636,14 @@ function delContribute(req, res, next) {
         pool.getConnection(function(err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.delContribute,

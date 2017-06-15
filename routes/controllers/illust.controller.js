@@ -15,6 +15,9 @@ function comm(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                res.render('error');
+                connection.release();
+                return;
             }
             connection.query(
                 sql.getUserNameByPaintingID +
@@ -73,6 +76,14 @@ function delTag(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.delPaintingTag,
@@ -115,6 +126,14 @@ function addTag(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.addPaintingTag,
@@ -156,6 +175,14 @@ function upvote(req, res, next) {
         pool.getConnection(function (err, connection) {
             if (err) {
                 // handle error
+                status = 0;
+                message = '连接数据库失败';
+                res.json({
+                    status : status,
+                    msg: message
+                });
+                connection.release();
+                return;
             }
             connection.query(
                 sql.upvote,

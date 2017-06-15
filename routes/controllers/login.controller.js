@@ -20,8 +20,12 @@ function userlogin(req, res, next) {
         if (err) {
             // handle error
             status = 0;
-            message = 'connection failed';
-            res.json({status:status, msg:message});
+            message = '连接数据库失败';
+            res.json({
+                status : status,
+                msg: message
+            });
+            connection.release();
             return;
         }
         connection.query(
