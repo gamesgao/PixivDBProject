@@ -353,7 +353,7 @@ function tradeHomepage(req, res, next) {
                         //if (result[1][0] == null)
                           //  result[1] = [];
                         res.render('tradeHomepage',{
-                            trade:result[2],
+                            trade:result[1],
                             username: result[3][0].username,
                             user_header:result[4][0].user_header,
                             userID: getID
