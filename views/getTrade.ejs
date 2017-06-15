@@ -173,7 +173,7 @@
                                 <% } %>
                                     <% if(isResponded || isBuyer || isApplied) { %>
                                         <div class="panel-footer">
-                                            <% if(isResponded) { %>
+                                            <% if(isResponded && trade.status == "Creating") { %>
                                                 <a class="btn btn-primary btn-large btn-block " href="<%='/trade/getTrade/uploadWork?tradeID='+trade.id %>">Upload Work</a>
                                                 <% } %>
                                                     <% if(isBuyer && trade.status == "Complete") { %>
