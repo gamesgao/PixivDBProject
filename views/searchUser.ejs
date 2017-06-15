@@ -98,18 +98,29 @@
                                     </form>
 
                                     <template v-if="users.length !== 0">
-                                        <template v-for="user in users">
-                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
-                                                <div class="tile">
-                                                    <img :src="user.header" alt="Infinity-Loop" class="tile-image">
-                                                    <h3 class="tile-title ">
-                                                        {{user.username}}
-                                                    </h3>
-                                                    <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                                    <a class="btn btn-primary btn-large btn-block " :href="'/homepage?userID=' + user.userID" >More</a>
+                                        <template v-for="(user, i) in users">
+                                            <template v-if="i%3==0">
+                                                <div class="row" >
+                                            </template>
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="tile">
+                                            <img :src="user.header" alt="Infinity-Loop" class="tile-image">
+                                            <h3 class="tile-title ">
+                                                {{user.username}}
+                                            </h3>
+                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                            <a class="btn btn-primary btn-large btn-block " :href="'/homepage?userID=' + user.userID">More</a>
+                                        </div>
+                                    </div>
+
+                                    <template v-if="i%3==2">
                                                 </div>
-                                            </div>
-                                        </template>
+                                            </template>
+
+                                    </template>
+                                    <template v-if="users.length%3!=0">
+                                                </div>
+                                            </template>
                                     </template>
                                 </div>
                             </div>
@@ -256,8 +267,8 @@
                     app.$http.post('/search/user', app.data).then(
                         function(response) {
                             if (response.data.status == 1) {
-                                for (var i = 0; i < response.data.painting.length; i++) {
-                                    var element = response.data.painting[i];
+                                for (var i = 0; i < response.data.data.length; i++) {
+                                    var element = response.data.data[i];
                                     app.users.push(element);
                                 }
                                 app.isProcess = false;

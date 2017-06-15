@@ -271,9 +271,6 @@
                     this.$http.post('/search/trade', this.data).then(
                         function(response) {
                             if (response.data.status == 1) {
-                                // app.status = "Success!";
-                                // app.message = response.data.msg;
-                                // $('#warning').modal({});
                                 app.trades = response.data.trade;
                                 app.isProcess = false;
                             } else if (response.data.status == 0) {
@@ -304,8 +301,8 @@
                     app.$http.post('/search/trade', app.data).then(
                         function(response) {
                             if (response.data.status == 1) {
-                                for (var i = 0; i < response.data.painting.length; i++) {
-                                    var element = response.data.painting[i];
+                                for (var i = 0; i < response.data.trade.length; i++) {
+                                    var element = response.data.trade[i];
                                     app.trades.push(element);
                                 }
                                 app.isProcess = false;

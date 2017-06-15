@@ -88,60 +88,69 @@
                             <div class="panel-heading "><a href="#">Bookmarks</a><span class="badge"><%=collect_num %></span></div>
                             <div class="panel-body">
                                 <% for(var i=0; i<collect.length; i++) { %>
-                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
-                                        <div class="tile">
-                                            <img src="<%=collect[i].url %>" alt="Infinity-Loop" class="tile-image">
-                                            <h3 class="tile-title ">
-                                                <%=collect[i].name %>
-                                            </h3>
-                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                            <a class="btn btn-primary btn-large btn-block " href="<%='/illust?paintingID=' + collect[i].paintingID %>">More</a>
+                                    <% if(i%3==0) { %>
+                                        <div class="row">
+                                            <% } %>
+                                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                                    <div class="tile">
+                                                        <img src="<%=collect[i].url %>" alt="Infinity-Loop" class="tile-image">
+                                                        <h3 class="tile-title ">
+                                                            <%=collect[i].name %>
+                                                        </h3>
+                                                        <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                                        <a class="btn btn-primary btn-large btn-block " href="<%='/illust?paintingID=' + collect[i].paintingID %>">More</a>
 
-                                            <!--条件显示-->
-                                            <% if (isSelf) { %>
-                                                <button class="btn btn-danger btn-large btn-block" @click="delCollect(<%=collect[i].paintingID %>)">Delete</button>
-                                                <% } %>
+                                                        <!--条件显示-->
+                                                        <% if (isSelf) { %>
+                                                            <button class="btn btn-danger btn-large btn-block" @click="delCollect(<%=collect[i].paintingID %>)">Delete</button>
+                                                            <% } %>
 
+                                                    </div>
+                                                </div>
+                                                <% if(i%3==2) { %>
                                         </div>
-                                    </div>
-                                    <% } %>
+                                        <% } %>
+                                            <% } %>
+                                                <% if(collect.length%3!=0) { %>
                             </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{message}}</p>
-                    </div>
+    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{message}}</p>
+                </div>
 
+            </div>
+        </div>
+    </div>
+
+
+    <!--footer part-->
+    <footer>
+        <div class="container ">
+            <div class="row ">
+                <div class="col-md-10 ">
+                    <p>Vixip by SJTU
+                    </p>
+                </div>
+                <div class="col-md-2 ">
+                    <p><a href="# ">&copy; 联系我们</a></p>
                 </div>
             </div>
         </div>
-
-
-        <!--footer part-->
-        <footer>
-            <div class="container ">
-                <div class="row ">
-                    <div class="col-md-10 ">
-                        <p>Vixip by SJTU
-                        </p>
-                    </div>
-                    <div class="col-md-2 ">
-                        <p><a href="# ">&copy; 联系我们</a></p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+    </footer>
     </div>
 
 

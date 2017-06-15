@@ -135,21 +135,32 @@
                                         </div>
                                     </form>
                                     <template v-if="paintings.length !== 0">
-                                        <template v-for="painting in paintings">
-                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
-                                                <div class="tile">
-                                                    <img :src="painting.url" alt="Infinity-Loop" class="tile-image" />
-                                                    <h3 class="tile-title ">
-                                                        {{painting.name}}
-                                                    </h3>
-                                                    <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
-                                                    <a class="btn btn-primary btn-large btn-block " :href="'/illust?paintingID='+painting.paintingID">More</a>
-                                                    <span class="fui-star-2 pull-left">{{painting.upvote}}</span>
-                                                    <span class="glyphicon glyphicon-eye-open">{{painting.pageView}}</span>
+                                        <template v-for="(painting, i) in paintings">
+                                            <template v-if="i%3==0">
+                                                <div class="row" >
+                                            </template>
+                                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 ">
+                                        <div class="tile">
+                                            <img :src="painting.url" alt="Infinity-Loop" class="tile-image" />
+                                            <h3 class="tile-title ">
+                                                {{painting.name}}
+                                            </h3>
+                                            <!--<p>Vector-based shapes and minimum of layer styles.</p>-->
+                                            <a class="btn btn-primary btn-large btn-block " :href="'/illust?paintingID='+painting.paintingID">More</a>
+                                            <span class="fui-star-2 pull-left">{{painting.upvote}}</span>
+                                            <span class="glyphicon glyphicon-eye-open">{{painting.pageView}}</span>
+                                        </div>
+                                    </div>
+                                    <template v-if="i%3==2">
                                                 </div>
-                                            </div>
-                                        </template>
+                                            </template>
+
                                     </template>
+                                    <template v-if="paintings.length%3!=0">
+                                                </div>
+                                            </template>
+                                    </template>
+
                                 </div>
                             </div>
                         </div>
