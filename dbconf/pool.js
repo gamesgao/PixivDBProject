@@ -7,6 +7,7 @@ var pool = mysql.createPool({
     password: '',
     database: 'dbproject',
     port: 3306,
-    multipleStatements: true
+    multipleStatements: true,
+    connectionLimit: 150
 });
 module.exports = pool;

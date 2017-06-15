@@ -34,6 +34,7 @@ function data(req, res, next) {
             if (err) {
                 // handle error
                 res.render('error');
+                connection.release();
             }
             connection.query(
                 sql.getContribute +
@@ -118,6 +119,7 @@ function config(req, res, next) {
                             abstract: result[5][0].abstract
                         });
                     }
+                    connection.release();
                 });
 
         });
@@ -290,6 +292,7 @@ function following(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
+                    connection.release();
                 });
         });
     }
@@ -411,6 +414,7 @@ function collect(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
+                    connection.release();
                 });
         });
     }
@@ -532,6 +536,7 @@ function contribute(req, res, next) {
                             isSelf : (userID == homepageID)
                         })
                     }
+                    connection.release();
                 });
         });
     }
@@ -615,6 +620,7 @@ function delContribute(req, res, next) {
                         status: status,
                         msg: message
                     });
+                    connection.release();
                     return;
                 });
         });
