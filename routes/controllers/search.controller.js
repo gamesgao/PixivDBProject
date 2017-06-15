@@ -98,7 +98,7 @@ function searchUserPost(req,res,next) {
                             data[i].username = result[i].username;
                             data[i].userID = result[i].id;
                         }
-                        console.log(data);
+                        //console.log(data);
                         res.json({
                             status: 1,
                             msg: '已找到',
