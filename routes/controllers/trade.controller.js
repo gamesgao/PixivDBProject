@@ -215,7 +215,7 @@ function getTrade(req, res, next) {
                         else if (result[2][0].type == 'b') type = 2;
                         for (var i = 0; i < result[1].length; i++) {
 
-                            if (userID == result[1][i].id) {
+                            if (userID == result[1][i].userID) {
                                 isApplied = true;
                             }
                         }
